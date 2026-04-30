@@ -8,13 +8,15 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.types import BotCommand
 
 from src.config import settings
-from src.handlers import commands, chat, media
+from src.handlers import commands, chat, media, education
 from src.middlewares.logging import LoggingMiddleware
 
 async def set_commands(bot: Bot):
     commands_list = [
-        BotCommand(command="start", description="🚀 Get started"),
-        BotCommand(command="image", description="🎨 Generate AI image"),
+        BotCommand(command="start", description="🌲 Welcome & Start"),
+        BotCommand(command="strategy", description="🔍 Deep Business Strategy"),
+        BotCommand(command="learn", description="🎓 Learn my skills"),
+        BotCommand(command="image", description="🎨 Generate brand asset"),
         BotCommand(command="clear", description="🧹 Clear history"),
         BotCommand(command="help", description="📜 Help info"),
     ]
@@ -40,6 +42,7 @@ async def main():
 
     # Register routers
     dp.include_router(commands.router)
+    dp.include_router(education.router)
     dp.include_router(media.router)
     dp.include_router(chat.router)
 
@@ -47,7 +50,7 @@ async def main():
     await set_commands(bot)
 
     # Start polling
-    logging.info("Starting GRAMGPT Ultimate...")
+    logging.info("Starting EL Solopreneur Strategist Bot...")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
