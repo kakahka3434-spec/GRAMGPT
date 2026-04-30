@@ -22,7 +22,7 @@ async def handle_voice(message: types.Message):
 
     await message.reply(f"🎤 **Транскрипция:**\n_{transcription}_")
     memory.add_message(message.chat.id, "user", transcription)
-    response = await openai_client.get_chat_response(memory.get_history(message.chat.id))
+    response = await openai_client.get_chat_response(message.chat.id, memory.get_history(message.chat.id))
     memory.add_message(message.chat.id, "assistant", response)
     await message.answer(response)
 
@@ -43,5 +43,5 @@ async def handle_photo(message: types.Message):
         {"type": "text", "text": user_prompt},
         {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
     ]}]
-    response = await openai_client.get_chat_response(messages)
+    response = await openai_client.get_chat_response(message.chat.id, messages)
     await message.reply(response)

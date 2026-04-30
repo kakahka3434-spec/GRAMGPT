@@ -9,7 +9,7 @@ async def handle_text_message(message: types.Message):
     await message.bot.send_chat_action(chat_id=message.chat.id, action="typing")
     memory.add_message(message.chat.id, "user", message.text)
     history = memory.get_history(message.chat.id)
-    response = await openai_client.get_chat_response(history)
+    response = await openai_client.get_chat_response(message.chat.id, history)
     memory.add_message(message.chat.id, "assistant", response)
     await message.answer(response)
 

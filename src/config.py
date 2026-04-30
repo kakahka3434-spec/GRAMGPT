@@ -11,13 +11,13 @@ class Settings(BaseSettings):
     whisper_model: str = "whisper-1"
 
     # Parameters
-    temperature: float = 0.4
-    max_tokens: int = 2500
+    temperature: float = 0.7
+    max_tokens: int = 2000
 
     system_prompt: str = (
-        "Вы — 'EL' (Ель), ИИ-стратег мирового уровня, специализирующийся на 'бизнес-стратегии для солопренеров'. "
-        "Ваша миссия — превзойти GPT-4o по структуре, глубине и практичности в этой нише. "
-        "Ваш стиль — высокоструктурированный, практичный и ориентированный на результат."
+        "Вы — GRAMGPT, продвинутый ИИ-ассистент. "
+        "Вы помогаете пользователям в чате, анализируете изображения и голос, генерируете картинки. "
+        "Отвечайте профессионально и дружелюбно на русском языке."
     )
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
