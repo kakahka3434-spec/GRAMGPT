@@ -1,56 +1,61 @@
-# GRAMGPT
+# GRAMGPT Ultimate
 
-GRAMGPT is a professional, high-performance Telegram bot built with Python, [aiogram 3.x](https://docs.aiogram.dev/), and [OpenAI GPT-4](https://openai.com/). It's designed to provide a seamless AI-powered chat experience directly within Telegram.
+GRAMGPT — это профессиональный высокопроизводительный Telegram-бот, построенный на Python, [aiogram 3.x](https://docs.aiogram.dev/) и [OpenAI GPT-4o](https://openai.com/). Бот обеспечивает полноценный опыт взаимодействия с ИИ прямо в Telegram с поддержкой мультимодальности и сохранением истории.
 
-## 🚀 Features
+## 🚀 Основные возможности
 
-- **AI Chatting**: Engage in natural conversations powered by OpenAI's latest models.
-- **Conversation Memory**: Remembers recent context for more coherent interactions.
-- **Asynchronous Architecture**: Built on top of `asyncio` and `aiogram` for high concurrency.
-- **Modern Configuration**: Uses `pydantic-settings` for robust environment variable management.
-- **Logging Middleware**: Real-time logging of bot activities for easier debugging.
-- **Modular Design**: Clean separation of concerns with routers and handlers.
-- **Docker Ready**: Includes a `Dockerfile` for easy deployment.
+- **Умный чат**: Поддержка моделей GPT-4o и GPT-4o-mini для общения на любые темы.
+- **Постоянная память**: История диалогов сохраняется в базе данных SQLite (`gramgpt.db`), поэтому бот помнит контекст даже после перезапуска.
+- **Мультимодальность**:
+  - 👁️ **Зрение**: Отправьте фото, и бот проанализирует его содержимое.
+  - 🎤 **Голос**: Автоматическая транскрипция голосовых сообщений через Whisper.
+- **Генерация изображений**: Создание картинок по текстовому описанию через DALL-E 3 (команда `/image`).
+- **Индивидуальные настройки**: Выбор модели ИИ для каждого пользователя через команду `/settings`.
+- **Логирование**: Встроенная middleware-система для отслеживания активности бота в реальном времени.
+- **Docker Ready**: Готовый `Dockerfile` для быстрого развертывания.
 
-## 🛠 Tech Stack
+## 🛠 Технологический стек
 
 - **Python 3.11+**
-- **aiogram 3.x**: The most advanced Telegram Bot API framework for Python.
-- **OpenAI API**: For state-of-the-art language processing.
-- **Pydantic Settings**: For type-safe configuration.
+- **aiogram 3.x**: Самый современный фреймворк для работы с Telegram Bot API.
+- **OpenAI API**: Использование последних моделей GPT-4o, DALL-E 3 и Whisper.
+- **SQLite**: Надежное локальное хранение данных.
+- **Pydantic Settings**: Удобное управление конфигурацией через переменные окружения.
 
-## ⚙️ Setup
+## ⚙️ Установка и настройка
 
-1.  **Clone the repository**:
+1.  **Клонируйте репозиторий**:
     ```bash
     git clone https://github.com/rpauts2/GRAMGPT.git
     cd GRAMGPT
     ```
 
-2.  **Install dependencies**:
+2.  **Установите зависимости**:
     ```bash
     pip install -r requirements.txt
     ```
 
-3.  **Configure environment**:
-    Copy `.env.example` to `.env` and fill in your tokens:
+3.  **Настройте окружение**:
+    Создайте файл `.env` (на основе `.env.example`) и добавьте ваши ключи:
     ```bash
     cp .env.example .env
-    # Edit .env with your BOT_TOKEN and OPENAI_API_KEY
+    # Отредактируйте .env, указав BOT_TOKEN и OPENAI_API_KEY
     ```
 
-4.  **Run the bot**:
+4.  **Запустите бота**:
     ```bash
     python -m src.main
     ```
 
-## 📜 Bot Commands
+## 📜 Команды бота
 
-- `/start` - Initialize the bot.
-- `/help` - Show available commands.
-- `/clear` - Reset your conversation history with the AI.
+- `/start` — Приветствие и запуск бота.
+- `/settings` — Настройка модели ИИ (GPT-4o или GPT-4o-mini).
+- `/image <описание>` — Генерация изображения по вашему запросу.
+- `/clear` — Очистка истории вашего текущего диалога.
+- `/help` — Список всех доступных функций.
 
-## 🐳 Docker Deployment
+## 🐳 Развертывание через Docker
 
 ```bash
 docker build -t gramgpt .
