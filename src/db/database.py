@@ -1,6 +1,10 @@
 import sqlite3
 import json
+import logging
 from typing import List, Dict, Any, Optional
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 class Database:
     def __init__(self, db_path: str = "gramgpt.db"):
@@ -28,6 +32,7 @@ class Database:
                     name TEXT,
                     goal TEXT,
                     strategy_json TEXT,
+                    roi_predicted TEXT,
                     status TEXT DEFAULT 'planned',
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
@@ -38,8 +43,8 @@ class Database:
                     tg_id INTEGER UNIQUE,
                     username TEXT,
                     engagement_score INTEGER DEFAULT 0,
+                    ltv_estimate REAL DEFAULT 0,
                     behavioral_profile TEXT,
-                    channel_origin TEXT,
                     status TEXT DEFAULT 'new',
                     last_contact DATETIME
                 )
@@ -47,8 +52,10 @@ class Database:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS analytics (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    campaign_id INTEGER,
                     event_type TEXT,
-                    payload TEXT,
+                    cost REAL DEFAULT 0,
+                    revenue REAL DEFAULT 0,
                     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
@@ -69,47 +76,45 @@ class Database:
             """)
             conn.commit()
 
-    def add_account(self, phone: str, device: str, fp: str, proxy: str, dna: str):
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                "INSERT OR REPLACE INTO accounts (phone, device_type, fingerprint, proxy, dna_profile) VALUES (?, ?, ?, ?, ?)",
-                (phone, device, fp, proxy, dna)
-            )
-            conn.commit()
-
-    def update_risk_score(self, phone: str, score: int):
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute("UPDATE accounts SET risk_score = ? WHERE phone = ?", (score, phone))
-            conn.commit()
-
     def create_campaign(self, name: str, goal: str, strategy: Dict[str, Any]):
+        roi = strategy.get("predicted_roi", "N/A")
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
-                "INSERT INTO campaigns (name, goal, strategy_json) VALUES (?, ?, ?)",
-                (name, goal, json.dumps(strategy))
+                "INSERT INTO campaigns (name, goal, strategy_json, roi_predicted) VALUES (?, ?, ?, ?)",
+                (name, goal, json.dumps(strategy), str(roi))
             )
             conn.commit()
 
-    def upsert_lead(self, tg_id: int, username: str, score: int, profile: Dict[str, Any]):
+    def get_roi_report(self, campaign_id: int) -> Dict[str, Any]:
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
-                INSERT INTO leads (tg_id, username, engagement_score, behavioral_profile, last_contact)
-                VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-                ON CONFLICT(tg_id) DO UPDATE SET
-                    engagement_score = excluded.engagement_score,
-                    behavioral_profile = excluded.behavioral_profile,
-                    last_contact = CURRENT_TIMESTAMP
-            """, (tg_id, username, score, json.dumps(profile)))
-            conn.commit()
+            cursor = conn.execute(
+                "SELECT SUM(cost), SUM(revenue) FROM analytics WHERE campaign_id = ?",
+                (campaign_id,)
+            )
+            cost, revenue = cursor.fetchone()
+            cost = cost or 1
+            revenue = revenue or 0
+            return {
+                "roi_actual": f"{(revenue/cost)*100:.1f}%",
+                "total_revenue": revenue,
+                "total_cost": cost
+            }
 
+    # Bot Message & History Methods
     def add_message(self, chat_id: int, role: str, content: str):
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("INSERT INTO messages (chat_id, role, content) VALUES (?, ?, ?)", (chat_id, role, content))
+            conn.execute(
+                "INSERT INTO messages (chat_id, role, content) VALUES (?, ?, ?)",
+                (chat_id, role, content)
+            )
             conn.commit()
 
     def get_history(self, chat_id: int, limit: int = 20) -> List[Dict[str, str]]:
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute("SELECT role, content FROM messages WHERE chat_id = ? ORDER BY id DESC LIMIT ?", (chat_id, limit))
+            cursor = conn.execute(
+                "SELECT role, content FROM messages WHERE chat_id = ? ORDER BY id DESC LIMIT ?",
+                (chat_id, limit)
+            )
             rows = cursor.fetchall()
             return [{"role": r, "content": c} for r, c in reversed(rows)]
 
@@ -118,9 +123,13 @@ class Database:
             conn.execute("DELETE FROM messages WHERE chat_id = ?", (chat_id,))
             conn.commit()
 
+    # User Settings Methods
     def set_user_model(self, chat_id: int, model_name: str):
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("INSERT OR REPLACE INTO user_settings (chat_id, model_name) VALUES (?, ?)", (chat_id, model_name))
+            conn.execute(
+                "INSERT OR REPLACE INTO user_settings (chat_id, model_name) VALUES (?, ?)",
+                (chat_id, model_name)
+            )
             conn.commit()
 
     def get_user_model(self, chat_id: int) -> str:
