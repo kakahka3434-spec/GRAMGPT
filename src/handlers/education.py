@@ -6,55 +6,50 @@ router = Router()
 
 def get_topics_keyboard():
     builder = InlineKeyboardBuilder()
-    builder.row(types.InlineKeyboardButton(text="🔍 Niche Analysis", callback_data="edu_niche"))
-    builder.row(types.InlineKeyboardButton(text="💰 Business Model", callback_data="edu_model"))
-    builder.row(types.InlineKeyboardButton(text="🚀 Launch Plan", callback_data="edu_launch"))
-    builder.row(types.InlineKeyboardButton(text="📊 Training Data Info", callback_data="edu_data"))
+    builder.row(types.InlineKeyboardButton(text="🔍 Анализ ниши", callback_data="edu_niche"))
+    builder.row(types.InlineKeyboardButton(text="💰 Бизнес-модель", callback_data="edu_model"))
+    builder.row(types.InlineKeyboardButton(text="🚀 План запуска", callback_data="edu_launch"))
+    builder.row(types.InlineKeyboardButton(text="📊 Данные обучения", callback_data="edu_data"))
     return builder.as_markup()
 
 @router.message(Command("learn"))
 async def cmd_learn(message: types.Message):
     await message.answer(
-        "🌲 **Welcome to EL Strategy Academy**\n\n"
-        "I am EL, your solopreneur strategist. I've been trained on a massive dataset of high-quality business dialogues to help you build a successful solo business. "
-        "Choose a module to see how I can help you:",
+        "🌲 **Добро пожаловать в Академию Стратегии EL**\n\n"
+        "Я — EL, ваш стратег для соло-бизнеса. Я был обучен на огромном датасете высококачественных бизнес-диалогов. "
+        "Выберите модуль, чтобы узнать, как я могу вам помочь:",
         reply_markup=get_topics_keyboard()
     )
 
 @router.callback_query(F.data.startswith("edu_"))
 async def handle_edu_callback(callback: types.CallbackQuery):
     topic = callback.data.split("_")[1]
-
     content = {
         "niche": (
-            "🔍 **Skill 1: Niche Analysis**\n\n"
-            "**What I do:** Market research, pain points, competitor analysis, trend mapping (2024-2026).\n\n"
-            "**Example Input:** 'I want to create AI courses for designers.'\n"
-            "**Expected Output:** SWOT analysis, list of 5 competitors with pricing, detailed persona profiles, and market trends."
+            "🔍 **Навык 1: Анализ ниши**\n\n"
+            "**Что я делаю:** Исследование рынка, выявление болей, анализ конкурентов, тренды (2024-2026).\n\n"
+            "**Пример входа:** 'Хочу делать AI курсы для дизайнеров.'\n"
+            "**Пример выхода:** SWOT-анализ, список 5 конкурентов с ценами, портреты ЦА и тренды рынка."
         ),
         "model": (
-            "💰 **Skill 2: Business Model**\n\n"
-            "**What I do:** Monetization strategy, marketing funnels, unit economics (LTV, CAC).\n\n"
-            "**Example Input:** 'Niche: Online productivity coaching.'\n"
-            "**Expected Output:** Subscription model structure, tiered pricing, LTV projections, and a lead-to-purchase funnel map."
+            "💰 **Навык 2: Бизнес-модель**\n\n"
+            "**Что я делаю:** Стратегия монетизации, маркетинговые воронки, юнит-экономика (LTV, CAC).\n\n"
+            "**Пример входа:** 'Ниша: онлайн-коучинг по продуктивности.'\n"
+            "**Пример выхода:** Структура модели подписки, уровни цен, прогнозы LTV и карта воронки продаж."
         ),
         "launch": (
-            "🚀 **Skill 3: Launch Plan**\n\n"
-            "**What I do:** Step-by-step 12-week roadmap, checklists, and toolkits.\n\n"
-            "**Example Input:** 'Product: SaaS for email automation.'\n"
-            "**Expected Output:** 12-week timeline, weekly tasks, success metrics, and a list of recommended automation tools."
+            "🚀 **Навык 3: План запуска**\n\n"
+            "**Что я делаю:** Пошаговая 12-недельная дорожная карта, чек-листы и наборы инструментов.\n\n"
+            "**Пример входа:** 'Продукт: SaaS для автоматизации email.'\n"
+            "**Пример выхода:** 12-недельный график, еженедельные задачи, метрики успеха и список инструментов автоматизации."
         ),
         "data": (
-            "📊 **My Training Data**\n\n"
-            "I have been fine-tuned on **100,000 high-quality examples**:\n"
-            "- **20K Base:** High-quality synthetic data (GPT-4o) + manual filtering.\n"
-            "- **80K Expansion:** Massively generated with self-verification.\n\n"
-            "**Quality over Quantity:** My 100K 'perfect' examples outperform 1M average ones. I am optimized specifically for solopreneur business logic."
+            "📊 **Мои данные обучения**\n\n"
+            "Я был дообучен на **100 000 высококачественных примерах**:\n"
+            "- **20K База:** Высококачественная синтетика (GPT-4o) + ручная фильтрация.\n"
+            "- **80K Расширение:** Массовая генерация с самопроверкой.\n\n"
+            "**Качество важнее количества:** Мои 100K 'идеальных' примеров бьют 1М средних. Я оптимизирован специально для бизнес-логики солопренеров."
         )
     }
-
-    await callback.message.edit_text(
-        content.get(topic, "Coming soon!"),
-        reply_markup=get_topics_keyboard()
-    )
+    await callback.message.edit_text(content.get(topic, "Скоро будет!"), reply_markup=get_topics_keyboard())
     await callback.answer()

@@ -8,52 +8,51 @@ router = Router()
 @router.message(Command("start"))
 async def cmd_start(message: types.Message):
     await message.answer(
-        "🌲 **Welcome to EL Strategy Bot**\n\n"
-        "I am your AI mentor for solopreneur business strategy. "
-        "I provide depth and practicality that exceeds standard models.\n\n"
-        "**Available Commands:**\n"
-        "🔍 /strategy - Start a business strategy session\n"
-        "🎓 /learn - Explore my skills and training data\n"
-        "🎨 /image - Generate an image for your brand\n"
-        "🧹 /clear - Reset conversation history\n"
-        "📜 /help - Show this help message"
+        "🌲 **Добро пожаловать в EL Strategy Bot**\n\n"
+        "Я ваш ИИ-ментор по бизнес-стратегии для солопренеров. "
+        "Я обеспечиваю глубину и практичность, превосходящие стандартные модели.\n\n"
+        "**Доступные команды:**\n"
+        "🔍 /strategy - Начать сессию бизнес-стратегии\n"
+        "🎓 /learn - Изучить мои навыки и данные обучения\n"
+        "🎨 /image - Создать изображение для вашего бренда\n"
+        "🧹 /clear - Очистить историю переписки\n"
+        "📜 /help - Показать справку"
     )
 
 @router.message(Command("help"))
 async def cmd_help(message: types.Message):
     await message.answer(
-        "📜 **Command List**\n\n"
-        "/start - Welcome & intro\n"
-        "/strategy <topic> - Get a deep strategy analysis\n"
-        "/learn - Understand my capabilities\n"
-        "/image <prompt> - Generate AI image\n"
-        "/clear - Clear history\n"
-        "Just send a message to start chatting!"
+        "📜 **Список команд**\n\n"
+        "/start - Приветствие и введение\n"
+        "/strategy <тема> - Глубокий стратегический анализ\n"
+        "/learn - Узнать о моих возможностях\n"
+        "/image <промпт> - Генерация ИИ-изображения\n"
+        "/clear - Очистить историю\n"
+        "Просто отправьте сообщение, чтобы начать чат!"
     )
 
 @router.message(Command("clear"))
 async def cmd_clear(message: types.Message):
     memory.clear_history(message.chat.id)
-    await message.answer("🧹 Conversation reset. Ready for a new strategy!")
+    await message.answer("🧹 История очищена. Готов к новой стратегии!")
 
 @router.message(Command("strategy"))
 async def cmd_strategy(message: types.Message, command: CommandObject):
     if not command.args:
         await message.answer(
-            "🔍 **Start a Strategy Session**\n\n"
-            "Please provide your niche or product idea.\n"
-            "Example: `/strategy AI courses for designer`"
+            "🔍 **Начать стратегическую сессию**\n\n"
+            "Пожалуйста, укажите вашу нишу или идею продукта.\n"
+            "Пример: `/strategy AI курсы для дизайнеров`"
         )
         return
 
     await message.bot.send_chat_action(chat_id=message.chat.id, action="typing")
 
     prompt = (
-        f"Please provide a deep strategy analysis for the following solopreneur idea: {command.args}. "
-        "Include Niche Analysis (SWOT, Competitors, Trends), Business Model (Monetization, Funnel), and a high-level Launch Plan."
+        f"Пожалуйста, предоставь глубокий стратегический анализ для следующей идеи соло-бизнеса: {command.args}. "
+        "Включи анализ ниши (SWOT, конкуренты, тренды), бизнес-модель (монетизация, воронка) и план запуска."
     )
 
-    # We add this special prompt to memory to maintain the strategy focus
     memory.add_message(message.chat.id, "user", prompt)
     response = await openai_client.get_chat_response(memory.get_history(message.chat.id))
     memory.add_message(message.chat.id, "assistant", response)
@@ -63,7 +62,7 @@ async def cmd_strategy(message: types.Message, command: CommandObject):
 @router.message(Command("image"))
 async def cmd_image(message: types.Message, command: CommandObject):
     if not command.args:
-        await message.answer("Please provide a prompt for the image.")
+        await message.answer("Пожалуйста, введите описание для изображения.")
         return
 
     await message.bot.send_chat_action(chat_id=message.chat.id, action="upload_photo")
@@ -72,4 +71,4 @@ async def cmd_image(message: types.Message, command: CommandObject):
     if image_url.startswith("❌"):
         await message.answer(image_url)
     else:
-        await message.answer_photo(photo=image_url, caption=f"🎨 Brand Asset: {command.args}")
+        await message.answer_photo(photo=image_url, caption=f"🎨 Ассет бренда: {command.args}")
