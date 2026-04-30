@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns - GPTGRAM Ultimate</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .status-active { background: #e8f5e9; color: #2ecc71; }
+        .campaign-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 15px 0; }
+        .campaign-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" style="color: inherit;"><i class="fas fa-arrow-left"></i></a>
+        <h2>Кампании 🚀</h2>
+        <button class="btn" style="width: auto; padding: 8px 15px; font-size: 12px;" onclick="tg.showAlert('AI Оркестратор готов!')">+ Новая</button>
+    </div>
+
+    <div class="card animate-in">
+        <div class="campaign-item">
+            <div>
+                <div style="font-weight: bold;">Продажа курсов Дизайн</div>
+                <div style="font-size: 12px; color: #999;">500 контактов | TG + WA</div>
+            </div>
+            <span class="status-badge status-active">Активна</span>
+        </div>
+        <div class="campaign-item">
+            <div>
+                <div style="font-weight: bold;">Крипто-инвесторы (Прогрев)</div>
+                <div style="font-size: 12px; color: #999;">1200 контактов | TG</div>
+            </div>
+            <span class="status-badge" style="background: #fff3e0; color: #f39c12;">В очереди</span>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item active"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+    </script>
+</body>
+</html>

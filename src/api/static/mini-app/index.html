@@ -1,29 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GPTGRAM Ultimate Panel</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 20px; }
-        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .btn { display: block; width: 100%; padding: 12px; background: #0088cc; color: white; border: none; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>GPTGRAM Ultimate 🚀</h1>
-    <div class="card">
-        <h3>Campaigns</h3>
-        <p>Active: 3 | Success Rate: 12%</p>
-        <a href="campaigns.html" class="btn">Manage Campaigns</a>
+    <div class="header animate-in">
+        <h2>GPTGRAM <span style="color: var(--primary-color)">Ultimate</span></h2>
+        <div class="user-badge" id="user-name">Загрузка...</div>
     </div>
-    <div class="card">
-        <h3>Analytics</h3>
-        <p>ROI: 240% | Leads: 1,247</p>
-        <a href="dashboard.html" class="btn">View Statistics</a>
+
+    <div class="stat-row animate-in" style="animation-delay: 0.1s">
+        <div style="display: flex; justify-content: space-between;">
+            <div class="stat-item">
+                <h4>Собрано лидов</h4>
+                <div id="leads-count">1,247</div>
+            </div>
+            <div class="stat-item" style="text-align: right;">
+                <h4>Средний ROI</h4>
+                <div style="color: #2ecc71">240%</div>
+            </div>
+        </div>
     </div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.2s">
+        <a href="campaigns.html" class="feature-card">
+            <i class="fas fa-rocket"></i>
+            <span>Авто-воронки</span>
+            <p>Управление кампаниями</p>
+        </a>
+        <a href="dashboard.html" class="feature-card">
+            <i class="fas fa-chart-line"></i>
+            <span>Аналитика</span>
+            <p>ROI и конверсия</p>
+        </a>
+        <a href="#" class="feature-card" onclick="tg.showAlert('Модуль HyperParser активен 24/7')">
+            <i class="fas fa-crosshairs"></i>
+            <span>Парсинг</span>
+            <p>Поиск горячих лидов</p>
+        </a>
+        <a href="#" class="feature-card" onclick="tg.showAlert('HumanEngine имитирует действия...')">
+            <i class="fas fa-user-ninja"></i>
+            <span>Anti-Detect</span>
+            <p>Имитация поведения</p>
+        </a>
+        <a href="#" class="feature-card">
+            <i class="fas fa-video"></i>
+            <span>Creative Studio</span>
+            <p>AI Аватары и голос</p>
+        </a>
+        <a href="settings.html" class="feature-card">
+            <i class="fas fa-wallet"></i>
+            <span>Оплата и Лимиты</span>
+            <p>TON Connect</p>
+        </a>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.4s">
+        <a href="index.html" class="nav-item active"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.ready();
+
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('user-name').innerText = user.first_name;
+        }
     </script>
+<script src="main.js"></script>
 </body>
 </html>

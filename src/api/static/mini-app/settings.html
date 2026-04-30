@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - GPTGRAM Ultimate</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .setting-item:last-child { border-bottom: none; }
+        select { border: 1px solid #ddd; border-radius: 8px; padding: 5px; background: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" style="color: inherit;"><i class="fas fa-arrow-left"></i></a>
+        <h2>Настройки ⚙️</h2>
+        <div></div>
+    </div>
+
+    <div class="card animate-in">
+        <h3>Ваш Тариф: <span style="color: var(--primary-color)">PRO</span></h3>
+        <div class="setting-item">
+            <span>Модель ИИ</span>
+            <select>
+                <option>GPT-4o (Default)</option>
+                <option>GPT-4o-mini</option>
+                <option>Claude 3.5 Sonnet</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <span>Мульти-аккаунты</span>
+            <span>12 / 20</span>
+        </div>
+    </div>
+
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h3>Платежи (TON Connect)</h3>
+        <button class="btn" style="background: #0088cc;" onclick="tg.showAlert('Подключение кошелька TON...')">
+            <i class="fas fa-gem"></i> Подключить TON Wallet
+        </button>
+    </div>
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+    </script>
+</body>
+</html>
