@@ -48,3 +48,27 @@ class MassReactionPro:
 neuro_commenting = NeuroCommenting()
 neuro_chatting = NeuroChatting()
 mass_reaction = MassReactionPro()
+
+class NeuroSabotage:
+    async def generate_counter_argument(self, competitor_post: str) -> str:
+        """Generates soft informational pressure comments."""
+        prompt = (
+            f"ПОСТ КОНКУРЕНТА: {competitor_post[:400]}\n\n"
+            "Сгенерируй комментарий, который мягко ставит под сомнение эффективность метода конкурента "
+            "и намекает, что в GPTGRAM это делается автоматически и лучше. Без прямой рекламы, "
+            "в стиле экспертного сомнения."
+        )
+        messages = [{"role": "user", "content": prompt}]
+        return await openai_client.get_chat_response(0, messages)
+
+    async def generate_comparison_article(self, competitor_name: str) -> str:
+        """Generates content for 'independent' comparison channels."""
+        prompt = (
+            f"Сравни GPTGRAM Ultimate и {competitor_name}.\n"
+            "Сделай упор на преимуществах GPTGRAM в Anti-Detect 3.0, "
+            "Predictive ROI и AI Orchestrator. Тон должен быть аналитическим и объективным."
+        )
+        messages = [{"role": "user", "content": prompt}]
+        return await openai_client.get_chat_response(0, messages)
+
+neuro_sabotage = NeuroSabotage()

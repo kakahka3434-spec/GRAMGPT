@@ -23,6 +23,12 @@ async function updateStats() {
     } catch (e) {
         console.error("Failed to fetch stats", e);
     }
+
+    // Simulate crisis check
+    setTimeout(() => {
+        const alert = document.getElementById("crisis-alert");
+        if(alert) alert.style.display = "block";
+    }, 2000);
 }
 
 // On page load
