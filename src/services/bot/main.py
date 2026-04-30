@@ -8,8 +8,8 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.types import BotCommand
 
 from src.config import settings
-from src.handlers import commands, chat, media
-from src.middlewares.logging import LoggingMiddleware
+from src.services.bot.handlers import commands, chat, media
+from src.services.bot.middlewares.logging import LoggingMiddleware
 
 async def set_commands(bot: Bot):
     commands_list = [

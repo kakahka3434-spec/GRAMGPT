@@ -1,6 +1,6 @@
 import os
 import pytest
-from src.utils.database import Database
+from src.db.database import Database
 
 @pytest.fixture
 def temp_db():

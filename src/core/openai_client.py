@@ -2,7 +2,7 @@ from typing import List, Dict, Optional
 import logging
 from openai import AsyncOpenAI
 from src.config import settings
-from src.utils.database import db
+from src.db.database import db
 
 logger = logging.getLogger(__name__)
 

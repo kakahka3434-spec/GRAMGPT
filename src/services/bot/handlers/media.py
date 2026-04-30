@@ -1,7 +1,7 @@
 import os
 from aiogram import Router, types, F
-from src.utils.openai_client import openai_client
-from src.utils.memory import memory
+from src.core.openai_client import openai_client
+from src.db.memory import memory
 import base64
 
 router = Router()

@@ -1,4 +1,4 @@
-from src.utils.database import db
+from src.db.database import db
 from typing import List, Dict
 
 class ConversationMemory:
