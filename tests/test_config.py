@@ -11,4 +11,4 @@ def test_settings_load_from_env(monkeypatch):
     assert settings.bot_token == "test_bot_token"
     assert settings.openai_api_key == "test_openai_key"
     assert settings.temperature == 0.5
-    assert settings.model_name == "gpt-4-turbo"  # Default value
+    assert settings.model_name == "gpt-4o"  # New default value
