@@ -8,6 +8,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from src.config import settings
 from src.handlers import base, chat
+from src.middlewares.logging import LoggingMiddleware
 
 async def main():
     # Configure logging
@@ -23,6 +24,9 @@ async def main():
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     dp = Dispatcher()
+
+    # Register middlewares
+    dp.message.middleware(LoggingMiddleware())
 
     # Register routers
     dp.include_router(base.router)

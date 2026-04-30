@@ -5,8 +5,10 @@ GRAMGPT is a professional, high-performance Telegram bot built with Python, [aio
 ## 🚀 Features
 
 - **AI Chatting**: Engage in natural conversations powered by OpenAI's latest models.
+- **Conversation Memory**: Remembers recent context for more coherent interactions.
 - **Asynchronous Architecture**: Built on top of `asyncio` and `aiogram` for high concurrency.
 - **Modern Configuration**: Uses `pydantic-settings` for robust environment variable management.
+- **Logging Middleware**: Real-time logging of bot activities for easier debugging.
 - **Modular Design**: Clean separation of concerns with routers and handlers.
 - **Docker Ready**: Includes a `Dockerfile` for easy deployment.
 
@@ -41,6 +43,12 @@ GRAMGPT is a professional, high-performance Telegram bot built with Python, [aio
     ```bash
     python -m src.main
     ```
+
+## 📜 Bot Commands
+
+- `/start` - Initialize the bot.
+- `/help` - Show available commands.
+- `/clear` - Reset your conversation history with the AI.
 
 ## 🐳 Docker Deployment
 
