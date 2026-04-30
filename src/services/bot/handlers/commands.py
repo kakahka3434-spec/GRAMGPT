@@ -1,59 +1,50 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command, CommandObject
-from src.core.orchestrator import orchestrator
-from src.core.account_manager import account_manager
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import WebAppInfo
+from src.db.memory import memory
+from src.core.openai_client import openai_client
 from src.db.database import db
+from src.core.referral import referral_system
 
 router = Router()
 
 @router.message(Command("start"))
-async def cmd_start(message: types.Message):
+async def cmd_start(message: types.Message, command: CommandObject):
+    if command.args:
+        referrer = await referral_system.process_new_user(message.chat.id, command.args)
+        if referrer:
+            await message.answer("🎁 Вы присоединились по приглашению! Лимиты будут увеличены.")
+
+    builder = InlineKeyboardBuilder()
+    builder.row(types.InlineKeyboardButton(
+        text="🚀 Открыть Панель Управления",
+        web_app=WebAppInfo(url="https://dist-yentgqay.devinapps.com/panel/index.html")
+    ))
+
+    ref_link = referral_system.generate_referral_link(message.chat.id)
     await message.answer(
-        "🚀 **GPTGRAM Ultimate 2026**\n\n"
-        "Я — полнофункциональный ИИ-оркестратор вашего маркетинга.\n\n"
-        "**Новое в 2026:**\n"
-        "📈 Predictive ROI Engine: /roi\n"
-        "🔄 AutoFunnel AI: /funnel\n"
-        "🧬 Biological Rhythm Sync\n"
-        "📱 Multi-Channel (TG, WA, IG, SMS)\n\n"
-        "Команды:\n"
-        "/create_campaign <цель> — Построить стратегию\n"
-        "/roi <id> — Отчет по окупаемости\n"
-        "/funnel — Статус авто-воронок\n"
-        "/appeal — AI-юрист (апелляция бана)"
+        "⚡ **GPTGRAM Ultimate 2026**\n\n"
+        "Добро пожаловать в будущее маркетинга! "
+        "Теперь вы можете управлять всеми кампаниями прямо здесь через Mini App.\n\n"
+        "**Ваш статус:**\n"
+        "💳 План: Free\n"
+        "📊 Лимиты: 100 действий/день\n"
+        f"🔗 Ваша реф-ссылка: `{ref_link}`",
+        reply_markup=builder.as_markup()
     )
 
-@router.message(Command("create_campaign"))
-async def cmd_create(message: types.Message, command: CommandObject):
-    if not command.args:
-        await message.answer("Укажите цель. Пример: /create_campaign Продать 100 курсов")
-        return
+@router.message(Command("settings"))
+async def cmd_settings(message: types.Message):
+    builder = InlineKeyboardBuilder()
+    builder.row(types.InlineKeyboardButton(text="GPT-4o", callback_data="model_gpt-4o"))
+    builder.row(types.InlineKeyboardButton(text="GPT-4o-mini", callback_data="model_gpt-4o-mini"))
+    current_model = db.get_user_model(message.chat.id)
+    await message.answer(f"⚙️ Текущая модель: `{current_model}`", reply_markup=builder.as_markup())
 
-    await message.answer("🧠 AI Orchestrator анализирует рынок и строит план с прогнозом ROI...")
-    strategy = await orchestrator.create_campaign_strategy("Campaign 2026", command.args)
-
-    msg = (
-        f"✅ **Стратегия готова!**\n\n"
-        f"🎯 Цель: {command.args}\n"
-        f"📊 Прогноз ROI: {strategy.get('predicted_roi')}\n"
-        f"📱 Каналы: {', '.join(strategy.get('channels', []))}\n\n"
-        f"Бот переходит в режим Auto-Optimization."
-    )
-    await message.answer(msg)
-
-@router.message(Command("roi"))
-async def cmd_roi(message: types.Message, command: CommandObject):
-    # Mock for campaign ID 1
-    report = db.get_roi_report(1)
-    await message.answer(
-        f"📈 **Отчет ROI (Кампания #1):**\n\n"
-        f"- Прогноз: 240%\n"
-        f"- Факт: {report['roi_actual']}\n"
-        f"- Выручка: ${report['total_revenue']}\n"
-        f"- Затраты: ${report['total_cost']}"
-    )
-
-@router.message(Command("appeal"))
-async def cmd_appeal(message: types.Message):
-    appeal_text = account_manager.generate_appeal("Current")
-    await message.answer(f"⚖️ **AI-Юрист сгенерировал апелляцию:**\n\n`{appeal_text}`")
+@router.callback_query(F.data.startswith("model_"))
+async def handle_model_selection(callback: types.CallbackQuery):
+    new_model = callback.data.split("_")[1]
+    db.set_user_model(callback.message.chat.id, new_model)
+    await callback.message.edit_text(f"✅ Модель изменена на: `{new_model}`")
+    await callback.answer()

@@ -5,12 +5,17 @@ from src.db.memory import memory
 from src.core.human_emulation import human_engine
 from src.config import settings
 from src.core.neuro_modules import neuro_chatting
+from src.db.database import db
 
 router = Router()
 
 @router.message(F.text)
 async def handle_text_message(message: types.Message):
-    # GPTGRAM Ultimate: Human Emulation Pre-delay
+    # Check subscription for watermark
+    sub = db.get_subscription(message.chat.id)
+    is_free = sub.get("plan") == "free"
+
+    # Human Emulation
     if settings.human_emulation_enabled:
         await human_engine.wait_before_action(1.0, 3.0)
 
@@ -19,16 +24,16 @@ async def handle_text_message(message: types.Message):
     memory.add_message(message.chat.id, "user", message.text)
     history = memory.get_history(message.chat.id)
 
-    # NeuroChatting: Handle objections or general chat
-    if any(word in message.text.lower() for word in ["дорого", "нет времени", "сомневаюсь"]):
-        response = await neuro_chatting.handle_objection(message.text, history)
-    else:
-        response = await openai_client.get_chat_response(message.chat.id, history)
+    response = await openai_client.get_chat_response(message.chat.id, history)
 
-    # GPTGRAM Ultimate: Realistic Typing Delay
+    # Apply Watermark for Free users
+    if is_free:
+        response += "\n\n---\n⚡ *Отправлено через GPTGRAM Ultimate* (https://gptgram.io)"
+
+    # Realistic Typing Delay
     if settings.human_emulation_enabled:
         delay = await human_engine.get_typing_delay(response)
-        await asyncio.sleep(min(delay, 8.0)) # Capped at 8s
+        await asyncio.sleep(min(delay, 8.0))
 
     memory.add_message(message.chat.id, "assistant", response)
     await message.answer(response)

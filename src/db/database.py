@@ -13,6 +13,7 @@ class Database:
 
     def init_db(self):
         with sqlite3.connect(self.db_path) as conn:
+            # Accounts & Sessions
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS accounts (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,6 +27,7 @@ class Database:
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # Campaigns
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS campaigns (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,6 +39,7 @@ class Database:
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # Leads
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS leads (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,11 +47,30 @@ class Database:
                     username TEXT,
                     engagement_score INTEGER DEFAULT 0,
                     ltv_estimate REAL DEFAULT 0,
-                    behavioral_profile TEXT,
                     status TEXT DEFAULT 'new',
                     last_contact DATETIME
                 )
             """)
+            # NEW: Billing & Subscriptions
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS subscriptions (
+                    chat_id INTEGER PRIMARY KEY,
+                    plan_type TEXT DEFAULT 'free',
+                    actions_remaining INTEGER DEFAULT 100,
+                    expires_at DATETIME
+                )
+            """)
+            # NEW: Referrals
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS referrals (
+                    user_id INTEGER,
+                    referred_by INTEGER,
+                    status TEXT DEFAULT 'pending',
+                    bonus_applied BOOLEAN DEFAULT 0,
+                    PRIMARY KEY (user_id)
+                )
+            """)
+            # Analytics
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS analytics (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,6 +81,7 @@ class Database:
                     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # Legacy messages
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS messages (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,6 +91,7 @@ class Database:
                     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # User settings (model choice)
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS user_settings (
                     chat_id INTEGER PRIMARY KEY,
@@ -87,55 +111,47 @@ class Database:
 
     def get_roi_report(self, campaign_id: int) -> Dict[str, Any]:
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute(
-                "SELECT SUM(cost), SUM(revenue) FROM analytics WHERE campaign_id = ?",
-                (campaign_id,)
-            )
+            cursor = conn.execute("SELECT SUM(cost), SUM(revenue) FROM analytics WHERE campaign_id = ?", (campaign_id,))
             cost, revenue = cursor.fetchone()
-            cost = cost or 1
-            revenue = revenue or 0
-            return {
-                "roi_actual": f"{(revenue/cost)*100:.1f}%",
-                "total_revenue": revenue,
-                "total_cost": cost
-            }
+            cost, revenue = cost or 1, revenue or 0
+            return {"roi_actual": f"{(revenue/cost)*100:.1f}%", "total_revenue": revenue, "total_cost": cost}
 
-    # Bot Message & History Methods
+    # Subscription Management
+    def get_subscription(self, chat_id: int) -> Dict[str, Any]:
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute("SELECT plan_type, actions_remaining FROM subscriptions WHERE chat_id = ?", (chat_id,))
+            row = cursor.fetchone()
+            if row:
+                return {"plan": row[0], "actions": row[1]}
+            return {"plan": "free", "actions": 100}
+
+    # Referral Management
+    def add_referral(self, user_id: int, referrer_id: int):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("INSERT OR IGNORE INTO referrals (user_id, referred_by) VALUES (?, ?)", (user_id, referrer_id))
+            conn.commit()
+
+    # Legacy Bot methods
     def add_message(self, chat_id: int, role: str, content: str):
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                "INSERT INTO messages (chat_id, role, content) VALUES (?, ?, ?)",
-                (chat_id, role, content)
-            )
+            conn.execute("INSERT INTO messages (chat_id, role, content) VALUES (?, ?, ?)", (chat_id, role, content))
             conn.commit()
 
     def get_history(self, chat_id: int, limit: int = 20) -> List[Dict[str, str]]:
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute(
-                "SELECT role, content FROM messages WHERE chat_id = ? ORDER BY id DESC LIMIT ?",
-                (chat_id, limit)
-            )
+            cursor = conn.execute("SELECT role, content FROM messages WHERE chat_id = ? ORDER BY id DESC LIMIT ?", (chat_id, limit))
             rows = cursor.fetchall()
             return [{"role": r, "content": c} for r, c in reversed(rows)]
-
-    def clear_history(self, chat_id: int):
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute("DELETE FROM messages WHERE chat_id = ?", (chat_id,))
-            conn.commit()
-
-    # User Settings Methods
-    def set_user_model(self, chat_id: int, model_name: str):
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                "INSERT OR REPLACE INTO user_settings (chat_id, model_name) VALUES (?, ?)",
-                (chat_id, model_name)
-            )
-            conn.commit()
 
     def get_user_model(self, chat_id: int) -> str:
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute("SELECT model_name FROM user_settings WHERE chat_id = ?", (chat_id,))
             row = cursor.fetchone()
             return row[0] if row else "gpt-4o"
+
+    def set_user_model(self, chat_id: int, model_name: str):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("INSERT OR REPLACE INTO user_settings (chat_id, model_name) VALUES (?, ?)", (chat_id, model_name))
+            conn.commit()
 
 db = Database()
