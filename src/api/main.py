@@ -34,3 +34,24 @@ async def get_analytics():
         "roi_average": "240%",
         "risk_status": "safe"
     }
+
+# --- Marketplace & Agency Endpoints ---
+@app.get("/api/v1/marketplace/templates")
+async def list_templates():
+    return [
+        {"id": "crypto_1", "name": "Crypto Investor Funnel", "price_ton": 5.0},
+        {"id": "design_1", "name": "Design Agency Outreach", "price_ton": 3.5},
+        {"id": "saas_1", "name": "SaaS B2B Drip", "price_ton": 10.0}
+    ]
+
+@app.post("/api/v1/agency/clients/add")
+async def add_agency_client(agency_id: int, client_name: str):
+    return {"status": "client_added", "workspace_url": f"https://gptgram.io/w/{client_name.lower()}"}
+
+@app.get("/api/v1/agency/stats")
+async def get_agency_stats(agency_id: int):
+    return {
+        "total_clients": 5,
+        "total_revenue_ton": 450.5,
+        "sub_resellers": 2
+    }

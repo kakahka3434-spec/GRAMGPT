@@ -6,6 +6,7 @@ from src.db.memory import memory
 from src.core.openai_client import openai_client
 from src.db.database import db
 from src.core.referral import referral_system
+from src.core.avatar import avatar_engine
 
 router = Router()
 
@@ -18,20 +19,40 @@ async def cmd_start(message: types.Message, command: CommandObject):
 
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
-        text="🚀 Открыть Панель Управления",
+        text="🚀 Открыть Панель (Mini App)",
         web_app=WebAppInfo(url="https://dist-yentgqay.devinapps.com/panel/index.html")
     ))
 
     ref_link = referral_system.generate_referral_link(message.chat.id)
     await message.answer(
-        "⚡ **GPTGRAM Ultimate 2026**\n\n"
-        "Добро пожаловать в будущее маркетинга! "
-        "Теперь вы можете управлять всеми кампаниями прямо здесь через Mini App.\n\n"
-        "**Ваш статус:**\n"
-        "💳 План: Free\n"
-        "📊 Лимиты: 100 действий/день\n"
+        "⚡ **GPTGRAM Ultimate — Creative Studio**\n\n"
+        "Вы используете самую мощную систему маркетинга.\n\n"
+        "**Новые фичи:**\n"
+        "🎭 AI Video Avatars: /video <текст>\n"
+        "🎤 Voice Cloning (Auto)\n"
+        "📦 Marketplace: /templates\n\n"
         f"🔗 Ваша реф-ссылка: `{ref_link}`",
         reply_markup=builder.as_markup()
+    )
+
+@router.message(Command("video"))
+async def cmd_video(message: types.Message, command: CommandObject):
+    if not command.args:
+        await message.answer("Введите текст для видео-ответа аватара.")
+        return
+
+    await message.answer("🎬 Генерирую видео-сообщение с вашим AI-аватаром... (HeyGen Integration)")
+    video_url = await avatar_engine.generate_video_response(command.args)
+    await message.answer_video(video=video_url, caption="🎬 Ваш видео-ответ готов!")
+
+@router.message(Command("templates"))
+async def cmd_templates(message: types.Message):
+    await message.answer(
+        "🛒 **Marketplace шаблонов**\n\n"
+        "1. Crypto Investor Funnel — 5 TON\n"
+        "2. Design Agency Outreach — 3.5 TON\n"
+        "3. SaaS B2B Drip — 10 TON\n\n"
+        "Покупка доступна в Mini App."
     )
 
 @router.message(Command("settings"))
