@@ -7,4 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "-m", "src.main"]
+# Render uses PORT env var, but we hardcoded 10000 or can use the env
+CMD ["python", "src/app.py"]

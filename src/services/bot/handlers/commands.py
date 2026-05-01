@@ -20,7 +20,7 @@ async def cmd_start(message: types.Message, command: CommandObject):
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
         text="🚀 Открыть Панель (Mini App)",
-        web_app=WebAppInfo(url="https://dist-yentgqay.devinapps.com/panel/index.html")
+        web_app=WebAppInfo(url="https://gptgram-ultimate-demo.onrender.com/panel/index.html")
     ))
 
     ref_link = referral_system.generate_referral_link(message.chat.id)
