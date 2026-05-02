@@ -39,7 +39,7 @@ async def run_combined():
     config = uvicorn.Config(app, host="0.0.0.0", port=int(os.getenv("PORT", 10000)), log_level="info")
     server = uvicorn.Server(config)
 
-    logging.info("Starting Combined Service (API + Bot)...")
+    logging.info("Starting GRAMGPT (API + Bot)...")
 
     if settings.bot_token and settings.bot_token != "dummy_token":
         await set_commands(bot)

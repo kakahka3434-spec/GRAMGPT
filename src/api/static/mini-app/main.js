@@ -1,37 +1,42 @@
 const tg = window.Telegram.WebApp;
 
-// Initialize app
 tg.expand();
 tg.ready();
 
-// Apply theme colors
-document.body.style.setProperty('--bg-color', tg.backgroundColor || '#f5f7fa');
-
-// Simple Router Helper
-function navigate(page) {
-    window.location.href = page;
+const user = tg.initDataUnsafe?.user;
+if (user) {
+    const el = document.getElementById('user-name');
+    if (el) el.innerText = user.first_name;
 }
 
-// Fetch analytics from our API
 async function updateStats() {
     try {
         const response = await fetch('/api/v1/analytics/summary');
+        if (!response.ok) return;
         const data = await response.json();
-        if (document.getElementById('leads-count')) {
-            document.getElementById('leads-count').innerText = data.leads_captured.toLocaleString();
-        }
+
+        const leadsEl = document.getElementById('leads-count');
+        if (leadsEl) leadsEl.innerText = Number(data.leads_captured).toLocaleString();
+
+        const accountsEl = document.getElementById('accounts-count');
+        if (accountsEl) accountsEl.innerText = data.active_accounts;
+
+        const roiEl = document.getElementById('roi-value');
+        if (roiEl) roiEl.innerText = data.roi_average;
     } catch (e) {
         console.error("Failed to fetch stats", e);
     }
-
-    // Simulate crisis check
-    setTimeout(() => {
-        const alert = document.getElementById("crisis-alert");
-        if(alert) alert.style.display = "block";
-    }, 2000);
 }
 
-// On page load
+function checkCrisisAlert() {
+    const riskStatus = 'safe';
+    if (riskStatus !== 'safe') {
+        const alert = document.getElementById("crisis-alert");
+        if (alert) alert.style.display = "block";
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     updateStats();
+    setTimeout(checkCrisisAlert, 1500);
 });

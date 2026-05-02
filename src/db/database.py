@@ -143,6 +143,11 @@ class Database:
             rows = cursor.fetchall()
             return [{"role": r, "content": c} for r, c in reversed(rows)]
 
+    def clear_history(self, chat_id: int):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("DELETE FROM messages WHERE chat_id = ?", (chat_id,))
+            conn.commit()
+
     def get_user_model(self, chat_id: int) -> str:
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute("SELECT model_name FROM user_settings WHERE chat_id = ?", (chat_id,))

@@ -12,13 +12,15 @@ class LoggingMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any]
     ) -> Any:
-        if isinstance(event, Message):
-            user = event.from_user
-            logger.info(f"Received message from {user.full_name} ({user.id}): {event.text[:50]}...")
+        user_id = None
+        if isinstance(event, Message) and event.from_user:
+            user_id = event.from_user.id
+            text_preview = (event.text or "")[:50]
+            logger.info(f"Received message from {event.from_user.full_name} ({user_id}): {text_preview}")
 
         result = await handler(event, data)
 
-        if isinstance(event, Message):
-            logger.info(f"Handled message from {user.id}")
+        if isinstance(event, Message) and user_id:
+            logger.info(f"Handled message from {user_id}")
 
         return result

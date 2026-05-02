@@ -6,7 +6,7 @@ from typing import Dict, Any
 from src.core.orchestrator import orchestrator
 import os
 
-app = FastAPI(title="GPTGRAM Ultimate API Gateway")
+app = FastAPI(title="GRAMGPT API")
 app.include_router(web3_router)
 
 # Mount Mini App static files
@@ -19,7 +19,7 @@ class CampaignRequest(BaseModel):
 
 @app.get("/api/v1/status")
 async def root():
-    return {"status": "GPTGRAM Ultimate Engine Online"}
+    return {"status": "GRAMGPT Engine Online"}
 
 @app.post("/api/v1/campaigns/create")
 async def create_campaign(req: CampaignRequest):

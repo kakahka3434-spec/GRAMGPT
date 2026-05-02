@@ -3,93 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GPTGRAM Ultimate Panel</title>
+    <title>GRAMGPT Panel</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="header animate-in">
-        <h2>GPTGRAM <span style="color: var(--primary-color)">Ultimate</span></h2>
-        <div class="user-badge" id="user-name">Загрузка...</div>
+        <h2>GRAM<span style="color: var(--accent-color)">GPT</span></h2>
+        <div class="user-badge" id="user-name">...</div>
     </div>
 
-    <div class="stat-row animate-in" style="animation-delay: 0.1s">
+    <div class="stat-row animate-in" style="animation-delay: 0.05s">
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Собрано лидов</h4>
-                <div id="leads-count">1,247</div>
+                <div id="leads-count" style="color: var(--accent-color)">0</div>
+            </div>
+            <div class="stat-item" style="text-align: center;">
+                <h4>Аккаунтов</h4>
+                <div id="accounts-count">0</div>
             </div>
             <div class="stat-item" style="text-align: right;">
                 <h4>Средний ROI</h4>
-                <div style="color: #2ecc71">240%</div>
+                <div style="color: var(--success-color)" id="roi-value">—</div>
             </div>
         </div>
     </div>
 
     <div id="crisis-alert" style="display:none;" class="card animate-in">
-        <div style="background: #fff3f3; color: #d32f2f; padding: 15px; border-radius: 12px; border-left: 5px solid #d32f2f;">
-            <h4 style="margin:0;"><i class="fas fa-exclamation-triangle"></i> AI Crisis Alert</h4>
-            <p style="font-size:12px; margin: 5px 0;">Обнаружен риск блокировки для 2 аккаунтов. AI Crisis Manager применил авто-паузу.</p>
-            <button class="btn" style="background:#d32f2f; padding:8px; font-size:11px;" onclick="window.Telegram.WebApp.showAlert('Стратегия нейтрализации запущена: Смена IP + Пауза 48ч')">Просмотреть стратегию</button>
+        <div style="background: rgba(231,76,60,0.1); color: var(--danger-color); padding: 14px; border-radius: 12px; border-left: 4px solid var(--danger-color);">
+            <h4 style="margin:0;"><i class="fas fa-shield-halved"></i> AI Crisis Alert</h4>
+            <p style="font-size:12px; margin: 6px 0; color: var(--text-secondary);">Обнаружен риск блокировки. AI Crisis Manager применил авто-паузу и анализирует ситуацию.</p>
+            <button class="btn" style="background: var(--danger-color); padding:8px; font-size:12px; width: auto;" onclick="window.Telegram.WebApp.showAlert('Стратегия нейтрализации: Смена IP + Пауза 48ч + Мимикрия')">Стратегия</button>
         </div>
     </div>
 
-    <div class="feature-grid animate-in" style="animation-delay: 0.2s">
+    <div class="feature-grid animate-in" style="animation-delay: 0.1s">
         <a href="campaigns.html" class="feature-card">
             <i class="fas fa-rocket"></i>
             <span>Авто-воронки</span>
-            <p>Управление кампаниями</p>
+            <p>Кампании и стратегии</p>
         </a>
         <a href="dashboard.html" class="feature-card">
             <i class="fas fa-chart-line"></i>
             <span>Аналитика</span>
             <p>ROI и конверсия</p>
         </a>
-        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Модуль HyperParser активен 24/7')">
+        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Нейрокомментинг: генерация осмысленных комментариев с помощью GPT-4o')">
+            <i class="fas fa-comments"></i>
+            <span>Нейрокомментинг</span>
+            <p>AI-комментарии</p>
+        </a>
+        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Нейрочаттинг: осмысленные ответы в группах для привлечения внимания')">
+            <i class="fas fa-message"></i>
+            <span>Нейрочаттинг</span>
+            <p>AI-переписка</p>
+        </a>
+        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Парсинг: сканирование каналов и сбор целевой аудитории')">
             <i class="fas fa-crosshairs"></i>
             <span>Парсинг</span>
-            <p>Поиск горячих лидов</p>
+            <p>Сбор аудитории</p>
         </a>
-        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('HumanEngine имитирует действия...')">
-            <i class="fas fa-user-ninja"></i>
-            <span>Anti-Detect</span>
-            <p>Имитация поведения</p>
+        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Прогрев: автоматическое повышение доверия аккаунтов')">
+            <i class="fas fa-fire"></i>
+            <span>Прогрев</span>
+            <p>Прогрев аккаунтов</p>
         </a>
-        <a href="#" class="feature-card">
-            <i class="fas fa-video"></i>
-            <span>Creative Studio</span>
-            <p>AI Аватары и голос</p>
-        </a>
-        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('База знаний RAG активна: 3 документа загружено')">
-            <i class="fas fa-book"></i>
-            <span>Knowledge Base</span>
-            <p>Ваши файлы (RAG)</p>
+        <a href="#" class="feature-card" onclick="window.Telegram.WebApp.showAlert('Массовые реакции с эмоциональным маппингом')">
+            <i class="fas fa-heart"></i>
+            <span>Масс-реакции</span>
+            <p>Эмоции и реакции</p>
         </a>
         <a href="settings.html" class="feature-card">
-            <i class="fas fa-wallet"></i>
-            <span>Оплата и Лимиты</span>
+            <i class="fas fa-gem"></i>
+            <span>Подписка</span>
             <p>TON Connect</p>
         </a>
     </div>
 
-    <div class="nav-bar animate-in" style="animation-delay: 0.4s">
+    <div class="nav-bar animate-in" style="animation-delay: 0.2s">
         <a href="index.html" class="nav-item active"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('user-name').innerText = user.first_name;
-        }
-    </script>
-<script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

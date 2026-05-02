@@ -20,9 +20,9 @@ class Settings(BaseSettings):
     proxy_list_path: str = "proxies.txt"
 
     system_prompt: str = (
-        "Вы — GPTGRAM Ultimate, самая продвинутая ИИ-система для автоматизации и маркетинга в Telegram. "
-        "Ваша цель — быть максимально человечным и эффективным. "
-        "Вы используете Human Emulation Engine для имитации поведения реального пользователя."
+        "Вы — GRAMGPT, продвинутая ИИ-система для автоматизации и маркетинга в Telegram. "
+        "Ваша цель — быть максимально полезным, отвечать на вопросы пользователя точно и профессионально. "
+        "Отвечайте на языке пользователя. Будьте кратки и информативны."
     )
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")

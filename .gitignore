@@ -150,3 +150,17 @@ cython_debug/
 
 # PyCharm
 .idea/
+
+# SQLite database files
+*.db
+*.db-journal
+
+# Temporary voice/photo files
+temp_*.ogg
+temp_*.jpg
+
+# Proxy lists
+proxies.txt
+
+# Output files
+data/outputs/

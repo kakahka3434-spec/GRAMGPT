@@ -13,10 +13,11 @@ from src.services.bot.middlewares.logging import LoggingMiddleware
 
 async def set_commands(bot: Bot):
     commands_list = [
-        BotCommand(command="start", description="🚀 Старт"),
-        BotCommand(command="image", description="🎨 Создать изображение"),
-        BotCommand(command="clear", description="🧹 Очистить историю"),
-        BotCommand(command="help", description="📜 Помощь"),
+        BotCommand(command="start", description="Запуск бота"),
+        BotCommand(command="image", description="Генерация изображения (DALL-E 3)"),
+        BotCommand(command="settings", description="Выбор модели ИИ"),
+        BotCommand(command="clear", description="Очистить историю диалога"),
+        BotCommand(command="help", description="Справка по командам"),
     ]
     await bot.set_my_commands(commands_list)
 
