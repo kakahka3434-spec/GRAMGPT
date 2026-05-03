@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from src.api.web3 import router as web3_router
 from typing import Dict, Any
@@ -9,9 +10,19 @@ import os
 app = FastAPI(title="GRAMGPT API")
 app.include_router(web3_router)
 
-# Mount Mini App static files
-static_path = os.path.join(os.path.dirname(__file__), "static/mini-app")
-app.mount("/panel", StaticFiles(directory=static_path, html=True), name="panel")
+# Static file paths
+base_dir = os.path.dirname(__file__)
+mini_app_path = os.path.join(base_dir, "static/mini-app")
+landing_path = os.path.join(base_dir, "static/landing")
+
+# Mount Mini App and Landing static files
+app.mount("/panel", StaticFiles(directory=mini_app_path, html=True), name="panel")
+app.mount("/static", StaticFiles(directory=landing_path), name="landing-static")
+
+
+@app.get("/")
+async def landing_page():
+    return FileResponse(os.path.join(landing_path, "index.html"))
 
 class CampaignRequest(BaseModel):
     name: str
@@ -46,7 +57,7 @@ async def list_templates():
 
 @app.post("/api/v1/agency/clients/add")
 async def add_agency_client(agency_id: int, client_name: str):
-    return {"status": "client_added", "workspace_url": f"https://gptgram.io/w/{client_name.lower()}"}
+    return {"status": "client_added", "workspace_url": f"https://gramgpt.io/w/{client_name.lower()}"}
 
 @app.get("/api/v1/agency/stats")
 async def get_agency_stats(agency_id: int):
