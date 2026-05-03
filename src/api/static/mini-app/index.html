@@ -11,22 +11,43 @@
 <body>
     <div class="header animate-in">
         <h2>GRAM<span style="color: var(--accent-color)">GPT</span></h2>
-        <div class="user-badge" id="user-name">...</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="notifications.html" style="color: var(--text-secondary); position: relative; font-size: 18px; text-decoration: none;">
+                <i class="fas fa-bell"></i>
+                <span class="notif-badge"></span>
+            </a>
+            <div class="user-badge" id="user-name">...</div>
+        </div>
+    </div>
+
+    <!-- Quick Status Bar -->
+    <div class="glass-card animate-in" style="animation-delay: 0.03s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="live-dot"></span>
+                <span style="font-size: 12px; font-weight: 600;">Все системы активны</span>
+            </div>
+            <a href="protection.html" style="text-decoration: none;">
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">
+                    <i class="fas fa-shield-halved"></i> Shield: OK
+                </span>
+            </a>
+        </div>
     </div>
 
     <div class="stat-row animate-in" style="animation-delay: 0.05s">
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Собрано лидов</h4>
-                <div id="leads-count" style="color: var(--accent-color)">0</div>
+                <div id="leads-count" style="color: var(--accent-color)">1,247</div>
             </div>
             <div class="stat-item" style="text-align: center;">
                 <h4>Аккаунтов</h4>
-                <div id="accounts-count">0</div>
+                <div id="accounts-count">8</div>
             </div>
             <div class="stat-item" style="text-align: right;">
-                <h4>Средний ROI</h4>
-                <div style="color: var(--success-color)" id="roi-value">—</div>
+                <h4>ROI</h4>
+                <div style="color: var(--success-color)" id="roi-value">340%</div>
             </div>
         </div>
     </div>
@@ -34,10 +55,12 @@
     <div id="crisis-alert" style="display:none;" class="card animate-in">
         <div style="background: rgba(231,76,60,0.1); color: var(--danger-color); padding: 14px; border-radius: 12px; border-left: 4px solid var(--danger-color);">
             <h4 style="margin:0;"><i class="fas fa-shield-halved"></i> AI Crisis Alert</h4>
-            <p style="font-size:12px; margin: 6px 0; color: var(--text-secondary);">Обнаружен риск блокировки. AI Crisis Manager применил авто-паузу и анализирует ситуацию.</p>
-            <button class="btn" style="background: var(--danger-color); padding:8px; font-size:12px; width: auto;" onclick="window.Telegram.WebApp.showAlert('Стратегия нейтрализации: Смена IP + Пауза 48ч + Мимикрия')">Стратегия</button>
+            <p style="font-size:12px; margin: 6px 0; color: var(--text-secondary);">Обнаружен риск блокировки. AI Crisis Manager применил авто-паузу.</p>
+            <button class="btn btn-danger" style="padding:8px; font-size:12px; width: auto;" onclick="alert('Стратегия: Смена IP + Пауза 48ч + Мимикрия')">Стратегия</button>
         </div>
     </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.08s">Модули</div>
 
     <div class="feature-grid animate-in" style="animation-delay: 0.1s">
         <a href="parsing.html" class="feature-card">
@@ -70,6 +93,11 @@
             <span>Масс-реакции</span>
             <p>Эмоции и реакции</p>
         </a>
+    </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.13s">Управление</div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.15s">
         <a href="channel.html" class="feature-card">
             <i class="fas fa-tv"></i>
             <span>Ведение канала</span>
@@ -80,10 +108,20 @@
             <span>Аккаунты</span>
             <p>Менеджер аккаунтов</p>
         </a>
+        <a href="protection.html" class="feature-card">
+            <i class="fas fa-shield-halved"></i>
+            <span>Защита</span>
+            <p>Anti-Ban Shield</p>
+        </a>
         <a href="campaigns.html" class="feature-card">
             <i class="fas fa-rocket"></i>
             <span>Авто-воронки</span>
-            <p>Кампании и стратегии</p>
+            <p>Кампании</p>
+        </a>
+        <a href="dashboard.html" class="feature-card">
+            <i class="fas fa-chart-pie"></i>
+            <span>Аналитика</span>
+            <p>Dashboard</p>
         </a>
         <a href="settings.html" class="feature-card">
             <i class="fas fa-gem"></i>

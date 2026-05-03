@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Welcome</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="onboarding">
+        <!-- Step 1: Welcome -->
+        <div class="ob-step active" id="step1">
+            <div class="ob-content">
+                <div class="ob-logo animate-scale">
+                    <div class="logo-ring glow">
+                        <i class="fas fa-bolt" style="font-size: 48px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                    </div>
+                </div>
+                <h1 class="ob-title animate-in" style="animation-delay: 0.1s">GRAM<span style="color: var(--accent-color)">GPT</span></h1>
+                <p class="ob-desc animate-in" style="animation-delay: 0.15s">AI-платформа для полной автоматизации Telegram маркетинга</p>
+                <div class="ob-features animate-in" style="animation-delay: 0.2s">
+                    <div class="ob-feature"><i class="fas fa-crosshairs"></i> Нейропарсинг</div>
+                    <div class="ob-feature"><i class="fas fa-comments"></i> AI-комментинг</div>
+                    <div class="ob-feature"><i class="fas fa-robot"></i> НейроДиалоги</div>
+                    <div class="ob-feature"><i class="fas fa-shield-halved"></i> Anti-Ban Shield</div>
+                </div>
+            </div>
+            <button class="btn animate-in" style="animation-delay: 0.25s" onclick="nextStep(2)">
+                <i class="fas fa-arrow-right"></i> Начать
+            </button>
+        </div>
+
+        <!-- Step 2: Setup -->
+        <div class="ob-step" id="step2">
+            <div class="ob-content">
+                <div class="ob-icon animate-scale">
+                    <i class="fas fa-cogs" style="font-size: 40px; color: var(--accent-color);"></i>
+                </div>
+                <h2 class="ob-title animate-in" style="animation-delay: 0.05s">Быстрая настройка</h2>
+                <p class="ob-desc animate-in" style="animation-delay: 0.1s">Выберите вашу нишу для персонализации AI</p>
+
+                <div class="niche-grid animate-in" style="animation-delay: 0.15s">
+                    <button class="niche-btn active" onclick="selectNiche(this)"><i class="fab fa-bitcoin"></i> Крипто</button>
+                    <button class="niche-btn" onclick="selectNiche(this)"><i class="fas fa-shopping-cart"></i> E-commerce</button>
+                    <button class="niche-btn" onclick="selectNiche(this)"><i class="fas fa-laptop-code"></i> IT / SaaS</button>
+                    <button class="niche-btn" onclick="selectNiche(this)"><i class="fas fa-graduation-cap"></i> Образование</button>
+                    <button class="niche-btn" onclick="selectNiche(this)"><i class="fas fa-chart-line"></i> Финансы</button>
+                    <button class="niche-btn" onclick="selectNiche(this)"><i class="fas fa-palette"></i> Дизайн</button>
+                </div>
+            </div>
+            <button class="btn animate-in" style="animation-delay: 0.2s" onclick="nextStep(3)">
+                <i class="fas fa-arrow-right"></i> Далее
+            </button>
+        </div>
+
+        <!-- Step 3: Add Account -->
+        <div class="ob-step" id="step3">
+            <div class="ob-content">
+                <div class="ob-icon animate-scale">
+                    <i class="fas fa-user-plus" style="font-size: 40px; color: var(--accent-color);"></i>
+                </div>
+                <h2 class="ob-title animate-in" style="animation-delay: 0.05s">Добавьте аккаунт</h2>
+                <p class="ob-desc animate-in" style="animation-delay: 0.1s">Для работы нужен хотя бы один Telegram аккаунт</p>
+
+                <div class="ob-import-options animate-in" style="animation-delay: 0.15s">
+                    <div class="import-option" onclick="selectImport(this, 'session')">
+                        <i class="fas fa-file-code" style="font-size: 20px; color: var(--accent-color);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Session файл</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">Telethon / Pyrogram</div>
+                        </div>
+                    </div>
+                    <div class="import-option" onclick="selectImport(this, 'tdata')">
+                        <i class="fas fa-folder" style="font-size: 20px; color: var(--warning-color);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">TData</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">Telegram Desktop</div>
+                        </div>
+                    </div>
+                    <div class="import-option" onclick="selectImport(this, 'phone')">
+                        <i class="fas fa-mobile-alt" style="font-size: 20px; color: var(--success-color);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">По номеру</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">SMS авторизация</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="nextStep(4)">Пропустить</button>
+                <button class="btn" style="flex: 2;" onclick="nextStep(4)">
+                    <i class="fas fa-arrow-right"></i> Далее
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: Ready -->
+        <div class="ob-step" id="step4">
+            <div class="ob-content">
+                <div class="ob-icon animate-scale">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(46,204,113,0.1); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check-circle" style="font-size: 48px; color: var(--success-color);"></i>
+                    </div>
+                </div>
+                <h2 class="ob-title animate-in" style="animation-delay: 0.05s">Всё готово!</h2>
+                <p class="ob-desc animate-in" style="animation-delay: 0.1s">Ваша AI-платформа настроена и готова к работе</p>
+
+                <div class="ready-stats animate-in" style="animation-delay: 0.15s">
+                    <div class="ready-item">
+                        <i class="fas fa-crosshairs" style="color: var(--accent-color);"></i>
+                        <span>Парсинг</span>
+                        <span style="color: var(--success-color); font-size: 11px;">Готов</span>
+                    </div>
+                    <div class="ready-item">
+                        <i class="fas fa-comments" style="color: var(--accent-color);"></i>
+                        <span>Нейрокомментинг</span>
+                        <span style="color: var(--success-color); font-size: 11px;">Готов</span>
+                    </div>
+                    <div class="ready-item">
+                        <i class="fas fa-robot" style="color: var(--accent-color);"></i>
+                        <span>НейроДиалоги</span>
+                        <span style="color: var(--success-color); font-size: 11px;">Готов</span>
+                    </div>
+                    <div class="ready-item">
+                        <i class="fas fa-shield-halved" style="color: var(--success-color);"></i>
+                        <span>Anti-Ban Shield</span>
+                        <span style="color: var(--success-color); font-size: 11px;">Активен</span>
+                    </div>
+                    <div class="ready-item">
+                        <i class="fas fa-tv" style="color: var(--accent-color);"></i>
+                        <span>Ведение канала</span>
+                        <span style="color: var(--success-color); font-size: 11px;">Готов</span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn animate-in" style="animation-delay: 0.2s" onclick="window.location.href='index.html'">
+                <i class="fas fa-rocket"></i> Запустить GRAMGPT
+            </button>
+        </div>
+
+        <!-- Progress Dots -->
+        <div class="ob-dots" id="obDots">
+            <span class="ob-dot active"></span>
+            <span class="ob-dot"></span>
+            <span class="ob-dot"></span>
+            <span class="ob-dot"></span>
+        </div>
+    </div>
+
+    <style>
+        body { padding: 0; display: flex; align-items: center; justify-content: center; }
+        #onboarding { width: 100%; max-width: 400px; padding: 24px 16px; min-height: 100vh; display: flex; flex-direction: column; }
+        .ob-step { display: none; flex-direction: column; flex: 1; justify-content: center; }
+        .ob-step.active { display: flex; }
+        .ob-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .ob-logo { margin-bottom: 24px; }
+        .logo-ring { width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(0,136,204,0.3); display: flex; align-items: center; justify-content: center; }
+        .ob-icon { margin-bottom: 20px; }
+        .ob-title { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .ob-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; max-width: 280px; }
+        .ob-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
+        .ob-feature { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; background: rgba(48,54,61,0.3); font-size: 12px; font-weight: 600; }
+        .ob-feature i { color: var(--accent-color); width: 16px; text-align: center; }
+        .niche-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
+        .niche-btn { padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; transition: all 0.2s; }
+        .niche-btn.active { border-color: var(--primary-color); background: rgba(0,136,204,0.1); color: var(--accent-color); }
+        .niche-btn:active { transform: scale(0.96); }
+        .ob-import-options { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .import-option { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border-color); border-radius: 14px; cursor: pointer; transition: all 0.2s; }
+        .import-option:active, .import-option.active { border-color: var(--primary-color); background: rgba(0,136,204,0.05); }
+        .ready-stats { width: 100%; display: flex; flex-direction: column; gap: 2px; }
+        .ready-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; background: rgba(48,54,61,0.2); font-size: 13px; font-weight: 500; }
+        .ready-item span:last-child { margin-left: auto; }
+        .ob-dots { display: flex; justify-content: center; gap: 8px; padding: 20px 0; }
+        .ob-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-color); transition: all 0.3s; }
+        .ob-dot.active { background: var(--accent-color); width: 24px; border-radius: 4px; }
+    </style>
+
+    <script>
+        let currentStep = 1;
+        function nextStep(step) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + step).classList.add('active');
+            document.querySelectorAll('.ob-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === step - 1);
+            });
+            currentStep = step;
+        }
+        function selectNiche(btn) {
+            document.querySelectorAll('.niche-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function selectImport(el, type) {
+            document.querySelectorAll('.import-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+</html>
