@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — A/B Тестирование</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-flask" style="color: var(--accent-color)"></i> A/B Тесты</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Active Tests -->
+    <div class="card animate-in" style="animation-delay: 0.05s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-play-circle" style="color: var(--success-color);"></i> Активные тесты</h4>
+            <button class="add-btn" onclick="createTest()"><i class="fas fa-plus"></i> Новый</button>
+        </div>
+
+        <!-- Test 1 -->
+        <div class="test-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="font-size: 13px; font-weight: 700;">Тон комментариев</div>
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);"><span class="live-dot"></span> Активен</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Сравнение экспертного и разговорного тона в нейрокомментинге</div>
+
+            <div class="ab-compare">
+                <div class="ab-variant">
+                    <div class="ab-label">A — Экспертный</div>
+                    <div class="ab-metric-row">
+                        <span>Лайков</span>
+                        <strong style="color: var(--accent-color);">156</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>Ответов</span>
+                        <strong>43</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>Конверсия</span>
+                        <strong style="color: var(--success-color);">12.4%</strong>
+                    </div>
+                    <div class="progress-bar" style="margin-top: 8px;"><div class="progress-fill" style="width: 62%;"></div></div>
+                    <div style="text-align: center; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">62% трафика</div>
+                </div>
+                <div class="ab-vs">VS</div>
+                <div class="ab-variant">
+                    <div class="ab-label" style="color: var(--warning-color);">B — Разговорный</div>
+                    <div class="ab-metric-row">
+                        <span>Лайков</span>
+                        <strong style="color: var(--warning-color);">98</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>Ответов</span>
+                        <strong>67</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>Конверсия</span>
+                        <strong style="color: var(--success-color);">15.1%</strong>
+                    </div>
+                    <div class="progress-bar" style="margin-top: 8px;"><div class="progress-fill" style="width: 38%; background: linear-gradient(90deg, var(--warning-color), #e67e22);"></div></div>
+                    <div style="text-align: center; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">38% трафика</div>
+                </div>
+            </div>
+
+            <div class="ab-result">
+                <i class="fas fa-trophy" style="color: var(--warning-color);"></i>
+                <span>Вариант <strong>B</strong> лидирует по конверсии (+2.7%)</span>
+            </div>
+        </div>
+
+        <!-- Test 2 -->
+        <div class="test-card" style="margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="font-size: 13px; font-weight: 700;">Время постинга</div>
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);"><span class="live-dot"></span> Активен</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Утренний vs вечерний постинг в канале</div>
+
+            <div class="ab-compare">
+                <div class="ab-variant">
+                    <div class="ab-label">A — Утро (9:00)</div>
+                    <div class="ab-metric-row">
+                        <span>Просмотры</span>
+                        <strong style="color: var(--accent-color);">4,521</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>ER</span>
+                        <strong style="color: var(--success-color);">8.2%</strong>
+                    </div>
+                </div>
+                <div class="ab-vs">VS</div>
+                <div class="ab-variant">
+                    <div class="ab-label" style="color: var(--warning-color);">B — Вечер (20:00)</div>
+                    <div class="ab-metric-row">
+                        <span>Просмотры</span>
+                        <strong style="color: var(--warning-color);">5,890</strong>
+                    </div>
+                    <div class="ab-metric-row">
+                        <span>ER</span>
+                        <strong style="color: var(--success-color);">11.4%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ab-result">
+                <i class="fas fa-trophy" style="color: var(--warning-color);"></i>
+                <span>Вариант <strong>B</strong> — вечерние посты эффективнее на 39%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Tests -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-check-circle" style="color: var(--text-secondary);"></i> Завершённые</h4>
+        <div class="completed-test">
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Стратегия чаттинга</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Эксперт vs Networking — 14 дней</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; font-weight: 600; color: var(--success-color);">Networking +18%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Применён</div>
+            </div>
+        </div>
+        <div class="completed-test" style="border-bottom: none;">
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Эмодзи реакции</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">AI подбор vs Случайные — 7 дней</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; font-weight: 600; color: var(--success-color);">AI подбор +42%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Применён</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.15s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary-color); color: var(--accent-color); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .test-card { background: rgba(48,54,61,0.2); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; }
+        .ab-compare { display: flex; align-items: stretch; gap: 0; }
+        .ab-variant { flex: 1; padding: 10px; background: rgba(48,54,61,0.2); border-radius: 10px; }
+        .ab-label { font-size: 11px; font-weight: 700; color: var(--accent-color); margin-bottom: 8px; }
+        .ab-metric-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; }
+        .ab-vs { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: var(--text-secondary); padding: 0 8px; }
+        .ab-result { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; background: rgba(243,156,18,0.08); border-radius: 8px; font-size: 11px; }
+        .completed-test { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+    </style>
+
+    <script>
+        function createTest() { alert('Создание нового A/B теста...'); }
+    </script>
+</body>
+</html>

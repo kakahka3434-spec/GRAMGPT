@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Шаблоны</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-store" style="color: var(--accent-color)"></i> Шаблоны</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Categories -->
+    <div class="cat-scroll animate-in" style="animation-delay: 0.05s">
+        <button class="cat-btn active" onclick="selectCat(this)">Все</button>
+        <button class="cat-btn" onclick="selectCat(this)"><i class="fab fa-bitcoin"></i> Крипто</button>
+        <button class="cat-btn" onclick="selectCat(this)"><i class="fas fa-shopping-cart"></i> E-comm</button>
+        <button class="cat-btn" onclick="selectCat(this)"><i class="fas fa-laptop-code"></i> IT/SaaS</button>
+        <button class="cat-btn" onclick="selectCat(this)"><i class="fas fa-graduation-cap"></i> Обучение</button>
+    </div>
+
+    <!-- Featured -->
+    <div class="glass-card animate-in" style="animation-delay: 0.1s">
+        <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
+            <i class="fas fa-star" style="color: var(--warning-color); font-size: 12px;"></i>
+            <span style="font-size: 11px; font-weight: 600; color: var(--warning-color);">POPULAR</span>
+        </div>
+        <div style="display: flex; gap: 14px;">
+            <div class="tmpl-icon-lg"><i class="fab fa-bitcoin"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 15px; font-weight: 700;">Crypto Investor Funnel</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin: 4px 0 8px;">Полная воронка для крипто-проектов: парсинг → комментинг → чаттинг → ЛС → конверсия</div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <span class="tmpl-tag">5 этапов</span>
+                    <span class="tmpl-tag">340% ROI</span>
+                    <span class="tmpl-tag">1.2K установок</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+            <button class="btn" style="flex: 2; font-size: 12px; padding: 10px;" onclick="useTemplate('crypto')"><i class="fas fa-download"></i> Установить</button>
+            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="previewTemplate('crypto')"><i class="fas fa-eye"></i> Обзор</button>
+        </div>
+    </div>
+
+    <!-- Template Grid -->
+    <div class="section-title animate-in" style="animation-delay: 0.13s">Все шаблоны</div>
+
+    <div class="tmpl-list">
+        <div class="tmpl-card animate-in" style="animation-delay: 0.15s" onclick="useTemplate('ecom')">
+            <div class="tmpl-icon" style="background: rgba(231,76,60,0.1);"><i class="fas fa-shopping-cart" style="color: #e74c3c;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">E-commerce Outreach</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Воронка для интернет-магазинов</div>
+                <div style="display: flex; gap: 4px; margin-top: 4px;">
+                    <span class="tmpl-tag">3 этапа</span>
+                    <span class="tmpl-tag">280% ROI</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--accent-color);">Free</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">890 уст.</div>
+            </div>
+        </div>
+
+        <div class="tmpl-card animate-in" style="animation-delay: 0.17s" onclick="useTemplate('saas')">
+            <div class="tmpl-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-laptop-code" style="color: #9b59b6;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">SaaS B2B Drip</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Капельный маркетинг для B2B</div>
+                <div style="display: flex; gap: 4px; margin-top: 4px;">
+                    <span class="tmpl-tag">7 этапов</span>
+                    <span class="tmpl-tag">420% ROI</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--warning-color);">5 TON</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">456 уст.</div>
+            </div>
+        </div>
+
+        <div class="tmpl-card animate-in" style="animation-delay: 0.19s" onclick="useTemplate('edu')">
+            <div class="tmpl-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-graduation-cap" style="color: #2ecc71;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Онлайн-курсы</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Набор студентов через Telegram</div>
+                <div style="display: flex; gap: 4px; margin-top: 4px;">
+                    <span class="tmpl-tag">4 этапа</span>
+                    <span class="tmpl-tag">310% ROI</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--accent-color);">Free</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">678 уст.</div>
+            </div>
+        </div>
+
+        <div class="tmpl-card animate-in" style="animation-delay: 0.21s" onclick="useTemplate('agency')">
+            <div class="tmpl-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-briefcase" style="color: #f39c12;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Agency Multi-Client</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Управление клиентами агентства</div>
+                <div style="display: flex; gap: 4px; margin-top: 4px;">
+                    <span class="tmpl-tag">10 этапов</span>
+                    <span class="tmpl-tag">550% ROI</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--warning-color);">10 TON</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">234 уст.</div>
+            </div>
+        </div>
+
+        <div class="tmpl-card animate-in" style="animation-delay: 0.23s" onclick="useTemplate('nft')">
+            <div class="tmpl-icon" style="background: rgba(0,136,204,0.1);"><i class="fas fa-palette" style="color: var(--accent-color);"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">NFT Community Builder</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Построение комьюнити NFT проекта</div>
+                <div style="display: flex; gap: 4px; margin-top: 4px;">
+                    <span class="tmpl-tag">6 этапов</span>
+                    <span class="tmpl-tag">380% ROI</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--warning-color);">3 TON</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">567 уст.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.3s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .cat-scroll { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; }
+        .cat-btn { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+        .cat-btn.active { background: rgba(0,136,204,0.1); border-color: var(--primary-color); color: var(--accent-color); }
+        .tmpl-icon-lg { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; background: rgba(0,136,204,0.1); color: var(--accent-color); flex-shrink: 0; }
+        .tmpl-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(48,54,61,0.6); color: var(--text-secondary); font-weight: 500; }
+        .tmpl-list { display: flex; flex-direction: column; gap: 8px; }
+        .tmpl-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; cursor: pointer; transition: border-color 0.2s; }
+        .tmpl-card:active { border-color: var(--primary-color); }
+        .tmpl-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    </style>
+
+    <script>
+        function selectCat(btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function useTemplate(name) { alert('Устанавливаю шаблон: ' + name); }
+        function previewTemplate(name) { alert('Предпросмотр шаблона: ' + name); }
+    </script>
+</body>
+</html>

@@ -261,3 +261,190 @@ async def get_channel_analytics(channel: str):
             {"title": "DeFi стратегии", "views": 6340, "reactions": 312},
         ]
     }
+
+
+# --- Autoresponder Endpoints ---
+@app.get("/api/v1/autoresponder/scenarios")
+async def get_autoresponder_scenarios():
+    return {
+        "scenarios": [
+            {"id": 1, "name": "Приветствие", "trigger": "first_message", "enabled": True, "responses_today": 234},
+            {"id": 2, "name": "Запрос цены", "trigger": "keywords", "keywords": ["цена", "стоимость", "сколько"], "enabled": True, "responses_today": 156},
+            {"id": 3, "name": "FAQ", "trigger": "ai_detect", "enabled": True, "responses_today": 312},
+            {"id": 4, "name": "Оффлайн-режим", "trigger": "off_hours", "enabled": True, "responses_today": 89},
+            {"id": 5, "name": "Негатив/Спам", "trigger": "sentiment", "enabled": True, "responses_today": 56},
+        ],
+        "stats": {"total_today": 847, "accuracy": 94.2, "avg_response_time": 1.2}
+    }
+
+
+@app.post("/api/v1/autoresponder/start")
+async def start_autoresponder():
+    return {"status": "active", "message": "AI Autoresponder activated", "monitoring": True}
+
+
+# --- CRM Endpoints ---
+@app.get("/api/v1/crm/contacts")
+async def get_crm_contacts():
+    return {
+        "total": 234,
+        "pipeline": {
+            "new": 12,
+            "in_progress": 8,
+            "hot": 5,
+            "closed": 209
+        },
+        "contacts": [
+            {"id": 1, "name": "Алексей К.", "username": "@alexk_crypto", "stage": "new", "tags": ["Крипто", "Парсинг"], "value": 0},
+            {"id": 2, "name": "Иван П.", "username": "@ivan_trader", "stage": "in_progress", "tags": ["Трейдинг"], "value": 500},
+            {"id": 3, "name": "Мария И.", "username": "@maria_inv", "stage": "hot", "tags": ["DeFi", "Инвестор"], "value": 1200},
+        ]
+    }
+
+
+@app.get("/api/v1/crm/contact/{contact_id}")
+async def get_crm_contact(contact_id: int):
+    return {
+        "id": contact_id,
+        "name": "Мария Иванова",
+        "username": "@maria_inv",
+        "phone": "+7 (999) 456-78-90",
+        "stage": "hot",
+        "tags": ["DeFi", "Инвестор", "Pro"],
+        "value": 1200,
+        "history": [
+            {"action": "response", "text": "Ответила на предложение", "date": "2026-05-02T14:30:00"},
+            {"action": "ai_offer", "text": "AI отправил оффер (Этап 3)", "date": "2026-05-02T12:15:00"},
+            {"action": "ai_warmup", "text": "AI провёл прогрев (5 сообщений)", "date": "2026-05-01T18:00:00"},
+            {"action": "parsed", "text": "Спарсена из группы DeFi Трейдеры", "date": "2026-04-29T10:00:00"},
+        ]
+    }
+
+
+# --- A/B Testing Endpoints ---
+@app.get("/api/v1/abtests")
+async def get_ab_tests():
+    return {
+        "active": [
+            {
+                "id": 1, "name": "Тон комментариев", "status": "active", "days_running": 7,
+                "variant_a": {"name": "Экспертный", "likes": 156, "replies": 43, "conversion": 12.4, "traffic_pct": 62},
+                "variant_b": {"name": "Разговорный", "likes": 98, "replies": 67, "conversion": 15.1, "traffic_pct": 38},
+                "winner": "B"
+            },
+            {
+                "id": 2, "name": "Время постинга", "status": "active", "days_running": 5,
+                "variant_a": {"name": "Утро (9:00)", "views": 4521, "er": 8.2},
+                "variant_b": {"name": "Вечер (20:00)", "views": 5890, "er": 11.4},
+                "winner": "B"
+            }
+        ],
+        "completed": [
+            {"id": 3, "name": "Стратегия чаттинга", "winner": "Networking", "improvement": "+18%"},
+            {"id": 4, "name": "Эмодзи реакции", "winner": "AI подбор", "improvement": "+42%"},
+        ]
+    }
+
+
+# --- Templates Endpoints ---
+@app.get("/api/v1/templates")
+async def get_templates():
+    return {
+        "templates": [
+            {"id": 1, "name": "Crypto Investor Funnel", "niche": "crypto", "steps": 5, "roi": 340, "installs": 1200, "price": "free"},
+            {"id": 2, "name": "E-commerce Outreach", "niche": "ecommerce", "steps": 3, "roi": 280, "installs": 890, "price": "free"},
+            {"id": 3, "name": "SaaS B2B Drip", "niche": "saas", "steps": 7, "roi": 420, "installs": 456, "price": "5 TON"},
+            {"id": 4, "name": "Онлайн-курсы", "niche": "education", "steps": 4, "roi": 310, "installs": 678, "price": "free"},
+            {"id": 5, "name": "Agency Multi-Client", "niche": "agency", "steps": 10, "roi": 550, "installs": 234, "price": "10 TON"},
+            {"id": 6, "name": "NFT Community Builder", "niche": "nft", "steps": 6, "roi": 380, "installs": 567, "price": "3 TON"},
+        ]
+    }
+
+
+# --- Reports Endpoints ---
+@app.get("/api/v1/reports/generate")
+async def generate_report(period: str = "month", format: str = "pdf"):
+    return {
+        "period": period,
+        "format": format,
+        "status": "generating",
+        "metrics": {
+            "leads": 1247,
+            "revenue": 2135,
+            "conversion": 89,
+            "roi": 340,
+            "modules": {
+                "parsing": 2450,
+                "commenting": 1890,
+                "chatting": 1120,
+                "dialogs": 847,
+                "reactions": 3456
+            },
+            "security": {"bans": 0, "flood_waits": 3, "human_like": 97}
+        }
+    }
+
+
+@app.get("/api/v1/reports/saved")
+async def get_saved_reports():
+    return {
+        "reports": [
+            {"id": 1, "name": "Отчёт март 2026", "format": "pdf", "size": "2.4 MB", "date": "2026-03-31"},
+            {"id": 2, "name": "Отчёт февраль 2026", "format": "excel", "size": "1.8 MB", "date": "2026-02-28"},
+            {"id": 3, "name": "Отчёт январь 2026", "format": "pdf", "size": "3.1 MB", "date": "2026-01-31"},
+        ]
+    }
+
+
+# --- Referral Endpoints ---
+@app.get("/api/v1/referral/stats")
+async def get_referral_stats():
+    return {
+        "total_earned": 342,
+        "this_month": 87,
+        "referrals": 23,
+        "active_referrals": 17,
+        "commission_rate": 30,
+        "link": "t.me/gramgpt_bot?start=ref_u847291",
+        "rank": 14,
+        "leaderboard": [
+            {"name": "Кирилл М.", "referrals": 89, "earned": 4230},
+            {"name": "Анна Н.", "referrals": 67, "earned": 3150},
+            {"name": "Дмитрий К.", "referrals": 45, "earned": 2080},
+        ]
+    }
+
+
+# --- Dashboard Endpoints ---
+@app.get("/api/v1/dashboard")
+async def get_dashboard():
+    return {
+        "metrics": {"leads": 1247, "conversion": 89, "roi": 340, "accounts": 8},
+        "revenue": {
+            "total": 2135,
+            "chart": [120, 180, 95, 240, 320, 280, 410, 490],
+            "change": "+23%"
+        },
+        "funnel": [
+            {"stage": "Парсинг", "count": 2450},
+            {"stage": "Комментинг", "count": 2080},
+            {"stage": "Чаттинг", "count": 1590},
+            {"stage": "Диалоги", "count": 980},
+            {"stage": "Лиды", "count": 490}
+        ],
+        "security": {"risk_score": 12, "human_like": 97, "bans": 0}
+    }
+
+
+# --- Notifications Endpoints ---
+@app.get("/api/v1/notifications")
+async def get_notifications():
+    return {
+        "unread": 2,
+        "notifications": [
+            {"id": 1, "type": "success", "title": "Новый лид конвертирован", "message": "Иван Петров перешёл на этап Горячий", "time": "2 мин", "read": False},
+            {"id": 2, "type": "info", "title": "AI комментарий стал вирусным", "message": "21 лайк и 7 ответов в NFT Новости", "time": "15 мин", "read": False},
+            {"id": 3, "type": "success", "title": "Прогрев завершён", "message": "Account #2 — trust score 82%", "time": "32 мин", "read": True},
+            {"id": 4, "type": "info", "title": "Пост опубликован", "message": "@gramgpt_channel — 892 просмотра", "time": "1 час", "read": True},
+        ]
+    }
