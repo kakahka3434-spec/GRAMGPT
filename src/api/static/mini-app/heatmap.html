@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Activity Heatmap</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .heatmap-grid { display: grid; grid-template-columns: 40px repeat(24, 1fr); gap: 2px; font-size: 9px; }
+        .heatmap-cell { aspect-ratio: 1; border-radius: 3px; transition: transform 0.15s; cursor: pointer; position: relative; }
+        .heatmap-cell:hover { transform: scale(1.3); z-index: 5; }
+        .heat-0 { background: rgba(48,54,61,0.4); }
+        .heat-1 { background: rgba(0,136,204,0.15); }
+        .heat-2 { background: rgba(0,136,204,0.3); }
+        .heat-3 { background: rgba(0,136,204,0.5); }
+        .heat-4 { background: rgba(0,210,255,0.6); }
+        .heat-5 { background: rgba(0,210,255,0.85); box-shadow: 0 0 6px rgba(0,210,255,0.3); }
+        .day-label { display: flex; align-items: center; color: var(--text-secondary); font-size: 10px; font-weight: 500; }
+        .hour-labels { display: grid; grid-template-columns: 40px repeat(24, 1fr); gap: 2px; margin-bottom: 4px; }
+        .hour-label { text-align: center; color: var(--text-secondary); font-size: 8px; }
+        .legend { display: flex; align-items: center; gap: 4px; justify-content: flex-end; margin-top: 12px; font-size: 10px; color: var(--text-secondary); }
+        .legend-cell { width: 12px; height: 12px; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-fire" style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Тепловая карта</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;"><i class="fas fa-arrow-left"></i> Назад</a>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;">
+        <div class="metric-card">
+            <div class="metric-value">14:00</div>
+            <div class="metric-label">Пиковый час</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green">Ср</div>
+            <div class="metric-label">Лучший день</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange">3,847</div>
+            <div class="metric-label">Действий сегодня</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple">23.4</div>
+            <div class="metric-label">Действий/час</div>
+        </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="section-title animate-in" style="animation-delay: 0.05s">Активность по часам</div>
+    <div class="card animate-in" style="animation-delay: 0.07s; overflow-x: auto;">
+        <div class="hour-labels">
+            <div></div>
+            <div class="hour-label">0</div><div class="hour-label">1</div><div class="hour-label">2</div>
+            <div class="hour-label">3</div><div class="hour-label">4</div><div class="hour-label">5</div>
+            <div class="hour-label">6</div><div class="hour-label">7</div><div class="hour-label">8</div>
+            <div class="hour-label">9</div><div class="hour-label">10</div><div class="hour-label">11</div>
+            <div class="hour-label">12</div><div class="hour-label">13</div><div class="hour-label">14</div>
+            <div class="hour-label">15</div><div class="hour-label">16</div><div class="hour-label">17</div>
+            <div class="hour-label">18</div><div class="hour-label">19</div><div class="hour-label">20</div>
+            <div class="hour-label">21</div><div class="hour-label">22</div><div class="hour-label">23</div>
+        </div>
+        <div class="heatmap-grid">
+            <div class="day-label">Пн</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Вт</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-4"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Ср</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
+            <div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
+            <div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-4"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Чт</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Пт</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Сб</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+
+            <div class="day-label">Вс</div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
+            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
+            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+        </div>
+        <div class="legend">
+            <span>Меньше</span>
+            <div class="legend-cell heat-0"></div>
+            <div class="legend-cell heat-1"></div>
+            <div class="legend-cell heat-2"></div>
+            <div class="legend-cell heat-3"></div>
+            <div class="legend-cell heat-4"></div>
+            <div class="legend-cell heat-5"></div>
+            <span>Больше</span>
+        </div>
+    </div>
+
+    <!-- Module Breakdown -->
+    <div class="section-title animate-in" style="animation-delay: 0.1s">Активность по модулям</div>
+    <div class="card animate-in" style="animation-delay: 0.12s;">
+        <div style="margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span><i class="fas fa-crosshairs" style="color: var(--accent-color); margin-right: 6px;"></i>Парсинг</span>
+                <span style="font-weight: 600;">2,450 действий</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span><i class="fas fa-comments" style="color: var(--accent-color); margin-right: 6px;"></i>Комментинг</span>
+                <span style="font-weight: 600;">1,890 действий</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span><i class="fas fa-heart" style="color: var(--accent-color); margin-right: 6px;"></i>Реакции</span>
+                <span style="font-weight: 600;">3,456 действий</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span><i class="fas fa-message" style="color: var(--accent-color); margin-right: 6px;"></i>Чаттинг</span>
+                <span style="font-weight: 600;">1,120 действий</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+        </div>
+        <div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span><i class="fas fa-robot" style="color: var(--accent-color); margin-right: 6px;"></i>Диалоги</span>
+                <span style="font-weight: 600;">847 действий</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="section-title animate-in" style="animation-delay: 0.15s">AI рекомендации</div>
+    <div class="glass-card animate-in" style="animation-delay: 0.17s;">
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
+            <i class="fas fa-lightbulb" style="color: var(--warning-color); margin-top: 2px;"></i>
+            <div style="font-size: 12px;">Увеличьте активность в <strong>вечерние часы (19-21)</strong> — конкуренты менее активны, конверсия выше на 34%</div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
+            <i class="fas fa-lightbulb" style="color: var(--warning-color); margin-top: 2px;"></i>
+            <div style="font-size: 12px;"><strong>Среда</strong> — ваш лучший день. Рассмотрите увеличение лимитов действий по средам</div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <i class="fas fa-lightbulb" style="color: var(--warning-color); margin-top: 2px;"></i>
+            <div style="font-size: 12px;">Выходные показывают низкую активность. Активируйте <strong>авто-режим</strong> для Сб-Вс</div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-list"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+</body>
+</html>

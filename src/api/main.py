@@ -415,6 +415,138 @@ async def get_referral_stats():
     }
 
 
+# --- Competitor Analysis Endpoints ---
+@app.get("/api/v1/competitors/analysis")
+async def get_competitor_analysis():
+    return {
+        "score": 92,
+        "change": "+8",
+        "competitors": [
+            {"name": "GRAMGPT", "score": 92, "features": 27, "trend": "up"},
+            {"name": "gramgpt.io", "score": 71, "features": 8, "trend": "stable"},
+            {"name": "TGParser", "score": 45, "features": 5, "trend": "down"},
+            {"name": "TeleSoft", "score": 38, "features": 4, "trend": "down"},
+        ],
+        "advantages": ["AI Crisis Manager", "CRM + A/B Testing", "Team Management", "Channel Management"]
+    }
+
+
+# --- Heatmap Endpoints ---
+@app.get("/api/v1/heatmap/data")
+async def get_heatmap_data():
+    return {
+        "peak_hour": "14:00",
+        "best_day": "Wednesday",
+        "actions_today": 3847,
+        "avg_per_hour": 23.4,
+        "by_module": {
+            "parsing": 2450,
+            "commenting": 1890,
+            "reactions": 3456,
+            "chatting": 1120,
+            "dialogs": 847
+        },
+        "recommendations": [
+            "Increase evening activity (19-21) — competitors less active, 34% higher conversion",
+            "Wednesday is your best day — consider increasing limits",
+            "Activate auto-mode for weekends"
+        ]
+    }
+
+
+# --- Proxy Manager Endpoints ---
+@app.get("/api/v1/proxy/pool")
+async def get_proxy_pool():
+    return {
+        "total": 24,
+        "active": 21,
+        "uptime": 99.2,
+        "avg_ping": 142,
+        "proxies": [
+            {"id": 1, "country": "US", "city": "New York", "type": "SOCKS5", "ip": "185.xx.xx.12:1080", "ping": 98, "status": "online", "accounts": 4, "uptime": 99.8},
+            {"id": 2, "country": "DE", "city": "Frankfurt", "type": "HTTPS", "ip": "91.xx.xx.45:443", "ping": 67, "status": "online", "accounts": 2, "uptime": 100},
+            {"id": 3, "country": "NL", "city": "Amsterdam", "type": "SOCKS5", "ip": "77.xx.xx.89:9050", "ping": 112, "status": "online", "accounts": 3, "uptime": 98.5},
+            {"id": 4, "country": "UK", "city": "London", "type": "HTTP", "ip": "45.xx.xx.23:8080", "ping": 340, "status": "slow", "accounts": 1, "uptime": 92.1},
+        ],
+        "settings": {"auto_rotation": True, "auto_replace_banned": True, "geo_distribution": True}
+    }
+
+
+@app.post("/api/v1/proxy/add")
+async def add_proxy(proxy_type: str = "SOCKS5", host: str = "", port: int = 1080):
+    return {"status": "added", "proxy_id": 5, "type": proxy_type, "host": host, "port": port}
+
+
+# --- Team Endpoints ---
+@app.get("/api/v1/team/members")
+async def get_team_members():
+    return {
+        "total": 5,
+        "online": 4,
+        "actions_today": 847,
+        "members": [
+            {"id": 1, "name": "Вы (Владелец)", "username": "@your_username", "role": "owner", "status": "online", "actions_today": 234, "modules": ["all"]},
+            {"id": 2, "name": "Анна Николаева", "username": "@anna_marketing", "role": "admin", "status": "online", "actions_today": 312, "modules": ["parsing", "commenting", "crm"]},
+            {"id": 3, "name": "Дмитрий Козлов", "username": "@dmitry_sales", "role": "manager", "status": "online", "actions_today": 189, "modules": ["dialogs", "chatting"]},
+            {"id": 4, "name": "Елена Смирнова", "username": "@elena_content", "role": "manager", "status": "online", "actions_today": 112, "modules": ["channel", "content"]},
+            {"id": 5, "name": "Михаил Попов", "username": "@mikhail_tech", "role": "viewer", "status": "offline", "last_seen": "2 часа назад", "actions_today": 0, "modules": []},
+        ]
+    }
+
+
+@app.post("/api/v1/team/invite")
+async def invite_team_member(username: str, role: str = "viewer"):
+    return {"status": "invited", "link": "gramgpt.io/invite/team_abc123", "username": username, "role": role}
+
+
+# --- AI Content Generator Endpoints ---
+class ContentGenRequest(BaseModel):
+    content_type: str = "post"
+    topic: str = ""
+    tone: str = "expert"
+    length: str = "medium"
+    language: str = "ru"
+
+
+@app.post("/api/v1/content/generate")
+async def generate_content(req: ContentGenRequest):
+    return {
+        "content": f"AI-генерированный контент\n\nТема: {req.topic}\nТон: {req.tone}\nДлина: {req.length}",
+        "uniqueness": 94,
+        "model": "GPT-4o",
+        "type": req.content_type,
+        "suggestions": ["Add hashtags", "Include CTA", "Shorten paragraphs"]
+    }
+
+
+@app.get("/api/v1/content/history")
+async def get_content_history():
+    return {
+        "total_generated": 1247,
+        "history": [
+            {"id": 1, "type": "post", "title": "Обзор ETH 2.0", "tone": "expert", "views": 892, "created": "2 часа назад"},
+            {"id": 2, "type": "comment", "title": "NFT marketplace", "tone": "friendly", "likes": 21, "created": "5 часов назад"},
+            {"id": 3, "type": "bio", "title": "Крипто трейдер", "tone": "formal", "status": "applied", "created": "Вчера"},
+        ]
+    }
+
+
+# --- Audit Log Endpoints ---
+@app.get("/api/v1/audit/events")
+async def get_audit_events(module: Optional[str] = None, limit: int = 50):
+    events = [
+        {"id": 1, "type": "crm", "action": "lead_converted", "title": "Новый лид конвертирован", "details": "Мария Иванова → Горячий", "time": "14:30", "source": "auto"},
+        {"id": 2, "type": "dialogs", "action": "ai_offer", "title": "AI отправил оффер", "details": "Этап 3 → @maria_inv", "time": "12:15", "source": "ai"},
+        {"id": 3, "type": "security", "action": "flood_wait", "title": "Flood Wait обнаружен", "details": "Account #3 — пауза 120 сек", "time": "11:45", "source": "crisis_manager"},
+        {"id": 4, "type": "commenting", "action": "viral", "title": "AI комментарий стал вирусным", "details": "NFT Новости — 21 лайк", "time": "10:32", "source": "ai"},
+        {"id": 5, "type": "parsing", "action": "completed", "title": "Парсинг завершён", "details": "DeFi Группы — 456 пользователей", "time": "09:15", "source": "system"},
+        {"id": 6, "type": "warmup", "action": "completed", "title": "Прогрев завершён", "details": "Account #2 — trust 78% → 82%", "time": "08:00", "source": "system"},
+    ]
+    if module:
+        events = [e for e in events if e["type"] == module]
+    return {"events": events[:limit], "total_today": 847, "yesterday_total": 847}
+
+
 # --- Dashboard Endpoints ---
 @app.get("/api/v1/dashboard")
 async def get_dashboard():
