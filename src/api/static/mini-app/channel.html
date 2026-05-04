@@ -16,7 +16,19 @@
         </a>
     </div>
 
-    <!-- Channel Overview -->
+    <!-- Autopilot Status Banner -->
+    <div class="autopilot-banner animate-in" style="animation-delay: 0.03s">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="autopilot-icon pulse-glow"><i class="fas fa-robot"></i></div>
+            <div>
+                <div style="font-size: 13px; font-weight: 700;">AI Автопилот <span style="color: var(--success-color);">АКТИВЕН</span></div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Следующий пост через 2ч 14мин • Тренды обновлены</div>
+            </div>
+        </div>
+        <div class="toggle-on" onclick="toggleAutopilot(this)"></div>
+    </div>
+
+    <!-- Channel Stats -->
     <div class="stat-row animate-in" style="animation-delay: 0.05s">
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
@@ -35,7 +47,7 @@
     </div>
 
     <!-- Channel Selector -->
-    <div class="card animate-in" style="animation-delay: 0.1s">
+    <div class="card animate-in" style="animation-delay: 0.07s">
         <h4 style="margin-bottom: 12px;">Мои каналы</h4>
         <div class="channel-selector">
             <div class="channel-option active" onclick="selectChannel(this)">
@@ -58,69 +70,89 @@
         </div>
     </div>
 
-    <!-- Content Plan -->
-    <div class="card animate-in" style="animation-delay: 0.15s">
+    <!-- ========== TREND DISCOVERY ========== -->
+    <div class="card animate-in" style="animation-delay: 0.09s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;"><i class="fas fa-calendar-alt" style="color: var(--accent-color);"></i> Контент-план</h4>
-            <button class="add-btn" onclick="createPost()"><i class="fas fa-plus"></i> Новый пост</button>
+            <h4 style="margin: 0;"><i class="fas fa-fire" style="color: #e74c3c;"></i> Тренды сейчас</h4>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div class="live-dot"></div>
+                <span style="font-size: 10px; color: var(--success-color); font-weight: 600;">LIVE</span>
+            </div>
+        </div>
+        <div style="font-size: 10px; color: var(--text-secondary); margin-bottom: 12px;">AI мониторит 247 источников • Обновлено 3 мин назад</div>
+
+        <div class="trend-item" onclick="useTrend(this)">
+            <div class="trend-rank hot">1</div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Bitcoin пробил $150K</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">CoinDesk, Bloomberg, 47 каналов</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; color: #e74c3c; font-weight: 700;">🔥 Hot</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">12 мин</div>
+            </div>
+        </div>
+        <div class="trend-item" onclick="useTrend(this)">
+            <div class="trend-rank warm">2</div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Новый L2 от Telegram</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">TON Blog, Decrypt, 23 канала</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--warning-color); font-weight: 700;">📈 Rising</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">34 мин</div>
+            </div>
+        </div>
+        <div class="trend-item" onclick="useTrend(this)">
+            <div class="trend-rank">3</div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">SEC одобрила ETH ETF staking</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Reuters, CoinTelegraph, 18 каналов</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--accent-color); font-weight: 700;">📊 Trending</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">1ч</div>
+            </div>
+        </div>
+        <div class="trend-item" onclick="useTrend(this)" style="border-bottom: none;">
+            <div class="trend-rank">4</div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Airdrop нового DeFi протокола</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Twitter/X, 15 каналов</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--text-secondary); font-weight: 700;">New</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">2ч</div>
+            </div>
         </div>
 
-        <div class="content-day">
-            <div class="day-header">Сегодня</div>
-            <div class="post-plan-item">
-                <div class="post-time">09:00</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Утренний обзор рынка</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация &bull; Аналитика</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Опубликован</span>
-            </div>
-            <div class="post-plan-item">
-                <div class="post-time">14:00</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Разбор проекта DeFi</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация &bull; Обзор</div>
-                </div>
-                <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color);">Готов</span>
-            </div>
-            <div class="post-plan-item">
-                <div class="post-time">20:00</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Вечерний дайджест</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация &bull; Дайджест</div>
-                </div>
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning-color);">В очереди</span>
-            </div>
-        </div>
-
-        <div class="content-day">
-            <div class="day-header">Завтра</div>
-            <div class="post-plan-item">
-                <div class="post-time">10:00</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Еженедельная аналитика</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация &bull; Лонгрид</div>
-                </div>
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning-color);">В очереди</span>
-            </div>
-            <div class="post-plan-item">
-                <div class="post-time">16:00</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Опрос аудитории</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Интерактив &bull; Вовлечение</div>
-                </div>
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning-color);">В очереди</span>
-            </div>
-        </div>
+        <button class="btn btn-secondary" style="margin-top: 10px; width: 100%; padding: 10px; font-size: 12px;" onclick="refreshTrends()">
+            <i class="fas fa-rotate"></i> Обновить тренды
+        </button>
     </div>
 
-    <!-- AI Content Generator -->
-    <div class="card animate-in" style="animation-delay: 0.2s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-magic" style="color: var(--accent-color);"></i> AI Генератор контента</h4>
-        <div style="margin-bottom: 12px;">
-            <label class="label">Тема поста</label>
-            <input type="text" placeholder="Напр: обзор ETH 2.0, топ DeFi протоколов..." class="input-field">
+    <!-- ========== QUICK CREATE POST ========== -->
+    <div class="card animate-in" style="animation-delay: 0.11s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-pen-to-square" style="color: var(--accent-color);"></i> Быстрый пост</h4>
+            <span style="font-size: 10px; padding: 3px 8px; background: rgba(0,136,204,0.15); color: var(--accent-color); border-radius: 6px;">AI-помощь</span>
         </div>
+
+        <div style="margin-bottom: 12px;">
+            <label class="label">Тема / тренд</label>
+            <input type="text" placeholder="Напр: Bitcoin $150K, обзор рынка..." class="input-field" id="postTopic">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label class="label">Формат поста</label>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                <button class="type-btn active" onclick="selectType(this)">📝 Текст</button>
+                <button class="type-btn" onclick="selectType(this)">🖼 Картинка</button>
+                <button class="type-btn" onclick="selectType(this)">📊 Опрос</button>
+                <button class="type-btn" onclick="selectType(this)">🎬 Видео</button>
+            </div>
+        </div>
+
         <div style="margin-bottom: 12px;">
             <label class="label">Тип контента</label>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
@@ -132,6 +164,7 @@
                 <button class="type-btn" onclick="selectType(this)">❓ Опрос</button>
             </div>
         </div>
+
         <div style="display: flex; gap: 8px; margin-bottom: 12px;">
             <div style="flex: 1;">
                 <label class="label">Стиль</label>
@@ -145,27 +178,40 @@
             <div style="flex: 1;">
                 <label class="label">Длина</label>
                 <select style="width: 100%;">
-                    <option>Короткий (100-200)</option>
-                    <option selected>Средний (300-500)</option>
-                    <option>Длинный (800+)</option>
+                    <option>Короткий</option>
+                    <option selected>Средний</option>
+                    <option>Длинный</option>
                 </select>
             </div>
         </div>
-        <button class="btn" onclick="generatePost()">
-            <i class="fas fa-magic"></i> Сгенерировать пост
-        </button>
+
+        <div style="display: flex; gap: 8px;">
+            <button class="btn" style="flex: 2;" onclick="generatePost()">
+                <i class="fas fa-wand-magic-sparkles"></i> AI Сгенерировать
+            </button>
+            <button class="btn btn-secondary" style="flex: 1;" onclick="manualPost()">
+                <i class="fas fa-pen"></i> Вручную
+            </button>
+        </div>
     </div>
 
-    <!-- Post Preview -->
-    <div class="card animate-in" style="animation-delay: 0.25s" id="postPreview">
+    <!-- ========== POST PREVIEW ========== -->
+    <div class="card animate-in" style="animation-delay: 0.13s" id="postPreview">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="margin: 0;">Превью поста</h4>
+            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--accent-color);"></i> Превью поста</h4>
             <div style="display: flex; gap: 6px;">
                 <button class="icon-btn" onclick="regeneratePost()"><i class="fas fa-sync-alt"></i></button>
                 <button class="icon-btn" onclick="editPost()"><i class="fas fa-edit"></i></button>
             </div>
         </div>
         <div class="post-preview">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <div class="ch-avatar" style="width: 28px; height: 28px; font-size: 9px;">GK</div>
+                <div>
+                    <div style="font-size: 12px; font-weight: 600;">@gramgpt_channel</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">сейчас</div>
+                </div>
+            </div>
             <div style="font-size: 13px; line-height: 1.7;">
                 <strong>📊 Обзор рынка: ETH 2.0 — что изменилось за месяц</strong><br><br>
                 Ethereum продолжает укреплять позиции после перехода на PoS. Основные метрики:<br><br>
@@ -181,50 +227,190 @@
             <button class="btn" style="flex: 1;" onclick="publishNow()">
                 <i class="fas fa-paper-plane"></i> Опубликовать
             </button>
-            <button class="btn" style="flex: 1; background: transparent; border: 1px solid var(--border-color); color: var(--text-color);" onclick="schedulePost()">
+            <button class="btn btn-secondary" style="flex: 1;" onclick="schedulePost()">
                 <i class="fas fa-clock"></i> Запланировать
             </button>
         </div>
     </div>
 
-    <!-- Auto-Posting Settings -->
-    <div class="card animate-in" style="animation-delay: 0.3s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-cogs" style="color: var(--accent-color);"></i> Авто-постинг</h4>
-        <div class="setting-item">
-            <span style="font-size: 13px;">AI авто-генерация постов</span>
-            <div class="toggle-on"></div>
+    <!-- ========== CONTENT CALENDAR ========== -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-calendar-alt" style="color: var(--accent-color);"></i> Контент-план</h4>
+            <button class="add-btn" onclick="createPost()"><i class="fas fa-plus"></i> Добавить</button>
         </div>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Постов в день</span>
-            <select>
-                <option>1-2</option>
-                <option selected>2-3</option>
-                <option>3-5</option>
-                <option>5+</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Авто-рерайт новостей</span>
-            <div class="toggle-on"></div>
-        </div>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Кросс-постинг</span>
-            <div class="toggle-on" style="background: var(--text-secondary);">
-                <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px;"></div>
+
+        <div class="content-day">
+            <div class="day-header">Сегодня</div>
+            <div class="post-plan-item">
+                <div class="post-time">09:00</div>
+                <div class="post-format-icon"><i class="fas fa-pen-fancy"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Утренний обзор рынка</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация • Аналитика</div>
+                </div>
+                <span class="status-badge published">Опубликован</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">12:00</div>
+                <div class="post-format-icon" style="color: var(--warning-color);"><i class="fas fa-image"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Инфографика: DeFi ландшафт</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">DALL-E 3 • Инфографика</div>
+                </div>
+                <span class="status-badge published">Опубликован</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">14:00</div>
+                <div class="post-format-icon" style="color: #9b59b6;"><i class="fas fa-circle"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Кружочек: Bitcoin $150K</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI сценарий • Тренд</div>
+                </div>
+                <span class="status-badge ready">Готов</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">18:00</div>
+                <div class="post-format-icon" style="color: var(--success-color);"><i class="fas fa-poll"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Опрос: Лучший L2</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация • Вовлечение</div>
+                </div>
+                <span class="status-badge queued">В очереди</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">20:00</div>
+                <div class="post-format-icon"><i class="fas fa-pen-fancy"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Вечерний дайджест</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация • Дайджест</div>
+                </div>
+                <span class="status-badge queued">В очереди</span>
             </div>
         </div>
-        <div class="setting-item" style="border-bottom: none;">
-            <span style="font-size: 13px;">Источники новостей</span>
-            <select>
-                <option>CoinDesk, CoinTelegraph</option>
-                <option selected>Все крипто источники</option>
-                <option>Пользовательские</option>
-            </select>
+
+        <div class="content-day">
+            <div class="day-header">Завтра</div>
+            <div class="post-plan-item">
+                <div class="post-time">10:00</div>
+                <div class="post-format-icon"><i class="fas fa-pen-fancy"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Еженедельная аналитика</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация • Лонгрид</div>
+                </div>
+                <span class="status-badge queued">В очереди</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">14:00</div>
+                <div class="post-format-icon" style="color: var(--warning-color);"><i class="fas fa-image"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Мем дня: крипто-юмор</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">DALL-E 3 • Мем</div>
+                </div>
+                <span class="status-badge queued">В очереди</span>
+            </div>
+            <div class="post-plan-item">
+                <div class="post-time">16:00</div>
+                <div class="post-format-icon" style="color: var(--success-color);"><i class="fas fa-poll"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Опрос аудитории</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">AI-генерация • Интерактив</div>
+                </div>
+                <span class="status-badge queued">В очереди</span>
+            </div>
         </div>
     </div>
 
-    <!-- Channel Analytics -->
-    <div class="card animate-in" style="animation-delay: 0.35s">
+    <!-- ========== AUTOPILOT SETTINGS ========== -->
+    <div class="card animate-in" style="animation-delay: 0.17s">
+        <h4 style="margin-bottom: 14px;"><i class="fas fa-robot" style="color: var(--accent-color);"></i> Настройки автопилота</h4>
+
+        <div class="setting-group">
+            <div class="setting-group-title">Контент</div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">AI авто-генерация</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Автоматически создаёт посты</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">Авто-рерайт новостей</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Переписывает тренды своими словами</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">Микс форматов</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Текст + картинки + опросы + кружочки</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+        </div>
+
+        <div class="setting-group">
+            <div class="setting-group-title">Расписание</div>
+            <div class="setting-item">
+                <span style="font-size: 13px;">Постов в день</span>
+                <select>
+                    <option>1-2</option>
+                    <option>2-3</option>
+                    <option selected>3-5</option>
+                    <option>5-7</option>
+                    <option>7+</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <span style="font-size: 13px;">Часы активности</span>
+                <span style="font-size: 12px; color: var(--accent-color); font-weight: 600;">09:00 — 22:00</span>
+            </div>
+            <div class="setting-item">
+                <span style="font-size: 13px;">Выходные</span>
+                <select>
+                    <option selected>Реже (1-2 поста)</option>
+                    <option>Как обычно</option>
+                    <option>Пауза</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="setting-group">
+            <div class="setting-group-title">Источники трендов</div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">Крипто медиа</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">CoinDesk, CoinTelegraph, Decrypt</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">Twitter/X</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Топ крипто-инфлюенсеры</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <span style="font-size: 13px;">Telegram каналы</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">247 мониторируемых каналов</div>
+                </div>
+                <div class="toggle-on"></div>
+            </div>
+            <div class="setting-item" style="border-bottom: none;">
+                <div>
+                    <span style="font-size: 13px;">Кросс-постинг</span>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Публикация во все каналы</div>
+                </div>
+                <div class="toggle-off"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== CHANNEL ANALYTICS ========== -->
+    <div class="card animate-in" style="animation-delay: 0.19s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-chart-bar" style="color: var(--accent-color);"></i> Аналитика канала</h4>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
             <div class="analytics-box">
@@ -248,10 +434,48 @@
                 <div class="mini-chart green">▂▃▅▆▇█</div>
             </div>
         </div>
+
+        <!-- Best Performing Posts -->
+        <div style="margin-top: 14px;">
+            <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Лучшие посты за неделю</div>
+            <div class="top-post">
+                <div style="font-size: 11px;">🏆</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Bitcoin прогноз на Q3</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Текст • AI-генерация</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--accent-color);">12,450 👁</div>
+                    <div style="font-size: 10px; color: var(--success-color);">+340 подп</div>
+                </div>
+            </div>
+            <div class="top-post">
+                <div style="font-size: 11px;">🥈</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">DeFi инфографика</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Картинка • DALL-E 3</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--accent-color);">8,920 👁</div>
+                    <div style="font-size: 10px; color: var(--success-color);">+210 подп</div>
+                </div>
+            </div>
+            <div class="top-post" style="border-bottom: none;">
+                <div style="font-size: 11px;">🥉</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px; font-weight: 600;">Опрос: Лучшая L2 сеть</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Опрос • 847 голосов</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--accent-color);">6,340 👁</div>
+                    <div style="font-size: 10px; color: var(--success-color);">+125 подп</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Growth Tools -->
-    <div class="card animate-in" style="animation-delay: 0.4s">
+    <!-- ========== GROWTH TOOLS ========== -->
+    <div class="card animate-in" style="animation-delay: 0.21s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-rocket" style="color: var(--accent-color);"></i> Инструменты роста</h4>
         <div class="growth-tool" onclick="activateTool('invite')">
             <div class="growth-icon"><i class="fas fa-user-plus"></i></div>
@@ -287,7 +511,7 @@
         </div>
     </div>
 
-    <div class="nav-bar animate-in" style="animation-delay: 0.45s">
+    <div class="nav-bar animate-in" style="animation-delay: 0.23s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
         <a href="channel.html" class="nav-item active"><i class="fas fa-tv"></i></a>
@@ -296,11 +520,29 @@
     </div>
 
     <style>
-        .input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; }
+        .autopilot-banner { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: linear-gradient(135deg, rgba(0,136,204,0.1) 0%, rgba(46,204,113,0.08) 100%); border: 1px solid rgba(0,136,204,0.2); border-radius: 14px; margin-bottom: 16px; }
+        .autopilot-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+        .pulse-glow { animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 8px rgba(0,210,255,0.3); } 50% { box-shadow: 0 0 20px rgba(0,210,255,0.6); } }
+
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success-color); animation: livePulse 1.5s infinite; }
+        @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .trend-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s; }
+        .trend-item:active { background: rgba(0,136,204,0.05); border-radius: 8px; }
+        .trend-rank { width: 28px; height: 28px; border-radius: 8px; background: rgba(48,54,61,0.5); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--text-secondary); flex-shrink: 0; }
+        .trend-rank.hot { background: rgba(231,76,60,0.15); color: #e74c3c; }
+        .trend-rank.warm { background: rgba(243,156,18,0.15); color: var(--warning-color); }
+
+        .input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box; }
         .input-field:focus { outline: none; border-color: var(--primary-color); }
         .label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px; }
+
         .toggle-on { width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
         .toggle-on::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+        .toggle-off { width: 44px; height: 24px; background: var(--text-secondary); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
+        .toggle-off::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; }
+
         .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary-color); color: var(--accent-color); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
         .channel-selector { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
@@ -311,9 +553,15 @@
 
         .content-day { margin-bottom: 16px; }
         .day-header { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 4px; }
-        .post-plan-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(48,54,61,0.3); }
+        .post-plan-item { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(48,54,61,0.3); }
         .post-plan-item:last-child { border-bottom: none; }
-        .post-time { font-size: 12px; font-weight: 700; color: var(--accent-color); min-width: 40px; }
+        .post-time { font-size: 12px; font-weight: 700; color: var(--accent-color); min-width: 38px; }
+        .post-format-icon { font-size: 12px; color: var(--accent-color); width: 20px; text-align: center; }
+
+        .status-badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: 600; white-space: nowrap; }
+        .status-badge.published { background: rgba(46,204,113,0.15); color: var(--success-color); }
+        .status-badge.ready { background: rgba(0,136,204,0.15); color: var(--accent-color); }
+        .status-badge.queued { background: rgba(243,156,18,0.15); color: var(--warning-color); }
 
         .type-btn { padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .type-btn.active { border-color: var(--primary-color); color: var(--accent-color); background: rgba(0,136,204,0.1); }
@@ -321,16 +569,24 @@
 
         .post-preview { background: rgba(48,54,61,0.3); border-radius: 12px; padding: 16px; border-left: 3px solid var(--accent-color); }
         .icon-btn { background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); color: var(--text-secondary); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-        .icon-btn:active { transform: scale(0.9); }
+
+        .setting-group { margin-bottom: 16px; }
+        .setting-group-title { font-size: 10px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 4px; }
+        .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .setting-item:last-child { border-bottom: none; }
 
         .analytics-box { background: rgba(48,54,61,0.3); border-radius: 12px; padding: 14px; text-align: center; }
         .mini-chart { font-size: 14px; margin-top: 6px; letter-spacing: 2px; }
         .mini-chart.green { color: var(--success-color); }
         .mini-chart.yellow { color: var(--warning-color); }
 
+        .top-post { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+
         .growth-tool { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; }
         .growth-tool:active { opacity: 0.7; }
         .growth-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; background: rgba(0,136,204,0.1); color: var(--accent-color); flex-shrink: 0; }
+
+        select { padding: 8px 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-size: 12px; }
     </style>
 
     <script>
@@ -339,17 +595,30 @@
             el.classList.add('active');
         }
         function selectType(btn) {
-            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+            const parent = btn.closest('div');
+            parent.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+        }
+        function toggleAutopilot(el) {
+            if (el.classList.contains('toggle-on')) {
+                el.classList.remove('toggle-on');
+                el.classList.add('toggle-off');
+            } else {
+                el.classList.remove('toggle-off');
+                el.classList.add('toggle-on');
+            }
         }
         function addChannel() { alert('Добавьте канал: введите @username или ссылку'); }
         function createPost() { alert('Создание нового поста...'); }
-        function generatePost() { alert('AI генерирует пост на основе заданных параметров...'); }
-        function regeneratePost() { alert('Перегенерация поста с новыми параметрами...'); }
+        function generatePost() { alert('AI генерирует пост на основе трендов и настроек...'); }
+        function manualPost() { alert('Открыть редактор для ручного создания поста...'); }
+        function regeneratePost() { alert('Перегенерация поста...'); }
         function editPost() { alert('Редактирование поста...'); }
         function publishNow() { alert('Пост опубликован в канале!'); }
         function schedulePost() { alert('Выберите дату и время для публикации'); }
         function activateTool(tool) { alert('Инструмент ' + tool + ' активирован!'); }
+        function useTrend(el) { document.getElementById('postTopic').value = el.querySelector('div[style] > div:first-child').textContent; }
+        function refreshTrends() { alert('Обновление трендов из 247 источников...'); }
     </script>
 </body>
 </html>

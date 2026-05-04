@@ -502,31 +502,139 @@ async def invite_team_member(username: str, role: str = "viewer"):
 # --- AI Content Generator Endpoints ---
 class ContentGenRequest(BaseModel):
     content_type: str = "post"
+    format: str = "text"  # text, image, video, poll, story, voice
     topic: str = ""
     tone: str = "expert"
     length: str = "medium"
     language: str = "ru"
+    image_style: Optional[str] = None  # realistic, art, infographic, meme, banner, sticker
+    image_ratio: Optional[str] = None  # 1:1, 16:9, 9:16
+    video_duration: Optional[int] = None  # 15, 30, 60
+    poll_type: Optional[str] = None  # normal, quiz
+    story_slides: Optional[int] = None  # 3, 5, 7, 10
+    voice_gender: Optional[str] = None  # male, female
+    voice_speed: Optional[float] = None  # 0.8, 1.0, 1.2
 
 
 @app.post("/api/v1/content/generate")
 async def generate_content(req: ContentGenRequest):
-    return {
-        "content": f"AI-генерированный контент\n\nТема: {req.topic}\nТон: {req.tone}\nДлина: {req.length}",
-        "uniqueness": 94,
-        "model": "GPT-4o",
+    result: Dict[str, Any] = {
+        "format": req.format,
         "type": req.content_type,
-        "suggestions": ["Add hashtags", "Include CTA", "Shorten paragraphs"]
+        "uniqueness": 94,
     }
+    if req.format == "text":
+        result["content"] = f"AI-генерированный контент\n\nТема: {req.topic}\nТон: {req.tone}\nДлина: {req.length}"
+        result["model"] = "GPT-4o"
+    elif req.format == "image":
+        result["model"] = "DALL-E 3"
+        result["image_url"] = "https://placeholder.co/1024x1024"
+        result["style"] = req.image_style or "realistic"
+        result["ratio"] = req.image_ratio or "1:1"
+    elif req.format == "video":
+        result["model"] = "GPT-4o"
+        result["script"] = [
+            {"scene": 1, "title": "Хук (0-3с)", "text": "Привлекающее внимание начало"},
+            {"scene": 2, "title": "Суть", "text": "Основной контент"},
+            {"scene": 3, "title": "CTA", "text": "Призыв к действию"},
+        ]
+        result["duration"] = req.video_duration or 15
+    elif req.format == "poll":
+        result["question"] = f"AI-сгенерированный опрос на тему: {req.topic}"
+        result["options"] = ["Вариант A", "Вариант B", "Вариант C", "Вариант D"]
+        result["poll_type"] = req.poll_type or "normal"
+    elif req.format == "story":
+        result["slides"] = req.story_slides or 5
+        result["content"] = [{"slide": i + 1, "text": f"Слайд {i + 1}"} for i in range(req.story_slides or 5)]
+    elif req.format == "voice":
+        result["model"] = "TTS-1-HD"
+        result["gender"] = req.voice_gender or "male"
+        result["speed"] = req.voice_speed or 1.0
+        result["duration_seconds"] = 42
+        result["audio_url"] = "https://placeholder.co/audio.ogg"
+    return result
 
 
 @app.get("/api/v1/content/history")
 async def get_content_history():
     return {
-        "total_generated": 1247,
+        "total_generated": 2891,
         "history": [
-            {"id": 1, "type": "post", "title": "Обзор ETH 2.0", "tone": "expert", "views": 892, "created": "2 часа назад"},
-            {"id": 2, "type": "comment", "title": "NFT marketplace", "tone": "friendly", "likes": 21, "created": "5 часов назад"},
-            {"id": 3, "type": "bio", "title": "Крипто трейдер", "tone": "formal", "status": "applied", "created": "Вчера"},
+            {"id": 1, "format": "image", "type": "banner", "title": "Крипто баннер для канала", "model": "DALL-E 3", "created": "30 мин назад"},
+            {"id": 2, "format": "text", "type": "post", "title": "Обзор ETH 2.0", "tone": "expert", "views": 892, "created": "2 часа назад"},
+            {"id": 3, "format": "poll", "type": "poll", "title": "Лучший L2 2026", "votes": 312, "created": "5 часов назад"},
+            {"id": 4, "format": "video", "type": "circle", "title": "Кружочек: Утренний обзор", "views": 1247, "created": "Вчера"},
+            {"id": 5, "format": "voice", "type": "voice", "title": "Голосовое: Дневной дайджест", "listens": 890, "created": "Вчера"},
+        ]
+    }
+
+
+# --- Channel Autopilot Endpoints ---
+@app.get("/api/v1/channel/trends")
+async def get_channel_trends():
+    return {
+        "sources_count": 247,
+        "last_updated": "3 мин назад",
+        "trends": [
+            {"rank": 1, "title": "Bitcoin пробил $150K", "sources": "CoinDesk, Bloomberg, 47 каналов", "heat": "hot", "age": "12 мин"},
+            {"rank": 2, "title": "Новый L2 от Telegram", "sources": "TON Blog, Decrypt, 23 канала", "heat": "rising", "age": "34 мин"},
+            {"rank": 3, "title": "SEC одобрила ETH ETF staking", "sources": "Reuters, CoinTelegraph, 18 каналов", "heat": "trending", "age": "1ч"},
+            {"rank": 4, "title": "Airdrop нового DeFi протокола", "sources": "Twitter/X, 15 каналов", "heat": "new", "age": "2ч"},
+        ]
+    }
+
+
+class AutopilotConfig(BaseModel):
+    channel: str
+    enabled: bool = True
+    posts_per_day: str = "3-5"
+    active_hours: str = "09:00-22:00"
+    weekends: str = "reduced"
+    auto_generate: bool = True
+    auto_rewrite_news: bool = True
+    mix_formats: bool = True
+    sources_crypto_media: bool = True
+    sources_twitter: bool = True
+    sources_telegram: bool = True
+    cross_posting: bool = False
+
+
+@app.post("/api/v1/channel/autopilot/config")
+async def update_autopilot_config(config: AutopilotConfig):
+    return {
+        "status": "updated",
+        "channel": config.channel,
+        "autopilot": config.enabled,
+        "next_post_in": "2ч 14мин",
+        "posts_scheduled_today": 5
+    }
+
+
+@app.get("/api/v1/channel/autopilot/status")
+async def get_autopilot_status():
+    return {
+        "enabled": True,
+        "next_post_in": "2ч 14мин",
+        "posts_today": 2,
+        "posts_scheduled": 3,
+        "trends_monitored": 247,
+        "last_trend_update": "3 мин назад",
+        "performance": {
+            "auto_posts_views_avg": 4521,
+            "manual_posts_views_avg": 3200,
+            "auto_better_by": "+41%"
+        }
+    }
+
+
+@app.get("/api/v1/channel/top-posts")
+async def get_top_posts():
+    return {
+        "period": "week",
+        "posts": [
+            {"title": "Bitcoin прогноз на Q3", "format": "text", "source": "ai", "views": 12450, "new_subs": 340},
+            {"title": "DeFi инфографика", "format": "image", "source": "dall-e", "views": 8920, "new_subs": 210},
+            {"title": "Опрос: Лучшая L2 сеть", "format": "poll", "source": "ai", "views": 6340, "votes": 847, "new_subs": 125},
         ]
     }
 
