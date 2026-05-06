@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки - GRAMGPT</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <a href="index.html" style="color: inherit; text-decoration: none;"><i class="fas fa-arrow-left"></i></a>
+        <h2>Настройки</h2>
+        <div></div>
+    </div>
+
+    <div class="card animate-in" style="animation-delay: 0.05s">
+        <h3>Ваш Тариф: <span style="color: var(--accent-color)">PRO</span></h3>
+        <div class="setting-item">
+            <span>Модель ИИ</span>
+            <select>
+                <option>GPT-4o</option>
+                <option>GPT-4o-mini</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <span>Мульти-аккаунты</span>
+            <span style="color: var(--accent-color)">12 / 20</span>
+        </div>
+        <div class="setting-item">
+            <span>Human Emulation</span>
+            <span style="color: var(--success-color)">Активен</span>
+        </div>
+        <div class="setting-item">
+            <span>Anti-Ban Shield</span>
+            <span style="color: var(--success-color)">Активен</span>
+        </div>
+    </div>
+
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h3>Платежи (TON Connect)</h3>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Подключите TON кошелёк для оплаты подписки и покупки шаблонов.</p>
+        <button class="btn" onclick="window.Telegram.WebApp.showAlert('Подключение кошелька TON...')">
+            <i class="fas fa-gem"></i> Подключить TON Wallet
+        </button>
+    </div>
+
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <h3>Реферальная программа</h3>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Приглашайте друзей и получайте +20% к лимитам.</p>
+        <button class="btn" style="background: rgba(0,136,204,0.15); color: var(--accent-color);" onclick="window.Telegram.WebApp.showAlert('Скопируйте реф-ссылку из бота: /start')">
+            <i class="fas fa-share"></i> Получить ссылку
+        </button>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.2s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <script>
+        window.Telegram.WebApp.ready();
+    </script>
+</body>
+</html>

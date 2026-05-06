@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Прогрев аккаунтов</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-fire" style="color: var(--accent-color)"></i> Прогрев</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Accounts Status -->
+    <div class="card animate-in" style="animation-delay: 0.05s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;">Аккаунты</h4>
+            <span style="font-size: 11px; color: var(--success-color);"><i class="fas fa-circle" style="font-size: 6px;"></i> 3 активны</span>
+        </div>
+
+        <div class="account-item">
+            <div class="acc-avatar">A1</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">+7 (999) 123-45-67</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Активен &bull; 24 диалога</div>
+                <div class="progress-bar" style="margin: 6px 0 0;"><div class="progress-fill" style="width: 94%;"></div></div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 16px; font-weight: 800; color: var(--success-color);">94%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">доверие</div>
+            </div>
+        </div>
+
+        <div class="account-item">
+            <div class="acc-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">A2</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">+7 (999) 234-56-78</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Прогрев &bull; 18 диалогов</div>
+                <div class="progress-bar" style="margin: 6px 0 0;"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #f39c12, #e67e22);"></div></div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 16px; font-weight: 800; color: var(--warning-color);">78%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">доверие</div>
+            </div>
+        </div>
+
+        <div class="account-item">
+            <div class="acc-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">A3</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">+7 (999) 345-67-89</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Прогрев &bull; 12 диалогов</div>
+                <div class="progress-bar" style="margin: 6px 0 0;"><div class="progress-fill" style="width: 65%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div></div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 16px; font-weight: 800; color: var(--danger-color);">65%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">доверие</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anti-Ban Shield -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-shield-halved" style="color: var(--success-color);"></i> Anti-Ban Shield</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+            <div style="text-align: center; padding: 10px; background: rgba(46,204,113,0.08); border-radius: 10px;">
+                <div style="font-size: 18px; font-weight: 800; color: var(--success-color);">Низкий</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Риск бана</div>
+            </div>
+            <div style="text-align: center; padding: 10px; background: rgba(0,136,204,0.08); border-radius: 10px;">
+                <div style="font-size: 18px; font-weight: 800; color: var(--accent-color);">99.2%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Человечность</div>
+            </div>
+            <div style="text-align: center; padding: 10px; background: rgba(46,204,113,0.08); border-radius: 10px;">
+                <div style="font-size: 18px; font-weight: 800; color: var(--success-color);">0</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Банов</div>
+            </div>
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                <i class="fas fa-check" style="color: var(--success-color); font-size: 10px;"></i>
+                Biological Rhythm Sync — активен
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                <i class="fas fa-check" style="color: var(--success-color); font-size: 10px;"></i>
+                Device Fingerprinting — уникальный отпечаток
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-check" style="color: var(--success-color); font-size: 10px;"></i>
+                Human Emulation Engine — имитация поведения
+            </div>
+        </div>
+    </div>
+
+    <!-- Warmup Settings -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <h4 style="margin-bottom: 12px;">Настройки прогрева</h4>
+        <div class="setting-item">
+            <span style="font-size: 13px;">Скорость прогрева</span>
+            <select>
+                <option>Медленный (безопасный)</option>
+                <option selected>Средний</option>
+                <option>Быстрый</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <span style="font-size: 13px;">Авто-пауза при риске</span>
+            <div style="width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer;">
+                <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px;"></div>
+            </div>
+        </div>
+        <div class="setting-item" style="border-bottom: none;">
+            <span style="font-size: 13px;">Диалогов в день</span>
+            <select>
+                <option>5-10</option>
+                <option selected>10-20</option>
+                <option>20-50</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn animate-in" style="animation-delay: 0.2s" onclick="startWarmup()">
+        <i class="fas fa-fire"></i> Запустить прогрев
+    </button>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.25s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .account-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .account-item:last-child { border-bottom: none; }
+        .acc-avatar {
+            width: 40px; height: 40px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 13px;
+            font-weight: 700; color: white; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+    </style>
+
+    <script>
+        function startWarmup() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.showAlert('Прогрев аккаунтов запущен! Human Emulation Engine активен.');
+            }
+        }
+    </script>
+</body>
+</html>

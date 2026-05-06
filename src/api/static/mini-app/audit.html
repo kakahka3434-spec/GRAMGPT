@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Audit Log</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-clock-rotate-left" style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Аудит лог</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;"><i class="fas fa-arrow-left"></i> Назад</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="glass-card animate-in" style="animation-delay: 0.03s; padding: 12px 14px;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span style="background: rgba(0,136,204,0.2); color: var(--accent-color); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--primary-color);">Все</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--border-color);">Парсинг</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--border-color);">Комментинг</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--border-color);">CRM</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--border-color);">Безопасность</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; border: 1px solid var(--border-color);">Система</span>
+        </div>
+    </div>
+
+    <!-- Today -->
+    <div class="section-title animate-in" style="animation-delay: 0.05s">Сегодня</div>
+
+    <div class="card animate-in" style="animation-delay: 0.07s; padding: 0;">
+        <!-- Event 1 -->
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-user-plus" style="color: var(--success-color); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">Новый лид конвертирован</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">14:30</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Мария Иванова (@maria_inv) → этап Горячий</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(46,204,113,0.15); color: var(--success-color); padding: 2px 6px; border-radius: 4px; font-size: 9px;">CRM</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Автоматически</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0,136,204,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-robot" style="color: var(--accent-color); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">AI отправил оффер</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">12:15</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">НейроДиалоги: Этап 3 → @maria_inv</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(0,136,204,0.15); color: var(--accent-color); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Диалоги</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(243,156,18,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-shield-halved" style="color: var(--warning-color); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">Flood Wait обнаружен</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">11:45</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Account #3 — авто-пауза 120 сек применена</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(243,156,18,0.15); color: var(--warning-color); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Безопасность</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Crisis Manager</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 4 -->
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(155,89,182,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-comments" style="color: var(--purple); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">AI комментарий стал вирусным</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">10:32</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">NFT Новости — 21 лайк, 7 ответов</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(155,89,182,0.15); color: var(--purple); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Комментинг</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">AI GPT-4o</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 5 -->
+        <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0,136,204,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-crosshairs" style="color: var(--accent-color); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">Парсинг завершён</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">09:15</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">«DeFi Группы» — найдено 456 пользователей</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(0,136,204,0.15); color: var(--accent-color); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Парсинг</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Завершён</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 6 -->
+        <div style="padding: 14px 16px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-fire" style="color: var(--success-color); font-size: 13px;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 13px; font-weight: 600;">Прогрев завершён</div>
+                        <span style="font-size: 10px; color: var(--text-secondary);">08:00</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Account #2 — trust score 78% → 82%</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px;">
+                        <span style="background: rgba(46,204,113,0.15); color: var(--success-color); padding: 2px 6px; border-radius: 4px; font-size: 9px;">Прогрев</span>
+                        <span style="background: rgba(48,54,61,0.4); padding: 2px 6px; border-radius: 4px; font-size: 9px;">+4% trust</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yesterday -->
+    <div class="section-title animate-in" style="animation-delay: 0.1s">Вчера</div>
+    <div class="card animate-in" style="animation-delay: 0.12s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: 600;">Итого за вчера</span>
+            <span style="font-size: 12px; color: var(--accent-color); font-weight: 600;">847 событий</span>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 10px;">
+            <span style="background: rgba(0,136,204,0.15); color: var(--accent-color); padding: 4px 8px; border-radius: 6px;">Парсинг: 234</span>
+            <span style="background: rgba(155,89,182,0.15); color: var(--purple); padding: 4px 8px; border-radius: 6px;">Комменты: 156</span>
+            <span style="background: rgba(46,204,113,0.15); color: var(--success-color); padding: 4px 8px; border-radius: 6px;">CRM: 89</span>
+            <span style="background: rgba(243,156,18,0.15); color: var(--warning-color); padding: 4px 8px; border-radius: 6px;">Защита: 12</span>
+            <span style="background: rgba(48,54,61,0.4); padding: 4px 8px; border-radius: 6px;">Прочее: 356</span>
+        </div>
+    </div>
+
+    <!-- Export -->
+    <button class="btn btn-secondary animate-in" style="animation-delay: 0.14s;">
+        <i class="fas fa-download"></i> Экспорт лога (CSV)
+    </button>
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-list"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+</body>
+</html>

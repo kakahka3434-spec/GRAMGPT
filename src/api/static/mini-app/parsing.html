@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Парсинг</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-crosshairs" style="color: var(--accent-color)"></i> Парсинг</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Parser Type Selection -->
+    <div class="card animate-in" style="animation-delay: 0.05s">
+        <h4 style="margin-bottom: 12px;">Тип парсинга</h4>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+            <button class="parser-type-btn active" onclick="selectParserType(this, 'users')">
+                <i class="fas fa-users"></i> Пользователи
+            </button>
+            <button class="parser-type-btn" onclick="selectParserType(this, 'channels')">
+                <i class="fas fa-broadcast-tower"></i> Каналы
+            </button>
+            <button class="parser-type-btn" onclick="selectParserType(this, 'messages')">
+                <i class="fas fa-envelope"></i> Сообщения
+            </button>
+            <button class="parser-type-btn" onclick="selectParserType(this, 'keywords')">
+                <i class="fas fa-key"></i> По ключам
+            </button>
+        </div>
+    </div>
+
+    <!-- Parser Settings -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h4 style="margin-bottom: 12px;">Настройки</h4>
+        <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Целевые каналы / группы</label>
+            <input type="text" placeholder="@channel_name или t.me/link" style="width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px;">
+        </div>
+        <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Ключевые слова (опционально)</label>
+            <input type="text" placeholder="крипто, трейдинг, NFT" style="width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px;">
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <div style="flex: 1;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Лимит</label>
+                <select style="width: 100%;">
+                    <option>100</option>
+                    <option>500</option>
+                    <option selected>1000</option>
+                    <option>5000</option>
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Период</label>
+                <select style="width: 100%;">
+                    <option>24 часа</option>
+                    <option selected>7 дней</option>
+                    <option>30 дней</option>
+                    <option>Все время</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Preview -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="margin: 0;">Результаты</h4>
+            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">1,247 найдено</span>
+        </div>
+
+        <div class="parsed-user">
+            <div class="parsed-avatar">ИП</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Иван Петров</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">@ivanpetrov &bull; Crypto Канал</div>
+            </div>
+            <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color);">Спарсен</span>
+        </div>
+        <div class="parsed-user">
+            <div class="parsed-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">МИ</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Мария Иванова</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">@mivanova &bull; DeFi Группа</div>
+            </div>
+            <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color);">Спарсен</span>
+        </div>
+        <div class="parsed-user">
+            <div class="parsed-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">ОС</div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Олег Сидоров</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">@olegsidorov &bull; NFT Новости</div>
+            </div>
+            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Новый</span>
+        </div>
+    </div>
+
+    <button class="btn animate-in" style="animation-delay: 0.2s" onclick="startParsing()">
+        <i class="fas fa-crosshairs"></i> Запустить парсинг
+    </button>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.25s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .parser-type-btn {
+            padding: 10px; border-radius: 10px; border: 1px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-secondary); font-size: 12px;
+            font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex;
+            align-items: center; gap: 6px; justify-content: center;
+        }
+        .parser-type-btn.active { border-color: var(--primary-color); color: var(--accent-color); background: rgba(0,136,204,0.1); }
+        .parser-type-btn:active { transform: scale(0.96); }
+        .parsed-user {
+            display: flex; align-items: center; gap: 10px; padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .parsed-user:last-child { border-bottom: none; }
+        .parsed-avatar {
+            width: 36px; height: 36px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 11px;
+            font-weight: 700; color: white; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+        input:focus { outline: none; border-color: var(--primary-color); }
+    </style>
+
+    <script>
+        function selectParserType(btn, type) {
+            document.querySelectorAll('.parser-type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function startParsing() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.showAlert('Парсинг запущен! Результаты будут доступны через несколько минут.');
+            }
+        }
+    </script>
+</body>
+</html>

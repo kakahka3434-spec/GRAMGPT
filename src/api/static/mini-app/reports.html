@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Отчёты</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-file-chart-line" style="color: var(--accent-color)"></i> Отчёты</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Quick Report -->
+    <div class="glass-card animate-in" style="animation-delay: 0.05s">
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-magic" style="color: var(--accent-color);"></i> Быстрый отчёт</h4>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">AI автоматически генерирует отчёт по выбранному периоду</div>
+        <div style="display: flex; gap: 6px; margin-bottom: 14px;">
+            <button class="period-chip active" onclick="selectPeriod(this)">Сегодня</button>
+            <button class="period-chip" onclick="selectPeriod(this)">Неделя</button>
+            <button class="period-chip" onclick="selectPeriod(this)">Месяц</button>
+            <button class="period-chip" onclick="selectPeriod(this)">Квартал</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="btn" style="flex: 1; font-size: 12px; padding: 10px;" onclick="generateReport('pdf')"><i class="fas fa-file-pdf"></i> PDF</button>
+            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="generateReport('excel')"><i class="fas fa-file-excel"></i> Excel</button>
+            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="generateReport('tg')"><i class="fas fa-paper-plane"></i> В TG</button>
+        </div>
+    </div>
+
+    <!-- Report Preview -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--accent-color);"></i> Превью: Месячный отчёт</h4>
+            <span style="font-size: 10px; color: var(--text-secondary);">Апрель 2026</span>
+        </div>
+
+        <div class="report-section">
+            <div class="report-title">Ключевые метрики</div>
+            <div class="report-metrics">
+                <div class="rpt-metric">
+                    <div class="rpt-val">1,247</div>
+                    <div class="rpt-lbl">Лидов</div>
+                    <div class="rpt-change up">+12.4%</div>
+                </div>
+                <div class="rpt-metric">
+                    <div class="rpt-val">$2,135</div>
+                    <div class="rpt-lbl">Доход</div>
+                    <div class="rpt-change up">+23%</div>
+                </div>
+                <div class="rpt-metric">
+                    <div class="rpt-val">89%</div>
+                    <div class="rpt-lbl">Конверсия</div>
+                    <div class="rpt-change up">+5.2%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="report-section">
+            <div class="report-title">Эффективность модулей</div>
+            <div class="module-perf">
+                <div class="perf-row">
+                    <span style="font-size: 12px;"><i class="fas fa-crosshairs" style="color: var(--accent-color); width: 18px;"></i> Парсинг</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 95%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;">2,450</span>
+                </div>
+                <div class="perf-row">
+                    <span style="font-size: 12px;"><i class="fas fa-comments" style="color: var(--accent-color); width: 18px;"></i> Комментинг</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 82%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;">1,890</span>
+                </div>
+                <div class="perf-row">
+                    <span style="font-size: 12px;"><i class="fas fa-message" style="color: var(--accent-color); width: 18px;"></i> Чаттинг</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 68%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;">1,120</span>
+                </div>
+                <div class="perf-row">
+                    <span style="font-size: 12px;"><i class="fas fa-robot" style="color: var(--accent-color); width: 18px;"></i> Диалоги</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 55%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;">847</span>
+                </div>
+                <div class="perf-row">
+                    <span style="font-size: 12px;"><i class="fas fa-heart" style="color: var(--accent-color); width: 18px;"></i> Реакции</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 78%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;">3,456</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="report-section">
+            <div class="report-title">Безопасность</div>
+            <div style="display: flex; gap: 12px;">
+                <div class="safety-box green">
+                    <i class="fas fa-shield-halved"></i>
+                    <div style="font-size: 14px; font-weight: 800;">0</div>
+                    <div style="font-size: 9px;">Банов</div>
+                </div>
+                <div class="safety-box blue">
+                    <i class="fas fa-clock"></i>
+                    <div style="font-size: 14px; font-weight: 800;">3</div>
+                    <div style="font-size: 9px;">Flood Wait</div>
+                </div>
+                <div class="safety-box green">
+                    <i class="fas fa-fingerprint"></i>
+                    <div style="font-size: 14px; font-weight: 800;">97%</div>
+                    <div style="font-size: 9px;">Human-Like</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Reports -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-folder" style="color: var(--accent-color);"></i> Сохранённые отчёты</h4>
+        <div class="saved-report" onclick="downloadReport('march')">
+            <div class="sr-icon"><i class="fas fa-file-pdf" style="color: #e74c3c;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Отчёт март 2026</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">PDF — 2.4 MB</div>
+            </div>
+            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
+        </div>
+        <div class="saved-report" onclick="downloadReport('feb')">
+            <div class="sr-icon"><i class="fas fa-file-excel" style="color: #2ecc71;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Отчёт февраль 2026</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Excel — 1.8 MB</div>
+            </div>
+            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
+        </div>
+        <div class="saved-report" style="border-bottom: none;" onclick="downloadReport('jan')">
+            <div class="sr-icon"><i class="fas fa-file-pdf" style="color: #e74c3c;"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 12px; font-weight: 600;">Отчёт январь 2026</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">PDF — 3.1 MB</div>
+            </div>
+            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.2s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .period-chip { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; }
+        .period-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary-color); color: var(--accent-color); }
+        .report-section { margin-bottom: 4px; }
+        .report-title { font-size: 12px; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }
+        .report-metrics { display: flex; gap: 8px; }
+        .rpt-metric { flex: 1; text-align: center; padding: 10px; background: rgba(48,54,61,0.3); border-radius: 10px; }
+        .rpt-val { font-size: 16px; font-weight: 800; color: var(--accent-color); }
+        .rpt-lbl { font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-top: 2px; }
+        .rpt-change { font-size: 10px; margin-top: 4px; font-weight: 600; }
+        .rpt-change.up { color: var(--success-color); }
+        .module-perf { display: flex; flex-direction: column; gap: 8px; }
+        .perf-row { display: flex; align-items: center; }
+        .safety-box { flex: 1; text-align: center; padding: 12px; border-radius: 10px; }
+        .safety-box i { font-size: 14px; margin-bottom: 4px; }
+        .safety-box.green { background: rgba(46,204,113,0.08); color: var(--success-color); }
+        .safety-box.blue { background: rgba(0,136,204,0.08); color: var(--accent-color); }
+        .saved-report { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .sr-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(48,54,61,0.3); font-size: 16px; flex-shrink: 0; }
+    </style>
+
+    <script>
+        function selectPeriod(btn) {
+            document.querySelectorAll('.period-chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function generateReport(fmt) { alert('Генерация отчёта в формате ' + fmt.toUpperCase() + '...'); }
+        function downloadReport(month) { alert('Скачивание отчёта за ' + month + '...'); }
+    </script>
+</body>
+</html>

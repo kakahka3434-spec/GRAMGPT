@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — CRM</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-address-book" style="color: var(--accent-color)"></i> CRM</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Pipeline Stats -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.05s">
+        <div class="metric-card">
+            <div class="metric-value">234</div>
+            <div class="metric-label">Контактов</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green">45</div>
+            <div class="metric-label">Горячих</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange">$12.4K</div>
+            <div class="metric-label">Pipeline</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple">89%</div>
+            <div class="metric-label">Win Rate</div>
+        </div>
+    </div>
+
+    <!-- Pipeline Board -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <h4 style="margin-bottom: 14px;"><i class="fas fa-columns" style="color: var(--accent-color);"></i> Pipeline</h4>
+        <div class="pipeline-scroll">
+            <div class="pipeline-col">
+                <div class="pipeline-header" style="border-color: var(--accent-color);">
+                    <span>Новые</span>
+                    <span class="pipeline-count">12</span>
+                </div>
+                <div class="pipeline-card" onclick="openContact('alex')">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <div class="pip-avatar">АК</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 600;">Алексей К.</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">@alexk_crypto</div>
+                        </div>
+                    </div>
+                    <div class="pip-tags">
+                        <span class="pip-tag">Крипто</span>
+                        <span class="pip-tag">Парсинг</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-clock"></i> 2 часа назад</div>
+                </div>
+                <div class="pipeline-card" onclick="openContact('svetlana')">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <div class="pip-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">СМ</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 600;">Светлана М.</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">@svet_marketing</div>
+                        </div>
+                    </div>
+                    <div class="pip-tags">
+                        <span class="pip-tag">SMM</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-clock"></i> 5 часов назад</div>
+                </div>
+            </div>
+
+            <div class="pipeline-col">
+                <div class="pipeline-header" style="border-color: var(--warning-color);">
+                    <span>В работе</span>
+                    <span class="pipeline-count">8</span>
+                </div>
+                <div class="pipeline-card" onclick="openContact('ivan')">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <div class="pip-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">ИП</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 600;">Иван П.</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">@ivan_trader</div>
+                        </div>
+                    </div>
+                    <div class="pip-tags">
+                        <span class="pip-tag">Трейдинг</span>
+                        <span class="pip-tag hot">$500</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-comment"></i> 3 сообщения</div>
+                </div>
+            </div>
+
+            <div class="pipeline-col">
+                <div class="pipeline-header" style="border-color: var(--success-color);">
+                    <span>Горячие</span>
+                    <span class="pipeline-count">5</span>
+                </div>
+                <div class="pipeline-card" onclick="openContact('maria')">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <div class="pip-avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">МИ</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 600;">Мария И.</div>
+                            <div style="font-size: 10px; color: var(--text-secondary);">@maria_inv</div>
+                        </div>
+                    </div>
+                    <div class="pip-tags">
+                        <span class="pip-tag">DeFi</span>
+                        <span class="pip-tag hot">$1,200</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--success-color); margin-top: 6px;"><i class="fas fa-fire"></i> Готова к закрытию</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Card Detail -->
+    <div class="glass-card animate-in" style="animation-delay: 0.15s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-user" style="color: var(--accent-color);"></i> Мария Иванова</h4>
+            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Горячий</span>
+        </div>
+        <div class="contact-info">
+            <div class="info-row"><i class="fas fa-at"></i><span>@maria_inv</span></div>
+            <div class="info-row"><i class="fas fa-phone"></i><span>+7 (999) 456-78-90</span></div>
+            <div class="info-row"><i class="fas fa-map-marker-alt"></i><span>Москва, Россия</span></div>
+            <div class="info-row"><i class="fas fa-tag"></i>
+                <div class="pip-tags" style="gap: 4px;">
+                    <span class="pip-tag">DeFi</span>
+                    <span class="pip-tag">Инвестор</span>
+                    <span class="pip-tag">Pro</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">История взаимодействий</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="tl-dot green"></div>
+                <div class="tl-content">
+                    <div style="font-size: 11px; font-weight: 600;">Ответила на предложение</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Сегодня, 14:30</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="tl-dot blue"></div>
+                <div class="tl-content">
+                    <div style="font-size: 11px; font-weight: 600;">AI отправил оффер (Этап 3)</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Сегодня, 12:15</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="tl-dot blue"></div>
+                <div class="tl-content">
+                    <div style="font-size: 11px; font-weight: 600;">AI провёл прогрев (5 сообщений)</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Вчера, 18:00</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="tl-dot gray"></div>
+                <div class="tl-content">
+                    <div style="font-size: 11px; font-weight: 600;">Спарсена из группы "DeFi Трейдеры"</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">3 дня назад</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+            <button class="btn" style="flex: 1; font-size: 12px; padding: 10px;" onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Написать</button>
+            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="addNote()"><i class="fas fa-sticky-note"></i> Заметка</button>
+        </div>
+    </div>
+
+    <!-- Search / Filter -->
+    <div class="card animate-in" style="animation-delay: 0.2s">
+        <div style="margin-bottom: 12px;">
+            <input type="text" placeholder="Поиск контактов..." class="input-field" style="width: 100%;">
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button class="filter-chip active" onclick="toggleFilter(this)">Все</button>
+            <button class="filter-chip" onclick="toggleFilter(this)">Горячие</button>
+            <button class="filter-chip" onclick="toggleFilter(this)">В работе</button>
+            <button class="filter-chip" onclick="toggleFilter(this)">Крипто</button>
+            <button class="filter-chip" onclick="toggleFilter(this)">DeFi</button>
+            <button class="filter-chip" onclick="toggleFilter(this)">SMM</button>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.25s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .pipeline-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+        .pipeline-col { min-width: 160px; flex-shrink: 0; }
+        .pipeline-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; background: rgba(48,54,61,0.3); border-left: 3px solid; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+        .pipeline-count { background: rgba(48,54,61,0.6); padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+        .pipeline-card { background: rgba(48,54,61,0.3); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+        .pipeline-card:active { border-color: var(--primary-color); }
+        .pip-avatar { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); }
+        .pip-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+        .pip-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(48,54,61,0.6); color: var(--text-secondary); }
+        .pip-tag.hot { background: rgba(46,204,113,0.15); color: var(--success-color); font-weight: 600; }
+        .contact-info { display: flex; flex-direction: column; gap: 8px; }
+        .info-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+        .info-row i { width: 16px; color: var(--text-secondary); font-size: 11px; }
+        .timeline { display: flex; flex-direction: column; gap: 0; }
+        .timeline-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: 5px; top: 20px; bottom: -8px; width: 1px; background: var(--border-color); }
+        .timeline-item:last-child::before { display: none; }
+        .tl-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+        .tl-dot.green { background: var(--success-color); }
+        .tl-dot.blue { background: var(--accent-color); }
+        .tl-dot.gray { background: var(--text-secondary); }
+        .input-field { padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; }
+        .input-field:focus { outline: none; border-color: var(--primary-color); }
+        .filter-chip { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 10px; font-weight: 600; cursor: pointer; }
+        .filter-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary-color); color: var(--accent-color); }
+    </style>
+
+    <script>
+        function openContact(name) { alert('Открываю карточку контакта: ' + name); }
+        function sendMessage() { alert('Отправка сообщения...'); }
+        function addNote() { alert('Добавление заметки...'); }
+        function toggleFilter(btn) {
+            document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

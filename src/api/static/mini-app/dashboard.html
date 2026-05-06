@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Dashboard</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-chart-pie" style="color: var(--accent-color)"></i> Dashboard</h2>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="live-dot"></span>
+            <span style="font-size: 11px; color: var(--success-color); font-weight: 600;">LIVE</span>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.05s">
+        <div class="metric-card">
+            <div class="metric-value" id="mc-leads">1,247</div>
+            <div class="metric-label">Лидов</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +12.4%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green" id="mc-conv">89%</div>
+            <div class="metric-label">Конверсия</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +5.2%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange" id="mc-roi">340%</div>
+            <div class="metric-label">ROI</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +18%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple" id="mc-acc">8</div>
+            <div class="metric-label">Аккаунтов</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +2</div>
+        </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="glass-card animate-in" style="animation-delay: 0.1s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-chart-bar" style="color: var(--accent-color);"></i> Доход (30 дней)</h4>
+            <div style="display: flex; gap: 4px;">
+                <button class="period-btn active" onclick="setPeriod(this)">30д</button>
+                <button class="period-btn" onclick="setPeriod(this)">7д</button>
+                <button class="period-btn" onclick="setPeriod(this)">24ч</button>
+            </div>
+        </div>
+        <div class="chart-container" id="revenueChart">
+            <div class="chart-col"><div class="chart-bar" style="height: 35%;"><span class="chart-value">$120</span></div><div class="chart-label">1</div></div>
+            <div class="chart-col"><div class="chart-bar" style="height: 45%;"><span class="chart-value">$180</span></div><div class="chart-label">5</div></div>
+            <div class="chart-col"><div class="chart-bar" style="height: 30%;"><span class="chart-value">$95</span></div><div class="chart-label">9</div></div>
+            <div class="chart-col"><div class="chart-bar" style="height: 55%;"><span class="chart-value">$240</span></div><div class="chart-label">13</div></div>
+            <div class="chart-col"><div class="chart-bar" style="height: 70%;"><span class="chart-value">$320</span></div><div class="chart-label">17</div></div>
+            <div class="chart-col"><div class="chart-bar" style="height: 60%;"><span class="chart-value">$280</span></div><div class="chart-label">21</div></div>
+            <div class="chart-col"><div class="chart-bar active" style="height: 85%;"><span class="chart-value">$410</span></div><div class="chart-label">25</div></div>
+            <div class="chart-col"><div class="chart-bar active" style="height: 95%;"><span class="chart-value">$490</span></div><div class="chart-label">30</div></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px;">
+            <span style="color: var(--text-secondary);">Всего: <strong style="color: var(--accent-color);">$2,135</strong></span>
+            <span style="color: var(--success-color);"><i class="fas fa-arrow-up"></i> +23% vs пред. период</span>
+        </div>
+    </div>
+
+    <!-- Funnel -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <h4 style="margin-bottom: 14px;"><i class="fas fa-filter" style="color: var(--accent-color);"></i> Воронка продаж</h4>
+        <div class="funnel-viz">
+            <div class="funnel-step-viz">
+                <div class="funnel-bar-viz" style="width: 100%;">
+                    <span class="funnel-icon-v"><i class="fas fa-crosshairs"></i></span>
+                    <span>Парсинг</span>
+                    <span class="funnel-num">2,450</span>
+                </div>
+            </div>
+            <div class="funnel-step-viz">
+                <div class="funnel-bar-viz" style="width: 85%; background: linear-gradient(90deg, rgba(0,136,204,0.3), rgba(0,210,255,0.2));">
+                    <span class="funnel-icon-v"><i class="fas fa-comments"></i></span>
+                    <span>Комментинг</span>
+                    <span class="funnel-num">2,080</span>
+                </div>
+            </div>
+            <div class="funnel-step-viz">
+                <div class="funnel-bar-viz" style="width: 65%; background: linear-gradient(90deg, rgba(243,156,18,0.3), rgba(230,126,34,0.2));">
+                    <span class="funnel-icon-v"><i class="fas fa-message"></i></span>
+                    <span>Чаттинг</span>
+                    <span class="funnel-num">1,590</span>
+                </div>
+            </div>
+            <div class="funnel-step-viz">
+                <div class="funnel-bar-viz" style="width: 40%; background: linear-gradient(90deg, rgba(155,89,182,0.3), rgba(142,68,173,0.2));">
+                    <span class="funnel-icon-v"><i class="fas fa-robot"></i></span>
+                    <span>Диалоги</span>
+                    <span class="funnel-num">980</span>
+                </div>
+            </div>
+            <div class="funnel-step-viz">
+                <div class="funnel-bar-viz" style="width: 20%; background: linear-gradient(90deg, rgba(46,204,113,0.3), rgba(39,174,96,0.2));">
+                    <span class="funnel-icon-v"><i class="fas fa-check-circle"></i></span>
+                    <span>Лиды</span>
+                    <span class="funnel-num">490</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Feed -->
+    <div class="card animate-in" style="animation-delay: 0.2s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-bolt" style="color: var(--warning-color);"></i> Активность</h4>
+            <span style="font-size: 10px; color: var(--text-secondary);">Обновлено только что</span>
+        </div>
+        <div class="activity-feed">
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-user-plus" style="color: var(--success-color);"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px;"><strong>Новый лид</strong> — Иван Петров</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Из группы Крипто Обсуждения</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">2 мин</span>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(0,136,204,0.1);"><i class="fas fa-comment" style="color: var(--accent-color);"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px;"><strong>AI комментарий</strong> получил 21 лайк</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">NFT Новости</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">5 мин</span>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-fire" style="color: var(--warning-color);"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px;"><strong>Прогрев завершён</strong> — Account #2</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Trust score: 78% → 82%</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">12 мин</span>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-heart" style="color: var(--purple);"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px;"><strong>456 реакций</strong> поставлено</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">Crypto Daily, DeFi Research</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">18 мин</span>
+            </div>
+            <div class="activity-item" style="border-bottom: none;">
+                <div class="activity-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-paper-plane" style="color: var(--success-color);"></i></div>
+                <div style="flex: 1;">
+                    <div style="font-size: 12px;"><strong>Пост опубликован</strong> в канале</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);">@gramgpt_channel — 892 просмотра</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">25 мин</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Status -->
+    <div class="card animate-in" style="animation-delay: 0.25s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-shield-halved" style="color: var(--success-color);"></i> Anti-Ban Shield</h4>
+            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);"><span class="live-dot"></span> Активен</span>
+        </div>
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div style="font-size: 20px; font-weight: 800; color: var(--success-color);">12</div>
+                <div class="metric-label">Risk Score</div>
+            </div>
+            <div class="metric-card">
+                <div style="font-size: 20px; font-weight: 800; color: var(--success-color);">97%</div>
+                <div class="metric-label">Human-like</div>
+            </div>
+            <div class="metric-card">
+                <div style="font-size: 20px; font-weight: 800; color: var(--success-color);">0</div>
+                <div class="metric-label">Банов</div>
+            </div>
+            <div class="metric-card">
+                <div style="font-size: 20px; font-weight: 800; color: var(--accent-color);">24/7</div>
+                <div class="metric-label">Мониторинг</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.3s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item active"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .period-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 10px; font-weight: 600; cursor: pointer; }
+        .period-btn.active { background: rgba(0,136,204,0.15); color: var(--accent-color); border-color: var(--primary-color); }
+        .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+        .funnel-viz { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .funnel-step-viz { width: 100%; }
+        .funnel-bar-viz { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; background: linear-gradient(90deg, rgba(0,136,204,0.4), rgba(0,210,255,0.2)); }
+        .funnel-icon-v { width: 24px; text-align: center; font-size: 11px; }
+        .funnel-num { margin-left: auto; font-weight: 700; color: var(--accent-color); }
+        .activity-feed { display: flex; flex-direction: column; }
+        .activity-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .activity-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    </style>
+
+    <script>
+        function setPeriod(btn) {
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

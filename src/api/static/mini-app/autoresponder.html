@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — AI Автоответчик</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-reply-all" style="color: var(--accent-color)"></i> AI Автоответчик</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.05s">
+        <div class="metric-card">
+            <div class="metric-value">847</div>
+            <div class="metric-label">Ответов сегодня</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +24%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green">94%</div>
+            <div class="metric-label">Точность</div>
+            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +2.1%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange">1.2с</div>
+            <div class="metric-label">Avg. время ответа</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple">12</div>
+            <div class="metric-label">Сценариев</div>
+        </div>
+    </div>
+
+    <!-- Scenarios -->
+    <div class="card animate-in" style="animation-delay: 0.1s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h4 style="margin: 0;"><i class="fas fa-list-check" style="color: var(--accent-color);"></i> Сценарии ответов</h4>
+            <button class="add-btn" onclick="addScenario()"><i class="fas fa-plus"></i> Новый</button>
+        </div>
+
+        <div class="scenario-item">
+            <div class="scenario-icon"><i class="fas fa-hand-wave"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Приветствие</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Триггер: первое сообщение от нового контакта</div>
+                <div class="scenario-example">"Привет! Спасибо за сообщение. Чем могу помочь?"</div>
+            </div>
+            <div class="toggle-on"></div>
+        </div>
+        <div class="scenario-item">
+            <div class="scenario-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-tag" style="color: var(--warning-color);"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Запрос цены</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Триггер: "цена", "стоимость", "сколько"</div>
+                <div class="scenario-example">"Отличный вопрос! Вот наши тарифы: ..."</div>
+            </div>
+            <div class="toggle-on"></div>
+        </div>
+        <div class="scenario-item">
+            <div class="scenario-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-question-circle" style="color: var(--success-color);"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">FAQ</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Триггер: частые вопросы (AI определяет)</div>
+                <div class="scenario-example">AI генерирует ответ из базы знаний</div>
+            </div>
+            <div class="toggle-on"></div>
+        </div>
+        <div class="scenario-item">
+            <div class="scenario-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-calendar" style="color: var(--purple);"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Оффлайн-режим</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Триггер: сообщение в нерабочее время</div>
+                <div class="scenario-example">"Сейчас нерабочее время, ответим утром!"</div>
+            </div>
+            <div class="toggle-on"></div>
+        </div>
+        <div class="scenario-item" style="border-bottom: none;">
+            <div class="scenario-icon" style="background: rgba(231,76,60,0.1);"><i class="fas fa-ban" style="color: var(--danger-color);"></i></div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600;">Негатив / Спам</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Триггер: негативный тон, спам-слова</div>
+                <div class="scenario-example">Игнорировать или мягкий ответ</div>
+            </div>
+            <div class="toggle-on"></div>
+        </div>
+    </div>
+
+    <!-- AI Settings -->
+    <div class="card animate-in" style="animation-delay: 0.15s">
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-brain" style="color: var(--accent-color);"></i> Настройки AI</h4>
+        <div style="margin-bottom: 12px;">
+            <label class="label">Контекст бизнеса (AI будет использовать для ответов)</label>
+            <textarea class="input-field" rows="3" placeholder="Опишите ваш бизнес, услуги, цены...">Мы — платформа автоматизации Telegram маркетинга. Основные услуги: парсинг аудитории, AI-комментинг, нейрочаттинг. Тарифы: Free, Pro ($49), Agency ($199).</textarea>
+        </div>
+        <div class="setting-item">
+            <span style="font-size: 13px;">Тон ответов</span>
+            <select>
+                <option>Дружелюбный</option>
+                <option selected>Профессиональный</option>
+                <option>Формальный</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <span style="font-size: 13px;">Модель AI</span>
+            <select>
+                <option>GPT-4o Mini</option>
+                <option selected>GPT-4o</option>
+                <option>Claude 3.5</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <span style="font-size: 13px;">Задержка перед ответом</span>
+            <select>
+                <option>Мгновенно</option>
+                <option selected>3-10 сек (натуральная)</option>
+                <option>10-30 сек</option>
+            </select>
+        </div>
+        <div class="setting-item" style="border-bottom: none;">
+            <span style="font-size: 13px;">Передавать сложные вопросы человеку</span>
+            <div class="toggle-on"></div>
+        </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="card animate-in" style="animation-delay: 0.2s">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--accent-color);"></i> Последние ответы</h4>
+            <span class="live-dot"></span>
+        </div>
+        <div class="reply-log">
+            <div class="reply-item">
+                <div class="reply-in">
+                    <span class="reply-name">Алексей</span>
+                    <span class="reply-text">Привет, сколько стоит Pro подписка?</span>
+                </div>
+                <div class="reply-out">
+                    <span class="reply-text">Привет, Алексей! Pro подписка стоит $49/мес. В неё входят: безлимитный парсинг, AI-комментинг, нейрочаттинг и Anti-Ban Shield. Хотите узнать подробнее?</span>
+                    <span class="reply-meta"><span class="ai-tag">AI</span> 3 сек</span>
+                </div>
+            </div>
+            <div class="reply-item">
+                <div class="reply-in">
+                    <span class="reply-name">Мария</span>
+                    <span class="reply-text">Можно ли попробовать бесплатно?</span>
+                </div>
+                <div class="reply-out">
+                    <span class="reply-text">Да! У нас есть бесплатный тариф с базовым функционалом. Включает парсинг до 100 контактов и 5 AI-комментариев в день.</span>
+                    <span class="reply-meta"><span class="ai-tag">AI</span> 5 сек</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn animate-in" style="animation-delay: 0.25s" onclick="startAutoresponder()">
+        <i class="fas fa-power-off"></i> Включить автоответчик
+    </button>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.3s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary-color); color: var(--accent-color); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .scenario-item { display: flex; align-items: flex-start; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+        .scenario-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(0,136,204,0.1); color: var(--accent-color); flex-shrink: 0; margin-top: 2px; }
+        .scenario-example { font-size: 10px; color: var(--text-secondary); font-style: italic; margin-top: 4px; padding: 4px 8px; background: rgba(48,54,61,0.3); border-radius: 6px; }
+        .toggle-on { width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
+        .toggle-on::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+        .input-field, textarea.input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; font-family: inherit; resize: vertical; }
+        .input-field:focus { outline: none; border-color: var(--primary-color); }
+        .label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px; }
+        .reply-log { display: flex; flex-direction: column; gap: 14px; }
+        .reply-item { display: flex; flex-direction: column; gap: 6px; }
+        .reply-in { background: rgba(48,54,61,0.3); padding: 10px 12px; border-radius: 12px 12px 12px 4px; max-width: 85%; }
+        .reply-out { background: rgba(0,136,204,0.1); padding: 10px 12px; border-radius: 12px 12px 4px 12px; max-width: 85%; align-self: flex-end; border-left: 2px solid var(--primary-color); }
+        .reply-name { font-size: 11px; font-weight: 600; color: var(--accent-color); display: block; margin-bottom: 2px; }
+        .reply-text { font-size: 12px; line-height: 1.5; display: block; }
+        .reply-meta { font-size: 10px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-top: 4px; justify-content: flex-end; }
+        .ai-tag { background: var(--primary-color); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+    </style>
+
+    <script>
+        function addScenario() { alert('Создание нового сценария ответа...'); }
+        function startAutoresponder() { alert('AI Автоответчик активирован! Мониторим входящие сообщения.'); }
+    </script>
+</body>
+</html>

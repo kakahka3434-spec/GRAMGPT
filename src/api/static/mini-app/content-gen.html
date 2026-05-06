@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — AI Content Studio</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-wand-magic-sparkles" style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> AI Студия</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;"><i class="fas fa-arrow-left"></i> Назад</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;">
+        <div class="metric-card">
+            <div class="metric-value">2,891</div>
+            <div class="metric-label">Создано</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green">94%</div>
+            <div class="metric-label">Уникальность</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange">GPT-4o</div>
+            <div class="metric-label">Текст</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple">DALL-E 3</div>
+            <div class="metric-label">Картинки</div>
+        </div>
+    </div>
+
+    <!-- Format Tabs -->
+    <div class="section-title animate-in" style="animation-delay: 0.05s">Формат контента</div>
+    <div class="format-tabs animate-in" style="animation-delay: 0.06s">
+        <div class="format-tab active" onclick="switchFormat(this, 'text')">
+            <i class="fas fa-pen-fancy"></i>
+            <span>Текст</span>
+        </div>
+        <div class="format-tab" onclick="switchFormat(this, 'image')">
+            <i class="fas fa-image"></i>
+            <span>Картинка</span>
+        </div>
+        <div class="format-tab" onclick="switchFormat(this, 'video')">
+            <i class="fas fa-video"></i>
+            <span>Видео</span>
+        </div>
+        <div class="format-tab" onclick="switchFormat(this, 'poll')">
+            <i class="fas fa-poll"></i>
+            <span>Опрос</span>
+        </div>
+        <div class="format-tab" onclick="switchFormat(this, 'story')">
+            <i class="fas fa-mobile-screen"></i>
+            <span>Story</span>
+        </div>
+        <div class="format-tab" onclick="switchFormat(this, 'voice')">
+            <i class="fas fa-microphone"></i>
+            <span>Голос</span>
+        </div>
+    </div>
+
+    <!-- ==================== TEXT FORMAT ==================== -->
+    <div id="format-text" class="format-panel active">
+        <div class="section-title animate-in" style="animation-delay: 0.07s">Тип текста</div>
+        <div class="feature-grid animate-in" style="animation-delay: 0.08s; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <div class="feature-card type-card active" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-pen-fancy" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Пост</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-comment-dots" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Комментарий</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-id-card" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Bio</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-envelope" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Рассылка</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-reply" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Ответ</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Реклама</span>
+            </div>
+        </div>
+
+        <div class="section-title animate-in" style="animation-delay: 0.09s">Настройки</div>
+        <div class="card animate-in" style="animation-delay: 0.1s;">
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тема / ниша</label>
+                <input type="text" placeholder="Крипто, DeFi, стратегии инвестирования..." style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тон</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="chip active">Экспертный</span>
+                    <span class="chip">Дружелюбный</span>
+                    <span class="chip">Провокационный</span>
+                    <span class="chip">Формальный</span>
+                </div>
+            </div>
+            <div>
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Длина</label>
+                <div style="display: flex; gap: 8px;">
+                    <span class="chip" style="flex: 1; text-align: center;">Короткий</span>
+                    <span class="chip active" style="flex: 1; text-align: center;">Средний</span>
+                    <span class="chip" style="flex: 1; text-align: center;">Длинный</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn animate-in" style="animation-delay: 0.11s; margin-bottom: 16px;">
+            <i class="fas fa-bolt"></i> Сгенерировать текст
+        </button>
+
+        <div class="section-title animate-in" style="animation-delay: 0.12s">Предпросмотр</div>
+        <div class="glass-card animate-in" style="animation-delay: 0.13s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 11px; color: var(--text-secondary);"><i class="fas fa-robot" style="margin-right: 4px;"></i> AI Generated</span>
+                <span style="font-size: 10px; color: var(--success-color);">94% уникальность</span>
+            </div>
+            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 14px; padding: 14px; background: rgba(48,54,61,0.3); border-radius: 10px; border-left: 3px solid var(--accent-color);">
+                <strong>DeFi стратегии 2026: что реально работает</strong>
+
+                Друзья, разберём 3 стратегии, которые показали ROI >300% за последний квартал:
+
+                1. Yield farming с auto-compound
+                2. Delta-neutral позиции
+                3. LP на концентрированной ликвидности
+
+                Подробный разбор каждой с расчётами — в следующем посте.
+
+                #DeFi #Крипто #Инвестиции
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-copy"></i> Копировать</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-paper-plane"></i> Постить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== IMAGE FORMAT ==================== -->
+    <div id="format-image" class="format-panel">
+        <div class="section-title">Стиль изображения</div>
+        <div class="feature-grid" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <div class="feature-card type-card active" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-camera" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Реализм</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-palette" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Арт</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-chart-line" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Инфографика</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-face-laugh" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Мем</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-square" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Баннер</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-icons" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Стикер</span>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Описание изображения</label>
+                <textarea placeholder="Опишите что хотите увидеть: футуристичный город с криптовалютными символами в неоновом стиле..." style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box; min-height: 80px; resize: vertical;"></textarea>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Размер</label>
+                    <div style="display: flex; gap: 6px;">
+                        <span class="chip active" style="flex: 1; text-align: center; font-size: 10px;">1:1</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">16:9</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">9:16</span>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Качество</label>
+                    <div style="display: flex; gap: 6px;">
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">SD</span>
+                        <span class="chip active" style="flex: 1; text-align: center; font-size: 10px;">HD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin-bottom: 16px;">
+            <i class="fas fa-wand-magic-sparkles"></i> Сгенерировать картинку
+        </button>
+
+        <!-- Image Preview -->
+        <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 11px; color: var(--text-secondary);"><i class="fas fa-image" style="margin-right: 4px;"></i> DALL-E 3</span>
+                <span style="font-size: 10px; color: var(--accent-color);">1024×1024</span>
+            </div>
+            <div class="img-preview">
+                <div class="img-placeholder">
+                    <i class="fas fa-image" style="font-size: 48px; opacity: 0.3; color: var(--accent-color);"></i>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 12px;">Превью сгенерированного изображения</div>
+                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px; opacity: 0.6;">Нажмите "Сгенерировать" для создания</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-download"></i> Скачать</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-paper-plane"></i> В канал</button>
+            </div>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="section-title" style="margin-top: 16px;">Недавние картинки</div>
+        <div class="img-gallery">
+            <div class="gallery-item" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                <div style="font-size: 10px; position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px;">Крипто баннер</div>
+            </div>
+            <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                <div style="font-size: 10px; position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px;">NFT арт</div>
+            </div>
+            <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                <div style="font-size: 10px; position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px;">DeFi инфо</div>
+            </div>
+            <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                <div style="font-size: 10px; position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px;">Мем ETH</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIDEO FORMAT ==================== -->
+    <div id="format-video" class="format-panel">
+        <div class="section-title">Тип видео-контента</div>
+        <div class="feature-grid" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <div class="feature-card type-card active" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-circle" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Кружочек</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-film" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Рилс</span>
+            </div>
+            <div class="feature-card type-card" style="padding: 14px 8px;" onclick="selectTypeCard(this)">
+                <i class="fas fa-clapperboard" style="font-size: 20px;"></i>
+                <span style="font-size: 11px;">Сценарий</span>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <h4 style="margin-bottom: 12px;"><i class="fas fa-scroll" style="color: var(--accent-color);"></i> AI Сценарист</h4>
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тема видео</label>
+                <input type="text" placeholder="Обзор нового DeFi протокола..." style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box;">
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Длительность</label>
+                    <div style="display: flex; gap: 6px;">
+                        <span class="chip active" style="flex: 1; text-align: center; font-size: 10px;">15с</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">30с</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">60с</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin-bottom: 16px;">
+            <i class="fas fa-wand-magic-sparkles"></i> Создать сценарий
+        </button>
+
+        <!-- Video Script Preview -->
+        <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 11px; color: var(--text-secondary);"><i class="fas fa-video" style="margin-right: 4px;"></i> Кружочек • 15 сек</span>
+                <span style="font-size: 10px; color: var(--accent-color);"><i class="fas fa-clock"></i> ~15с</span>
+            </div>
+            <div class="storyboard">
+                <div class="storyboard-item">
+                    <div class="scene-num">1</div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 600;">Хук (0-3с)</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">«Этот DeFi протокол дал мне 300% за месяц»</div>
+                    </div>
+                </div>
+                <div class="storyboard-item">
+                    <div class="scene-num">2</div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 600;">Суть (3-10с)</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">Показать дашборд с графиками ROI, объяснить стратегию</div>
+                    </div>
+                </div>
+                <div class="storyboard-item" style="border-bottom: none;">
+                    <div class="scene-num">3</div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 600;">CTA (10-15с)</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">«Подписывайся, разберём подробно в следующем кружочке»</div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-copy"></i> Скопировать</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== POLL FORMAT ==================== -->
+    <div id="format-poll" class="format-panel">
+        <div class="section-title">Конструктор опроса</div>
+        <div class="card">
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тема опроса</label>
+                <input type="text" placeholder="Какая криптовалюта вырастет больше всего?" style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тип</label>
+                <div style="display: flex; gap: 8px;">
+                    <span class="chip active" style="flex: 1; text-align: center;">Обычный</span>
+                    <span class="chip" style="flex: 1; text-align: center;">Викторина</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin: 12px 0 16px;">
+            <i class="fas fa-wand-magic-sparkles"></i> AI сгенерирует опрос
+        </button>
+
+        <div class="glass-card">
+            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 10px;"><i class="fas fa-poll"></i> Превью опроса</div>
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: 14px;">🗳 Какой DeFi протокол покажет лучший ROI в Q3 2026?</div>
+            <div class="poll-option">
+                <span>Aave v4</span>
+                <div class="poll-bar" style="width: 35%;"></div>
+                <span class="poll-pct">35%</span>
+            </div>
+            <div class="poll-option winner">
+                <span>Uniswap v4</span>
+                <div class="poll-bar" style="width: 42%;"></div>
+                <span class="poll-pct">42%</span>
+            </div>
+            <div class="poll-option">
+                <span>Lido v3</span>
+                <div class="poll-bar" style="width: 15%;"></div>
+                <span class="poll-pct">15%</span>
+            </div>
+            <div class="poll-option">
+                <span>EigenLayer</span>
+                <div class="poll-bar" style="width: 8%;"></div>
+                <span class="poll-pct">8%</span>
+            </div>
+            <div style="font-size: 10px; color: var(--text-secondary); margin-top: 10px;">247 голосов • анонимный</div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-paper-plane"></i> Опубликовать</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STORY FORMAT ==================== -->
+    <div id="format-story" class="format-panel">
+        <div class="section-title">Конструктор Stories</div>
+        <div class="card">
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тема серии</label>
+                <input type="text" placeholder="Топ-5 ошибок в крипто-трейдинге..." style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Кол-во слайдов</label>
+                <div style="display: flex; gap: 8px;">
+                    <span class="chip" style="flex: 1; text-align: center;">3</span>
+                    <span class="chip active" style="flex: 1; text-align: center;">5</span>
+                    <span class="chip" style="flex: 1; text-align: center;">7</span>
+                    <span class="chip" style="flex: 1; text-align: center;">10</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin: 12px 0 16px;">
+            <i class="fas fa-wand-magic-sparkles"></i> Создать серию Stories
+        </button>
+
+        <div class="glass-card">
+            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;"><i class="fas fa-mobile-screen"></i> Превью серии • 5 слайдов</div>
+            <div class="stories-preview">
+                <div class="story-slide active">
+                    <div class="slide-num">1</div>
+                    <div class="slide-content">
+                        <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Ошибка #1</div>
+                        <div style="font-size: 13px; font-weight: 700; margin-top: 4px;">FOMO покупки</div>
+                        <div style="font-size: 10px; margin-top: 4px; opacity: 0.8;">Покупка на хаях после пампа</div>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="slide-num">2</div>
+                    <div class="slide-content">
+                        <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Ошибка #2</div>
+                        <div style="font-size: 13px; font-weight: 700; margin-top: 4px;">Без стоп-лосса</div>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="slide-num">3</div>
+                    <div class="slide-content">
+                        <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Ошибка #3</div>
+                        <div style="font-size: 13px; font-weight: 700; margin-top: 4px;">All-in одна монета</div>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="slide-num">4</div>
+                    <div class="slide-content">
+                        <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Ошибка #4</div>
+                        <div style="font-size: 13px; font-weight: 700; margin-top: 4px;">Игнор фандинга</div>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="slide-num">5</div>
+                    <div class="slide-content">
+                        <div style="font-size: 9px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Итог</div>
+                        <div style="font-size: 13px; font-weight: 700; margin-top: 4px;">Подпишись! 🔥</div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-paper-plane"></i> Постить все</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VOICE FORMAT ==================== -->
+    <div id="format-voice" class="format-panel">
+        <div class="section-title">Голосовое сообщение</div>
+        <div class="card">
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Текст для озвучки</label>
+                <textarea placeholder="Введите текст или выберите 'AI сгенерирует'..." style="width: 100%; padding: 12px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; box-sizing: border-box; min-height: 80px; resize: vertical;"></textarea>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Голос</label>
+                    <div style="display: flex; gap: 6px;">
+                        <span class="chip active" style="flex: 1; text-align: center; font-size: 10px;">Муж.</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">Жен.</span>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Скорость</label>
+                    <div style="display: flex; gap: 6px;">
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">0.8x</span>
+                        <span class="chip active" style="flex: 1; text-align: center; font-size: 10px;">1.0x</span>
+                        <span class="chip" style="flex: 1; text-align: center; font-size: 10px;">1.2x</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin: 0 0 16px;">
+            <i class="fas fa-microphone"></i> Сгенерировать голосовое
+        </button>
+
+        <div class="glass-card">
+            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;"><i class="fas fa-waveform" style="margin-right: 4px;"></i> Превью</div>
+            <div class="voice-player">
+                <button class="play-btn"><i class="fas fa-play"></i></button>
+                <div class="waveform">
+                    <div class="wave-bar" style="height: 12px;"></div>
+                    <div class="wave-bar" style="height: 20px;"></div>
+                    <div class="wave-bar" style="height: 28px;"></div>
+                    <div class="wave-bar" style="height: 16px;"></div>
+                    <div class="wave-bar" style="height: 32px;"></div>
+                    <div class="wave-bar" style="height: 24px;"></div>
+                    <div class="wave-bar" style="height: 18px;"></div>
+                    <div class="wave-bar" style="height: 30px;"></div>
+                    <div class="wave-bar" style="height: 14px;"></div>
+                    <div class="wave-bar" style="height: 26px;"></div>
+                    <div class="wave-bar" style="height: 20px;"></div>
+                    <div class="wave-bar" style="height: 34px;"></div>
+                    <div class="wave-bar" style="height: 22px;"></div>
+                    <div class="wave-bar" style="height: 16px;"></div>
+                    <div class="wave-bar" style="height: 28px;"></div>
+                    <div class="wave-bar" style="height: 12px;"></div>
+                    <div class="wave-bar" style="height: 24px;"></div>
+                    <div class="wave-bar" style="height: 18px;"></div>
+                    <div class="wave-bar" style="height: 30px;"></div>
+                    <div class="wave-bar" style="height: 20px;"></div>
+                </div>
+                <span style="font-size: 11px; color: var(--text-secondary); min-width: 36px;">0:42</span>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-paper-plane"></i> Отправить</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 10px; font-size: 12px;"><i class="fas fa-rotate"></i> Другой</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Generations (always visible) -->
+    <div class="section-title animate-in" style="animation-delay: 0.19s; margin-top: 16px;">Недавнее</div>
+    <div class="card animate-in" style="animation-delay: 0.21s;">
+        <div style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-image" style="color: var(--accent-color); font-size: 12px;"></i>
+                    <div style="font-size: 12px; font-weight: 600;">Крипто баннер для канала</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">30 мин назад</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">DALL-E 3 • 1024×1024 • Реализм</div>
+        </div>
+        <div style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-pen-fancy" style="color: var(--success-color); font-size: 12px;"></i>
+                    <div style="font-size: 12px; font-weight: 600;">Пост: Обзор ETH 2.0</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">2 часа назад</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">GPT-4o • Экспертный • 892 просмотра</div>
+        </div>
+        <div style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-poll" style="color: var(--warning-color); font-size: 12px;"></i>
+                    <div style="font-size: 12px; font-weight: 600;">Опрос: Лучший L2 2026</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">5 часов назад</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">4 варианта • 312 голосов</div>
+        </div>
+        <div style="padding: 10px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-circle" style="color: #9b59b6; font-size: 12px;"></i>
+                    <div style="font-size: 12px; font-weight: 600;">Кружочек: Утренний обзор</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text-secondary);">Вчера</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">AI сценарий • 15 сек • 1,247 просмотров</div>
+        </div>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.25s">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <style>
+        .format-tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+        .format-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--card-bg); cursor: pointer; flex-shrink: 0; min-width: 58px; transition: all 0.2s; }
+        .format-tab i { font-size: 16px; color: var(--text-secondary); }
+        .format-tab span { font-size: 9px; color: var(--text-secondary); font-weight: 600; }
+        .format-tab.active { border-color: var(--primary-color); background: rgba(0,136,204,0.1); box-shadow: var(--glow-shadow); }
+        .format-tab.active i, .format-tab.active span { color: var(--accent-color); }
+
+        .format-panel { display: none; }
+        .format-panel.active { display: block; }
+
+        .type-card.active { border-color: var(--primary-color) !important; box-shadow: var(--glow-shadow); }
+
+        .chip { background: rgba(48,54,61,0.4); padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; border: 1px solid var(--border-color); color: var(--text-secondary); }
+        .chip.active { background: rgba(0,136,204,0.2); color: var(--accent-color); border-color: var(--primary-color); }
+
+        .img-preview { border-radius: 12px; overflow: hidden; margin-bottom: 0; }
+        .img-placeholder { height: 200px; background: rgba(48,54,61,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; border: 2px dashed var(--border-color); }
+
+        .img-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .gallery-item { aspect-ratio: 1; border-radius: 10px; position: relative; overflow: hidden; }
+
+        .storyboard-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .scene-num { width: 24px; height: 24px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+        .poll-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 6px; background: rgba(48,54,61,0.3); border-radius: 10px; position: relative; overflow: hidden; }
+        .poll-option .poll-bar { position: absolute; left: 0; top: 0; height: 100%; background: rgba(0,136,204,0.15); border-radius: 10px; transition: width 0.5s; }
+        .poll-option.winner .poll-bar { background: rgba(0,136,204,0.3); }
+        .poll-option span { position: relative; z-index: 1; font-size: 13px; }
+        .poll-option .poll-pct { margin-left: auto; font-weight: 700; color: var(--accent-color); font-size: 12px; }
+        .poll-option.winner span:first-child { font-weight: 700; }
+
+        .stories-preview { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+        .story-slide { width: 90px; height: 140px; border-radius: 12px; background: linear-gradient(180deg, rgba(0,136,204,0.2) 0%, rgba(48,54,61,0.6) 100%); border: 1px solid var(--border-color); flex-shrink: 0; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .story-slide.active { border-color: var(--primary-color); box-shadow: var(--glow-shadow); }
+        .slide-num { width: 18px; height: 18px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; margin: 6px; }
+        .slide-content { padding: 0 6px 6px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+
+        .voice-player { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(48,54,61,0.3); border-radius: 12px; }
+        .play-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-gradient); border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+        .waveform { display: flex; align-items: center; gap: 2px; flex: 1; height: 36px; }
+        .wave-bar { width: 3px; background: var(--accent-color); border-radius: 2px; opacity: 0.6; }
+    </style>
+
+    <script>
+        function switchFormat(tab, format) {
+            document.querySelectorAll('.format-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.format-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('format-' + format).classList.add('active');
+        }
+        function selectTypeCard(card) {
+            card.closest('.feature-grid').querySelectorAll('.type-card').forEach(c => {
+                c.classList.remove('active');
+                c.style.borderColor = '';
+            });
+            card.classList.add('active');
+        }
+    </script>
+</body>
+</html>

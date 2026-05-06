@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT Panel</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2>GRAM<span style="color: var(--accent-color)">GPT</span></h2>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="notifications.html" style="color: var(--text-secondary); position: relative; font-size: 18px; text-decoration: none;">
+                <i class="fas fa-bell"></i>
+                <span class="notif-badge"></span>
+            </a>
+            <div class="user-badge" id="user-name">...</div>
+        </div>
+    </div>
+
+    <!-- Quick Status Bar -->
+    <div class="glass-card animate-in" style="animation-delay: 0.03s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="live-dot"></span>
+                <span style="font-size: 12px; font-weight: 600;">Все системы активны</span>
+            </div>
+            <a href="protection.html" style="text-decoration: none;">
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">
+                    <i class="fas fa-shield-halved"></i> Shield: OK
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="stat-row animate-in" style="animation-delay: 0.05s">
+        <div style="display: flex; justify-content: space-between;">
+            <div class="stat-item">
+                <h4>Собрано лидов</h4>
+                <div id="leads-count" style="color: var(--accent-color)">1,247</div>
+            </div>
+            <div class="stat-item" style="text-align: center;">
+                <h4>Аккаунтов</h4>
+                <div id="accounts-count">8</div>
+            </div>
+            <div class="stat-item" style="text-align: right;">
+                <h4>ROI</h4>
+                <div style="color: var(--success-color)" id="roi-value">340%</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="crisis-alert" style="display:none;" class="card animate-in">
+        <div style="background: rgba(231,76,60,0.1); color: var(--danger-color); padding: 14px; border-radius: 12px; border-left: 4px solid var(--danger-color);">
+            <h4 style="margin:0;"><i class="fas fa-shield-halved"></i> AI Crisis Alert</h4>
+            <p style="font-size:12px; margin: 6px 0; color: var(--text-secondary);">Обнаружен риск блокировки. AI Crisis Manager применил авто-паузу.</p>
+            <button class="btn btn-danger" style="padding:8px; font-size:12px; width: auto;" onclick="alert('Стратегия: Смена IP + Пауза 48ч + Мимикрия')">Стратегия</button>
+        </div>
+    </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.08s">Модули</div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.1s">
+        <a href="parsing.html" class="feature-card">
+            <i class="fas fa-crosshairs"></i>
+            <span>Парсинг</span>
+            <p>Сбор аудитории</p>
+        </a>
+        <a href="warmup.html" class="feature-card">
+            <i class="fas fa-fire"></i>
+            <span>Прогрев</span>
+            <p>Прогрев аккаунтов</p>
+        </a>
+        <a href="commenting.html" class="feature-card">
+            <i class="fas fa-comments"></i>
+            <span>Нейрокомментинг</span>
+            <p>AI-комментарии</p>
+        </a>
+        <a href="chatting.html" class="feature-card">
+            <i class="fas fa-message"></i>
+            <span>Нейрочаттинг</span>
+            <p>AI-переписка</p>
+        </a>
+        <a href="dialogs.html" class="feature-card">
+            <i class="fas fa-robot"></i>
+            <span>НейроДиалоги</span>
+            <p>Авто-воронки ЛС</p>
+        </a>
+        <a href="reactions.html" class="feature-card">
+            <i class="fas fa-heart"></i>
+            <span>Масс-реакции</span>
+            <p>Эмоции и реакции</p>
+        </a>
+    </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.13s">Управление</div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.15s">
+        <a href="channel.html" class="feature-card">
+            <i class="fas fa-tv"></i>
+            <span>Ведение канала</span>
+            <p>Автопилот & тренды</p>
+        </a>
+        <a href="accounts.html" class="feature-card">
+            <i class="fas fa-users-cog"></i>
+            <span>Аккаунты</span>
+            <p>Менеджер аккаунтов</p>
+        </a>
+        <a href="protection.html" class="feature-card">
+            <i class="fas fa-shield-halved"></i>
+            <span>Защита</span>
+            <p>Anti-Ban Shield</p>
+        </a>
+        <a href="campaigns.html" class="feature-card">
+            <i class="fas fa-rocket"></i>
+            <span>Авто-воронки</span>
+            <p>Кампании</p>
+        </a>
+        <a href="dashboard.html" class="feature-card">
+            <i class="fas fa-chart-pie"></i>
+            <span>Аналитика</span>
+            <p>Dashboard</p>
+        </a>
+        <a href="settings.html" class="feature-card">
+            <i class="fas fa-gem"></i>
+            <span>Подписка</span>
+            <p>TON Connect</p>
+        </a>
+    </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.17s">Продвинутые</div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.18s">
+        <a href="autoresponder.html" class="feature-card">
+            <i class="fas fa-reply-all"></i>
+            <span>AI Автоответчик</span>
+            <p>Умные ответы на ЛС</p>
+        </a>
+        <a href="crm.html" class="feature-card">
+            <i class="fas fa-address-book"></i>
+            <span>CRM</span>
+            <p>База клиентов</p>
+        </a>
+        <a href="abtesting.html" class="feature-card">
+            <i class="fas fa-flask"></i>
+            <span>A/B Тесты</span>
+            <p>Сравнение стратегий</p>
+        </a>
+        <a href="templates.html" class="feature-card">
+            <i class="fas fa-store"></i>
+            <span>Шаблоны</span>
+            <p>Готовые воронки</p>
+        </a>
+        <a href="reports.html" class="feature-card">
+            <i class="fas fa-file-alt"></i>
+            <span>Отчёты</span>
+            <p>PDF / Excel</p>
+        </a>
+        <a href="referral.html" class="feature-card">
+            <i class="fas fa-gift"></i>
+            <span>Рефералы</span>
+            <p>Заработай 30%</p>
+        </a>
+    </div>
+
+    <div class="section-title animate-in" style="animation-delay: 0.2s">Платформа</div>
+
+    <div class="feature-grid animate-in" style="animation-delay: 0.22s">
+        <a href="competitors.html" class="feature-card">
+            <i class="fas fa-chess"></i>
+            <span>Конкуренты</span>
+            <p>Анализ рынка</p>
+        </a>
+        <a href="heatmap.html" class="feature-card">
+            <i class="fas fa-fire"></i>
+            <span>Тепловая карта</span>
+            <p>Активность по часам</p>
+        </a>
+        <a href="proxy.html" class="feature-card">
+            <i class="fas fa-globe"></i>
+            <span>Прокси</span>
+            <p>Пул & ротация</p>
+        </a>
+        <a href="team.html" class="feature-card">
+            <i class="fas fa-users"></i>
+            <span>Команда</span>
+            <p>Мульти-доступ</p>
+        </a>
+        <a href="content-gen.html" class="feature-card">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>AI Студия</span>
+            <p>Текст, картинки, видео</p>
+        </a>
+        <a href="audit.html" class="feature-card">
+            <i class="fas fa-clock-rotate-left"></i>
+            <span>Аудит лог</span>
+            <p>История действий</p>
+        </a>
+    </div>
+
+    <div class="nav-bar animate-in" style="animation-delay: 0.25s">
+        <a href="index.html" class="nav-item active"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

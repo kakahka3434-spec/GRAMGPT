@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GRAMGPT — Team</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header animate-in">
+        <h2><i class="fas fa-users" style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Команда</h2>
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;"><i class="fas fa-arrow-left"></i> Назад</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;">
+        <div class="metric-card">
+            <div class="metric-value">5</div>
+            <div class="metric-label">Участников</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value green">4</div>
+            <div class="metric-label">Online</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value orange">847</div>
+            <div class="metric-label">Действий сегодня</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value purple">3</div>
+            <div class="metric-label">Роли</div>
+        </div>
+    </div>
+
+    <!-- Invite -->
+    <button class="btn animate-in" style="animation-delay: 0.05s; margin-bottom: 16px;" onclick="alert('Ссылка скопирована: gramgpt.io/invite/team_abc123')">
+        <i class="fas fa-user-plus"></i> Пригласить участника
+    </button>
+
+    <!-- Team Members -->
+    <div class="section-title animate-in" style="animation-delay: 0.07s">Участники</div>
+
+    <!-- Owner -->
+    <div class="card animate-in" style="animation-delay: 0.09s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;">ВЫ</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Вы (Владелец)</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">@your_username</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color); font-size: 10px;">
+                    <i class="fas fa-crown"></i> Owner
+                </span>
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 4px; justify-content: flex-end;">
+                    <span class="live-dot"></span>
+                    <span style="font-size: 10px; color: var(--success-color);">Online</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 10px; font-size: 10px; flex-wrap: wrap;">
+            <span style="background: rgba(46,204,113,0.15); color: var(--success-color); padding: 3px 8px; border-radius: 6px;">Все модули</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">234 действий сегодня</span>
+        </div>
+    </div>
+
+    <!-- Admin -->
+    <div class="card animate-in" style="animation-delay: 0.11s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #9b59b6, #8e44ad); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;">АН</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Анна Николаева</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">@anna_marketing</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge" style="background: rgba(155,89,182,0.15); color: var(--purple); font-size: 10px;">Admin</span>
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 4px; justify-content: flex-end;">
+                    <span class="live-dot"></span>
+                    <span style="font-size: 10px; color: var(--success-color);">Online</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 10px; font-size: 10px; flex-wrap: wrap;">
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Парсинг</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Комментинг</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">CRM</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">312 действий</span>
+        </div>
+    </div>
+
+    <!-- Manager -->
+    <div class="card animate-in" style="animation-delay: 0.13s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #2ecc71, #27ae60); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;">ДК</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Дмитрий Козлов</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">@dmitry_sales</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color); font-size: 10px;">Manager</span>
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 4px; justify-content: flex-end;">
+                    <span class="live-dot"></span>
+                    <span style="font-size: 10px; color: var(--success-color);">Online</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 10px; font-size: 10px; flex-wrap: wrap;">
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Диалоги</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Чаттинг</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">189 действий</span>
+        </div>
+    </div>
+
+    <!-- Viewer -->
+    <div class="card animate-in" style="animation-delay: 0.15s; padding: 14px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #f39c12, #e67e22); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px;">ЕС</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Елена Смирнова</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">@elena_content</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning-color); font-size: 10px;">Manager</span>
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 4px; justify-content: flex-end;">
+                    <span class="live-dot"></span>
+                    <span style="font-size: 10px; color: var(--success-color);">Online</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 10px; font-size: 10px; flex-wrap: wrap;">
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Канал</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">Контент</span>
+            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">112 действий</span>
+        </div>
+    </div>
+
+    <!-- Offline member -->
+    <div class="card animate-in" style="animation-delay: 0.17s; padding: 14px 16px; opacity: 0.7;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(48,54,61,0.6); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--text-secondary);">МП</div>
+                <div>
+                    <div style="font-size: 14px; font-weight: 600;">Михаил Попов</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">@mikhail_tech</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge" style="background: rgba(48,54,61,0.6); color: var(--text-secondary); font-size: 10px;">Viewer</span>
+                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">Был 2ч назад</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Log -->
+    <div class="section-title animate-in" style="animation-delay: 0.19s">Последняя активность</div>
+    <div class="card animate-in" style="animation-delay: 0.21s;">
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--success-color); margin-top: 5px; flex-shrink: 0;"></div>
+            <div>
+                <div style="font-size: 12px;"><strong>Анна</strong> запустила парсинг «Крипто группы»</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">5 мин назад</div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-color); margin-top: 5px; flex-shrink: 0;"></div>
+            <div>
+                <div style="font-size: 12px;"><strong>Дмитрий</strong> закрыл сделку с @maria_inv ($1,200)</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">12 мин назад</div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--warning-color); margin-top: 5px; flex-shrink: 0;"></div>
+            <div>
+                <div style="font-size: 12px;"><strong>Елена</strong> опубликовала пост в @gramgpt_channel</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">25 мин назад</div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--purple); margin-top: 5px; flex-shrink: 0;"></div>
+            <div>
+                <div style="font-size: 12px;"><strong>Вы</strong> обновили настройки Anti-Ban Shield</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">1 час назад</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
+        <a href="campaigns.html" class="nav-item"><i class="fas fa-list"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i></a>
+        <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
+    </div>
+</body>
+</html>
