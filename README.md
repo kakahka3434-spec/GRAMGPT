@@ -1,138 +1,284 @@
-# GRAMGPT
+# 🚀 GRAMGPT ULTIMATE
 
-GRAMGPT — ИИ-комбайн для Telegram. Профессиональный бот на Python, [aiogram 3.x](https://docs.aiogram.dev/) и [OpenAI GPT-4o](https://openai.com/). Полноценный опыт взаимодействия с ИИ прямо в Telegram с поддержкой мультимодальности и сохранением истории.
+**Production-Ready Telegram AI Automation SaaS** — превосходя gramgpt.io по всем параметрам.
 
-## Основные возможности
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)](https://fastapi.tiangolo.com/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
 
-### Чат-бот
-- **Умный чат**: GPT-4o и GPT-4o-mini для общения на любые темы
-- **Постоянная память**: История диалогов в SQLite, контекст сохраняется между сессиями
-- **Мультимодальность**:
-  - Анализ фото (GPT-4o Vision)
-  - Транскрипция голосовых сообщений (Whisper)
-- **Генерация изображений**: DALL-E 3 по текстовому описанию (`/image`)
-- **Настройки модели**: Выбор модели для каждого пользователя (`/settings`)
+---
 
-### Маркетинг-автоматизация
-- **Нейрокомментинг**: AI-генерация осмысленных комментариев под постами
-- **Нейрочаттинг**: Автоматические ответы в группах с отработкой возражений
-- **Парсинг аудитории**: Сбор и анализ целевой аудитории с поведенческим анализом
-- **Прогрев аккаунтов**: Human Emulation Engine — имитация поведения реального пользователя
-- **Масс-реакции**: Эмоциональный маппинг и Reaction Funnel
-- **Авто-воронки**: Многоэтапные маркетинговые кампании с AI Orchestrator
+## 🔥 КЛЮЧЕВЫЕ ПРЕИМУЩЕСТВА
 
-### Безопасность
-- **Anti-Ban Shield**: Предиктивный анализ риска блокировки
-- **Device Fingerprinting**: Уникальные отпечатки устройств для каждого аккаунта
-- **AI Crisis Manager**: Автоматическое обнаружение и нейтрализация угроз
-- **Biological Rhythm Sync**: Имитация циклов активности реального пользователя
+| Фича | GramGPT.io | GRAMGPT Ultimate |
+|------|------------|------------------|
+| **AI Models** | GPT-3.5/4 (paid) | OpenAI + OpenRouter FREE + Groq FREE |
+| **Sniper Mode** | ❌ | ✅ Эмодзи → edit → промо |
+| **Context Awareness** | ❌ | ✅ RAG + Few-shot learning |
+| **Anti-Ban** | Basic limits | ✅ ML Predictor + Auto-downgrade |
+| **Multi-channel** | Telegram only | ✅ WA/IG/Email ready |
+| **Tone Matching** | ❌ | ✅ Адаптация под стиль чата |
+| **Multi-language** | EN only | ✅ 8 языков (RU, EN, ES, DE, FR, IT, PT, UK) |
+| **Free Tier** | Trial only | ✅ Permanent free tier |
 
-### Платформа
-- **FastAPI**: REST API для управления кампаниями и аналитикой
-- **Mini App**: Telegram Web App для управления через интерфейс
-- **TON Connect**: Интеграция оплаты через TON кошелёк
-- **Реферальная система**: Приглашение пользователей с бонусами
-- **RAG Engine**: Локальная база знаний для контекстных ответов
+---
 
-## Технологический стек
+## 🎯 ВОЗМОЖНОСТИ
 
-- **Python 3.11+**
-- **aiogram 3.x**: Фреймворк для Telegram Bot API
-- **OpenAI API**: GPT-4o, DALL-E 3, Whisper
-- **FastAPI + Uvicorn**: REST API
-- **SQLite**: Локальное хранение данных
-- **Pydantic Settings**: Конфигурация через переменные окружения
+### 🔹 CommentSniper
+- **Direct Mode**: AI-комментарий с контекстом поста (RAG: последние 10 постов канала)
+- **Sniper Mode**: эмодзи → задержка (настраиваемая) → edit на промо-текст
+- **A/B тестирование**: 2-3 варианта текста → авто-выбор победителя по вовлечённости
 
-## Установка и настройка
+### 🔹 ChannelDiscovery
+- Поиск по ключевым словам + фильтрация: открытые комменты, язык, активность
+- Кэширование результатов (7 дней TTL) + инвалидация при изменении канала
+- Экспорт найденных каналов в CSV/JSON
 
-1. **Клонируйте репозиторий**:
-   ```bash
-   git clone https://github.com/rpauts2/GRAMGPT.git
-   cd GRAMGPT
-   ```
+### 🔹 HumanEmulation + Anti-Ban Shield
+- **DNA профиля**: WPM (40-120), error_rate (0.5-3%), circadian rhythm
+- **Fingerprint**: device, UA, screen, OS — ротация при долгой сессии
+- **Predictive Ban Score**: ML-модель оценивает риск перед действием
 
-2. **Установите зависимости**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 🔹 MultiChannelRouter
+- Telegram → WhatsApp (Twilio) → Instagram (instagrapi) → Email (SMTP)
+- Unified Inbox: все сообщения в одном интерфейсе
+- Синхронизация статуса: «отправлено», «прочитано», «ответил»
 
-3. **Настройте окружение**:
-   ```bash
-   cp .env.example .env
-   # Укажите BOT_TOKEN и OPENAI_API_KEY в файле .env
-   ```
+---
 
-4. **Запустите бота**:
-   ```bash
-   python -m src.app
-   ```
+## 🏗️ АРХИТЕКТУРА
 
-## Команды бота
+```
+┌─────────────────────────────────────────────────────┐
+│                  Traefik (Reverse Proxy)            │
+│                  SSL Termination + Rate Limiting    │
+└─────────────────────────────────────────────────────┘
+                         │
+        ┌────────────────┴────────────────┐
+        │                                 │
+┌───────▼────────┐              ┌────────▼────────┐
+│   FastAPI API  │              │  Celery Worker  │
+│   (4 workers)  │              │  (4 concurrency)│
+└───────┬────────┘              └────────┬────────┘
+        │                                 │
+        └────────────────┬────────────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+┌───────▼────────┐ ┌─────▼──────┐ ┌──────▼──────┐
+│   PostgreSQL   │ │   Redis    │ │ Prometheus  │
+│   (Database)   │ │ (Cache+MQ) │ │  (Metrics)  │
+└────────────────┘ └────────────┘ └─────────────┘
+```
 
-| Команда | Описание |
-|---------|----------|
-| `/start` | Запуск бота и приветствие |
-| `/image <описание>` | Генерация изображения (DALL-E 3) |
-| `/settings` | Выбор модели ИИ (GPT-4o / GPT-4o-mini) |
-| `/clear` | Очистка истории диалога |
-| `/help` | Справка по всем командам |
+---
 
-## API Endpoints
+## 🚀 БЫСТРЫЙ СТАРТ
 
-| Метод | Путь | Описание |
-|-------|------|----------|
-| GET | `/api/v1/status` | Статус сервиса |
-| POST | `/api/v1/campaigns/create` | Создание маркетинговой кампании |
-| GET | `/api/v1/analytics/summary` | Сводка аналитики |
-| GET | `/api/v1/marketplace/templates` | Список шаблонов |
-| GET | `/panel/` | Mini App (Telegram Web App) |
-
-## Docker
+### 1. Клонирование
 
 ```bash
-docker build -t gramgpt .
-docker run --env-file .env gramgpt
+git clone https://github.com/yourusername/gramgpt-ultimate.git
+cd gramgpt-ultimate
 ```
 
-## Структура проекта
+### 2. Настройка окружения
+
+```bash
+cp .env.prod.example .env.prod
+nano .env.prod  # Заполните все значения
+```
+
+### 3. Генерация ключей безопасности
+
+```bash
+# JWT Secret
+openssl rand -hex 32
+
+# Fernet Encryption Key
+python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+### 4. Запуск через Docker
+
+```bash
+docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+### 5. Проверка
+
+```bash
+# Статус сервисов
+docker-compose -f docker-compose.prod.yml ps
+
+# Логи
+docker-compose -f docker-compose.prod.yml logs -f api
+
+# API Docs
+curl https://yourdomain.com/docs
+```
+
+---
+
+## 📁 СТРУКТУРА ПРОЕКТА
 
 ```
-GRAMGPT/
+gramgpt-ultimate/
 ├── src/
-│   ├── app.py                    # Точка входа (API + Bot)
-│   ├── config.py                 # Конфигурация
-│   ├── api/
-│   │   ├── main.py               # FastAPI приложение
-│   │   ├── web3.py               # TON Connect endpoints
-│   │   └── static/mini-app/      # Telegram Mini App
-│   ├── core/
-│   │   ├── openai_client.py      # OpenAI API клиент
-│   │   ├── human_emulation.py    # Human Emulation Engine
-│   │   ├── neuro_modules.py      # Нейрокомментинг, нейрочаттинг
-│   │   ├── orchestrator.py       # AI Orchestrator
-│   │   ├── account_manager.py    # Управление аккаунтами
-│   │   ├── fingerprint.py        # Device Fingerprinting
-│   │   ├── crisis_manager.py     # AI Crisis Manager
-│   │   ├── autofunnel.py         # Авто-воронки
-│   │   ├── router.py             # Multi-Channel Router
-│   │   ├── referral.py           # Реферальная система
-│   │   ├── avatar.py             # AI Video Avatars
-│   │   ├── rag/engine.py         # RAG Engine
-│   │   └── voice/cloning.py      # Voice Cloning
-│   ├── db/
-│   │   ├── database.py           # SQLite база данных
-│   │   └── memory.py             # Память диалогов
-│   ├── services/
-│   │   ├── parser.py             # Поведенческий анализ
-│   │   ├── hyper_parser.py       # Cross-platform парсинг
-│   │   └── bot/
-│   │       ├── main.py           # Инициализация бота
-│   │       ├── handlers/         # Обработчики команд
-│   │       └── middlewares/      # Middleware (логирование)
-│   └── utils/
-│       └── i18n.py               # Интернационализация
-├── tests/                        # Тесты
-├── requirements.txt
+│   ├── api/              # FastAPI endpoints & routes
+│   │   ├── main.py
+│   │   ├── config.py
+│   │   └── routes/
+│   │       ├── miniapp.py
+│   │       ├── payments.py
+│   │       └── ...
+│   ├── core/             # Business logic
+│   │   ├── comment_sniper.py
+│   │   ├── promo_engine.py
+│   │   ├── flood_predictor.py
+│   │   ├── tone_matcher.py
+│   │   ├── i18n_manager.py
+│   │   └── ...
+│   ├── db/               # Database models & migrations
+│   │   ├── database.py
+│   │   ├── models.py
+│   │   └── alembic/
+│   ├── tests/            # Unit & E2E tests
+│   └── utils/            # Helpers
+├── static/               # Mini App frontend
+│   └── index.html
+├── monitoring/           # Prometheus config
+├── docker-compose.prod.yml
 ├── Dockerfile
-└── .env.example
+├── requirements.txt
+├── .env.prod.example
+├── DEPLOYMENT.md
+└── README.md
 ```
+
+---
+
+## 🧪 ТЕСТИРОВАНИЕ
+
+### Запуск всех тестов
+
+```bash
+pytest src/tests -v --cov=src
+```
+
+### E2E тест CommentSniper
+
+```bash
+python -m src.tests.comment_sniper_full_test
+```
+
+### Проверка кода
+
+```bash
+flake8 src --max-line-length=127
+black --check src
+mypy src --ignore-missing-imports
+```
+
+---
+
+## 📊 МОНТОРИНГ
+
+### Prometheus Metrics
+
+Доступны по адресу: `http://localhost:9090`
+
+Ключевые метрики:
+- `http_requests_total` — всего запросов к API
+- `http_request_duration_seconds` — время ответа
+- `celery_tasks_pending` — длина очереди задач
+- `db_connections_active` — активные подключения к БД
+
+### Grafana Dashboard
+
+```bash
+docker run -d --name grafana \
+  -p 3000:3000 \
+  -v grafana_data:/var/lib/grafana \
+  grafana/grafana:latest
+```
+
+---
+
+## 💼 ТАРИФЫ (SaaS модель)
+
+| Тариф | Цена | Аккаунты | Комментарии/день | Фичи |
+|-------|------|----------|------------------|------|
+| **Free** | $0 | 1 | 10 | Direct mode, базовый AI |
+| **Pro** | $49/мес | 5 | 500 | Sniper mode, RAG, Tone matching |
+| **Agency** | $149/мес | 20 | 2000 | Все фичи + API доступ |
+| **Enterprise** | $299/мес | Unlimited | Unlimited | White-label, приоритетная поддержка |
+
+---
+
+## 🔐 БЕЗОПАСНОСТЬ
+
+- **JWT аутентификация** + Refresh tokens
+- **RBAC**: user / admin / superadmin роли
+- **Шифрование** чувствительных данных (AES-256)
+- **Rate limiting** на пользователя и эндпоинт
+- **Аудит-лог** всех критических действий
+- **GDPR compliance**: экспорт и удаление данных по запросу
+
+---
+
+## 📖 ДОКУМЕНТАЦИЯ
+
+- [DEPLOYMENT.md](./DEPLOYMENT.md) — полное руководство по развертыванию
+- [API Docs](https://yourdomain.com/docs) — Swagger UI (OpenAPI)
+- [STRATEGIC_PLAN.md](./STRATEGIC_PLAN.md) — стратегия развития
+- [PROMPTS_GUIDE.md](./PROMPTS_GUIDE.md) — коллекция AI промптов
+
+---
+
+## 🤝 CONTRIBUTING
+
+1. Fork the repo
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+---
+
+## 📞 ПОДДЕРЖКА
+
+- **Email**: support@gramgpt.io
+- **Telegram**: [@gramgpt_support](https://t.me/gramgpt_support)
+- **Documentation**: https://docs.gramgpt.io
+
+---
+
+## 📜 ЛИЦЕНЗИЯ
+
+MIT License — см. [LICENSE](./LICENSE) файл.
+
+---
+
+## 🎯 ROADMAP
+
+### Q1 2025
+- [x] Production Docker setup
+- [x] CI/CD pipeline
+- [x] Monitoring & alerting
+- [ ] Payment integration (Stripe + Crypto)
+- [ ] Multi-tenancy support
+
+### Q2 2025
+- [ ] WhatsApp integration
+- [ ] Instagram integration
+- [ ] Voice comments (TTS)
+- [ ] Avatar generation for accounts
+
+---
+
+**Made with ❤️ by GRAMGPT Team**
+
+*Превосходя возможности конкурентов, создаем будущее автоматизации.*

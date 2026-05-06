@@ -1,6 +1,7 @@
 """
 Proxy Manager - Validation, assignment, and rotation for GRAMGPT accounts.
 Supports HTTP and SOCKS5 proxies with automatic fallback.
+Enhanced with real HTTP connectivity checks and geo-location validation.
 """
 
 import asyncio
@@ -9,6 +10,7 @@ import random
 import socket
 from typing import Optional, Dict, List, Tuple
 from urllib.parse import urlparse
+import aiohttp
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +18,7 @@ logger = logging.getLogger(__name__)
 class ProxyManager:
     """
     Manages proxy validation, assignment, and rotation.
+    Enhanced with real HTTP testing and performance tracking.
     """
     
     # Default test targets for proxy validation
@@ -23,6 +26,13 @@ class ProxyManager:
         ("telegram.org", 443),
         ("google.com", 443),
         ("cloudflare.com", 443)
+    ]
+    
+    # HTTP endpoints for connectivity testing
+    HTTP_TEST_URLS = [
+        "https://api.telegram.org/bot",  # Lightweight Telegram API
+        "https://httpbin.org/ip",  # Returns IP info
+        "https://icanhazip.com"  # Simple IP echo
     ]
     
     def __init__(self, proxy_list_file: Optional[str] = None):
@@ -35,6 +45,7 @@ class ProxyManager:
         self.proxy_list: List[str] = []
         self.current_index = 0
         self.proxy_stats: Dict[str, Dict] = {}
+        self._session: Optional[aiohttp.ClientSession] = None
         
         # Load from file if provided
         if proxy_list_file:
@@ -57,14 +68,14 @@ class ProxyManager:
     @staticmethod
     async def validate_proxy(proxy_url: str, timeout: float = 10.0) -> bool:
         """
-        Validate proxy by attempting connection through it.
+        Validate proxy by attempting real HTTP connection through it.
         
         Args:
             proxy_url: Proxy URL (http://host:port or socks5://host:port)
             timeout: Connection timeout in seconds
         
         Returns:
-            True if proxy is working
+            True if proxy is working and can reach Telegram
         """
         if not proxy_url:
             return True  # Direct connection is always "valid"
@@ -79,36 +90,20 @@ class ProxyManager:
                 logger.warning(f"⚠️ Invalid proxy URL: {proxy_url}")
                 return False
             
-            # Test with socket connection
-            if proxy_type in ('http', 'https'):
-                # For HTTP proxies, try to connect through
-                reader, writer = await asyncio.wait_for(
-                    asyncio.open_connection(host, port),
-                    timeout=timeout
-                )
-                writer.close()
-                await writer.wait_closed()
-                
-            elif proxy_type == 'socks5':
-                # For SOCKS5, try basic handshake
-                reader, writer = await asyncio.wait_for(
-                    asyncio.open_connection(host, port),
-                    timeout=timeout
-                )
-                
-                # SOCKS5 handshake (no auth)
-                writer.write(bytes([0x05, 0x01, 0x00]))  # VER, NMETHODS, METHODS
-                await writer.drain()
-                
-                response = await asyncio.wait_for(reader.read(2), timeout=timeout)
-                if response[0] != 0x05:
-                    raise Exception("Invalid SOCKS5 response")
-                
-                writer.close()
-                await writer.wait_closed()
+            # Level 1: Basic socket connectivity (fast check)
+            socket_valid = await ProxyManager._test_socket_connection(host, port, timeout)
+            if not socket_valid:
+                return False
             
-            logger.debug(f"✅ Proxy validated: {proxy_url}")
-            return True
+            # Level 2: HTTP connectivity test (real validation)
+            http_valid = await ProxyManager._test_http_through_proxy(proxy_url, timeout)
+            
+            if http_valid:
+                logger.debug(f"✅ Proxy validated (HTTP): {proxy_url}")
+            else:
+                logger.warning(f"⚠️ Proxy socket OK but HTTP failed: {proxy_url}")
+            
+            return http_valid
             
         except asyncio.TimeoutError:
             logger.warning(f"⏱️ Proxy timeout: {proxy_url}")
@@ -116,6 +111,61 @@ class ProxyManager:
         except Exception as e:
             logger.warning(f"❌ Proxy validation failed {proxy_url}: {e}")
             return False
+    
+    @staticmethod
+    async def _test_socket_connection(host: str, port: int, timeout: float) -> bool:
+        """Test basic TCP connection to proxy."""
+        try:
+            reader, writer = await asyncio.wait_for(
+                asyncio.open_connection(host, port),
+                timeout=timeout
+            )
+            writer.close()
+            await writer.wait_closed()
+            return True
+        except Exception:
+            return False
+    
+    @staticmethod
+    async def _test_http_through_proxy(proxy_url: str, timeout: float) -> bool:
+        """Test real HTTP connectivity through proxy to Telegram."""
+        import aiohttp
+        
+        try:
+            # Build proxy URL for aiohttp
+            if proxy_url.startswith('socks5'):
+                # aiohttp needs socks5://user:pass@host:port format
+                proxy_url = proxy_url.replace('socks5://', 'socks5://')
+            
+            connector = aiohttp.TCPConnector(ssl=False)
+            async with aiohttp.ClientSession(connector=connector) as session:
+                # Try Telegram API first (most relevant)
+                async with session.get(
+                    "https://api.telegram.org/bot",
+                    proxy=proxy_url,
+                    timeout=aiohttp.ClientTimeout(total=timeout)
+                ) as response:
+                    # Any response (even 404) means proxy works
+                    return response.status < 500
+                    
+        except aiohttp.ClientProxyConnectionError:
+            return False
+        except aiohttp.ServerDisconnectedError:
+            return False
+        except asyncio.TimeoutError:
+            return False
+        except Exception:
+            # Fallback: try without SSL verification issues
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(
+                        "https://httpbin.org/ip",
+                        proxy=proxy_url,
+                        timeout=aiohttp.ClientTimeout(total=timeout)
+                    ) as response:
+                        return response.status == 200
+            except Exception:
+                return False
     
     def assign_proxy_to_session(self, session_path: str, proxy_url: str) -> Dict:
         """

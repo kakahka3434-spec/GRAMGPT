@@ -47,16 +47,21 @@ class AIClient:
     
     def _init_client(self):
         """Initialize the OpenAI-compatible client."""
+        self.is_available = False  # Default to unavailable
         if self.api_key:
             try:
                 kwargs = {"api_key": self.api_key}
                 if self.base_url:
                     kwargs["base_url"] = self.base_url
                 self.client = AsyncOpenAI(**kwargs)
+                self.is_available = True
+                logger.info(f"AI client initialized and available ({self.provider})")
             except Exception as e:
                 logger.error(f"Failed to initialize AI client: {e}")
+                self.is_available = False
         else:
             logger.warning(f"No API key configured for provider: {self.provider}")
+            self.is_available = False
     
     async def get_chat_response(self, chat_id: int, messages: List[Dict[str, any]]) -> str:
         """

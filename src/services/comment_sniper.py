@@ -1,6 +1,7 @@
 """
 Comment Sniper - Immediate emoji comments + delayed promo edit.
 Captures first comment position and replaces it with promo text later.
+Integrated with SQLite for crash recovery and persistence.
 """
 
 import asyncio
@@ -9,10 +10,12 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Callable, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from telethon import events
 from telethon.tl.types import Message, Channel
+
+from src.db.database import db
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +30,7 @@ class PendingEdit:
     edit_after: int  # seconds
     target_link: str
     post_text: str
+    id: Optional[int] = None  # DB ID for persistence
 
 
 class CommentSniper:
@@ -198,9 +202,25 @@ class CommentSniper:
                     post_text=message.message or ""
                 )
                 
+                # Save to DB for crash recovery
+                db.save_sniper_queue_item(
+                    channel=channel_username,
+                    post_id=post_id,
+                    emoji_msg_id=emoji_msg_id,
+                    target_link=pending.target_link,
+                    post_text=pending.post_text,
+                    edit_after_seconds=edit_delay
+                )
+                
+                # Get the DB ID for tracking
+                pending_edits = db.get_pending_sniper_edits()
+                if pending_edits:
+                    # Find the most recent one (our new entry)
+                    pending.id = pending_edits[0]['id']
+                
                 await self.pending_edits.put(pending)
                 
-                logger.info(f"⏳ [SNIPER] Queued for edit in {edit_delay}s")
+                logger.info(f"⏳ [SNIPER] Queued for edit in {edit_delay}s (DB ID: {pending.id})")
                 
                 # Callback
                 if self.on_emoji_sent:
@@ -310,7 +330,7 @@ class CommentSniper:
         pending: PendingEdit,
         new_text: str
     ) -> bool:
-        """Edit emoji comment to promo text."""
+        """Edit emoji comment to promo text with DB persistence."""
         try:
             # Get the discussion chat
             full_message = await self.client.client.get_messages(
@@ -333,6 +353,9 @@ class CommentSniper:
                 pending.emoji_msg_id,
                 new_text
             )
+            
+            # Mark as completed in DB
+            db.mark_sniper_edit_completed(pending.id)
             
             return True
             

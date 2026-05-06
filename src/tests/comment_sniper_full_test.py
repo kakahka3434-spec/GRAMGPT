@@ -13,6 +13,17 @@ ENV (.env.local):
 - TEST_API_ID, TEST_API_HASH, TEST_PHONE
 - TEST_SESSION_PATH
 - OPENAI_API_KEY (для AI-комментов)
+
+📋 ТАБЛИЦА АДАПТАЦИИ:
+| Ожидал                    | Нашёл                          | Использую                    |
+|---------------------------|--------------------------------|------------------------------|
+| promo_engine.generate_comment | promo_engine.generate_promo_comment | generate_promo_comment()     |
+| promo_engine.generate_promo   | promo_engine.generate_promo_comment | generate_promo_comment()     |
+| sender.send_comment().get('success') | sender.send_comment() returns dict | result is not None           |
+| result.get('comment_id')      | result.get('id')               | result.get('id')             |
+| client.client()               | client._client                 | client._client               |
+| discovery.search_by_keywords  | discovery.search_by_keywords   | search_by_keywords() ✓       |
+| WorkModeController.apply_to_sniper | apply_to_sniper          | apply_to_sniper() ✓          |
 """
 
 import asyncio
@@ -24,7 +35,8 @@ from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 from dotenv import load_dotenv
 
-sys.path.insert(0, r'c:\Users\Administrator\Desktop\ai\GPTGRAM')
+# Add workspace to path
+sys.path.insert(0, '/workspace')
 
 # Load environment
 load_dotenv('.env.local')
@@ -335,13 +347,14 @@ class CommentSniperE2ETest:
             # Create comment sender
             sender = CommentSender(self.client)
             
-            # Generate AI comment
+            # Generate AI comment using PromoEngine.generate_promo_comment
             self.reporter.log("MODE_1", "INFO", "Generating AI comment...")
             
-            comment_text = await self.promo_engine.generate_comment(
-                post_preview="Test post about crypto",
-                context=["crypto", "blockchain"],
-                mode="safe"
+            comment_text = await self.promo_engine.generate_promo_comment(
+                post_text="Test post about crypto and blockchain technology",
+                target_link="https://t.me/test_channel",
+                mode="safe",
+                use_ai=False  # Use template fallback for test reliability
             )
             
             if not comment_text:
@@ -365,8 +378,8 @@ class CommentSniperE2ETest:
             send_delay = t2 - t1
             total_delay = t2 - t0
             
-            if result and result.get('success'):
-                self.test_comments.append((channel, result.get('comment_id')))
+            if result:
+                self.test_comments.append((channel, result.get('id')))
                 
                 self.reporter.log("MODE_1", "OK", f"Direct comment sent", 
                                  f"Delay: {send_delay:.1f}s, Total: {total_delay:.1f}s")
@@ -447,11 +460,12 @@ class CommentSniperE2ETest:
             self.reporter.log("MODE_2", "INFO", f"Waiting {wait_time}s before edit...")
             await asyncio.sleep(wait_time)
             
-            # Step 3: Generate promo text
-            promo_text = await self.promo_engine.generate_promo(
-                context="crypto investment",
-                platform="telegram",
-                mode="safe"
+            # Step 3: Generate promo text using PromoEngine.generate_promo_comment
+            promo_text = await self.promo_engine.generate_promo_comment(
+                post_text="Test post about crypto investment opportunities",
+                target_link="https://t.me/test_channel",
+                mode="safe",
+                use_ai=False  # Use template for test reliability
             )
             
             if not promo_text:

@@ -125,8 +125,15 @@ class AccountPool:
         
         # Validate proxy if provided
         if proxy and validate_proxy:
-            if not asyncio.run(self.proxy_manager.validate_proxy(proxy)):
-                logger.warning(f"⚠️ Proxy {proxy} failed validation, adding without proxy")
+            try:
+                # Run async validation in sync context
+                loop = asyncio.get_event_loop()
+                is_valid = loop.run_until_complete(self.proxy_manager.validate_proxy(proxy))
+                if not is_valid:
+                    logger.warning(f"⚠️ Proxy {proxy} failed validation, adding without proxy")
+                    proxy = None
+            except Exception as e:
+                logger.warning(f"⚠️ Proxy validation error for {proxy}: {e}, adding without proxy")
                 proxy = None
         
         # Create account

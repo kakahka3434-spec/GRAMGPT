@@ -1,14 +1,18 @@
 """
 Promo Engine - AI-generated promotional comments with anti-spam protection.
 Generates unique promo text and validates against spam filters.
+Integrated with RAG Engine for few-shot learning from comment history.
 """
 
 import logging
 import random
 import re
 from typing import List, Dict, Optional, Any
+from datetime import datetime, timedelta
 
 from src.core.ai_client import ai_client
+from src.core.rag.engine import rag_engine
+from src.db.database import db
 
 logger = logging.getLogger(__name__)
 
@@ -93,15 +97,19 @@ class PromoEngine:
         """
         self.settings = settings or {}
         self.generated_history: List[str] = []  # Track to avoid exact repeats
+        self.few_shot_examples: List[Dict] = []  # Cached few-shot examples from DB
         
-        logger.info("🎯 PromoEngine initialized")
+        logger.info("🎯 PromoEngine initialized with RAG integration")
     
     async def generate_promo_comment(
         self,
         post_text: str = "",
         target_link: str = "",
         mode: str = "balanced",
-        use_ai: bool = True
+        use_ai: bool = True,
+        account_phone: Optional[str] = None,
+        channel_username: Optional[str] = None,
+        post_id: Optional[int] = None
     ) -> str:
         """
         Generate promotional comment with anti-spam protection.
@@ -111,6 +119,9 @@ class PromoEngine:
             target_link: Link to insert
             mode: 'safe', 'balanced', 'aggressive' (spam risk tolerance)
             use_ai: If True, use AI to generate unique variations
+            account_phone: Phone of account posting (for history tracking)
+            channel_username: Channel where posting (for history tracking)
+            post_id: Post ID (for history tracking)
         
         Returns:
             Ready-to-post promo comment or fallback template
@@ -133,6 +144,20 @@ class PromoEngine:
                 # Keep history limited
                 if len(self.generated_history) > 100:
                     self.generated_history.pop(0)
+                
+                # Save to DB for few-shot learning (if metadata provided)
+                if account_phone and channel_username and post_id:
+                    db.save_comment_to_history(
+                        account_phone=account_phone,
+                        channel_username=channel_username,
+                        post_id=post_id,
+                        comment_text=candidate,
+                        comment_type="direct",
+                        spam_score=spam_score,
+                        was_edited=False
+                    )
+                    logger.debug(f"📝 Saved comment to DB for few-shot learning")
+                
                 return candidate
             else:
                 logger.debug(f"⚠️ Spam score too high ({spam_score:.2f}), retrying...")
@@ -142,11 +167,29 @@ class PromoEngine:
         return self._generate_fallback(target_link)
     
     async def _generate_with_ai(self, post_text: str, target_link: str) -> str:
-        """Generate promo using AI with context awareness."""
+        """Generate promo using AI with context awareness and few-shot learning."""
+        
+        # Load few-shot examples from DB (cache for performance)
+        if not self.few_shot_examples:
+            recent_comments = db.get_recent_comments(limit=10, comment_type="direct")
+            self.few_shot_examples = [
+                {"post": f"Post about {c['channel']}", "comment": c['text']}
+                for c in recent_comments if c['text']
+            ]
+            logger.info(f"📚 Loaded {len(self.few_shot_examples)} few-shot examples from DB")
+        
+        # Build few-shot examples string
+        few_shot_str = ""
+        if self.few_shot_examples:
+            few_shot_str = "\n\nEXAMPLES OF GOOD COMMENTS (learn from these):\n"
+            for i, ex in enumerate(self.few_shot_examples[:5], 1):
+                few_shot_str += f"{i}. Comment: \"{ex['comment']}\"\n"
+        
         prompt = f"""
 You are writing a natural, helpful comment reply to a Telegram post.
 
 Post context (first 200 chars): {post_text[:200]}
+{few_shot_str}
 
 Your task:
 1. Write 1-2 sentences that relate to the post topic naturally
