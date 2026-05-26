@@ -39,42 +39,16 @@ logger = logging.getLogger(__name__)
 @celery_app.task(bind=True, max_retries=3, default_retry_delay=60)
 def run_parsing_task(self, parser_type: str, target: str, keywords: Optional[str] = None, limit: int = 100):
     """Run parsing in background Celery task."""
-    import json
-    import sqlite3
-    from datetime import datetime
-    from src.services.telegram_user_client import TelegramUserClient
-    from src.services.channel_discovery import ChannelDiscovery
-    from src.config import settings
-
-    async def _run():
-        telegram = TelegramUserClient(
-            api_id=settings.telegram_api_id,
-            api_hash=settings.telegram_api_hash,
-            phone=settings.telegram_phone,
-            session_path=f"data/sessions/celery_parse_{self.request.id[:8]}.session"
-        )
-        try:
-            connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
-            if not connected:
-                raise Exception("Failed to connect to Telegram")
-            discovery = ChannelDiscovery(telegram)
-            kw = keywords.split(",") if keywords else [target]
-            results = await discovery.search_by_keywords(kw, limit=min(limit, 50))
-            results = await discovery.filter_open_comments(results)
-            return results
-        finally:
-            await telegram.disconnect()
+    from src.services.parser_service import run_parsing
 
     try:
-        results = asyncio.run(_run())
-        tasks_db = "data/tasks.db"
-        os.makedirs("data", exist_ok=True)
-        with sqlite3.connect(tasks_db) as conn:
-            conn.execute(
-                "UPDATE tasks SET status = ?, completed_at = ?, results = ? WHERE task_id = ?",
-                ("completed", datetime.now().isoformat(), json.dumps(results), self.request.id)
-            )
-            conn.commit()
+        results = asyncio.run(run_parsing(
+            task_id=self.request.id,
+            parser_type=parser_type,
+            target=target,
+            keywords=keywords,
+            limit=limit,
+        ))
         return {"status": "completed", "total": len(results)}
     except Exception as exc:
         self.retry(exc=exc)

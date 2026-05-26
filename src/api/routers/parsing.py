@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 from src.celery_app import celery_app
+from src.config import settings
 import os
 import sqlite3
 import json
@@ -19,47 +20,92 @@ class ParseRequest(BaseModel):
     period: str = "7d"
 
 
-@router.post("/parsing/start")
-async def start_parsing(req: ParseRequest):
-    from src.config import settings
-    if not all([settings.telegram_api_id, settings.telegram_api_hash]):
-        raise HTTPException(status_code=503, detail="Telegram credentials not configured")
-
-    task_id = f"parse_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
-    tasks_db = "data/tasks.db"
+def _init_tasks_db():
     os.makedirs("data", exist_ok=True)
-    with sqlite3.connect(tasks_db) as conn:
+    with sqlite3.connect("data/tasks.db") as conn:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS tasks (
                 task_id TEXT PRIMARY KEY, type TEXT, status TEXT,
-                params TEXT, created_at TEXT, completed_at TEXT, results TEXT
+                params TEXT, created_at TEXT, completed_at TEXT, results TEXT, error TEXT
             )
         """)
+        conn.commit()
+
+
+def _create_task(task_id: str, parser_type: str, params: dict):
+    _init_tasks_db()
+    with sqlite3.connect("data/tasks.db") as conn:
         conn.execute(
-            "INSERT INTO tasks VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (task_id, req.parser_type, "processing", json.dumps(req.dict()),
-             datetime.now().isoformat(), None, None)
+            "INSERT INTO tasks (task_id, type, status, params, created_at) VALUES (?, ?, ?, ?, ?)",
+            (task_id, parser_type, "processing", json.dumps(params), datetime.now().isoformat()),
         )
         conn.commit()
 
-    celery_app.send_task("run_parsing_task", args=[req.parser_type, req.target, req.keywords, req.limit],
-                         task_id=task_id)
 
-    return {"status": "processing", "task_id": task_id, "parser_type": req.parser_type, "target": req.target}
+@router.post("/parsing/start")
+async def start_parsing(req: ParseRequest):
+    if not all([settings.telegram_api_id, settings.telegram_api_hash, settings.telegram_phone]):
+        raise HTTPException(
+            status_code=503,
+            detail="Telegram credentials not configured. Set TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_PHONE in .env.local"
+        )
+
+    task_id = f"parse_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
+    _create_task(task_id, req.parser_type, req.dict())
+
+    dispatched = False
+
+    # Try Celery path
+    try:
+        celery_app.send_task(
+            "run_parsing_task",
+            args=[req.parser_type, req.target, req.keywords, req.limit],
+            task_id=task_id,
+        )
+        dispatched = True
+    except Exception:
+        pass
+
+    # Fallback: run inline in background
+    if not dispatched:
+        import asyncio
+        from src.services.parser_service import run_parsing
+
+        asyncio.create_task(run_parsing(
+            task_id=task_id,
+            parser_type=req.parser_type,
+            target=req.target,
+            keywords=req.keywords,
+            limit=req.limit,
+        ))
+
+    return {
+        "status": "processing",
+        "task_id": task_id,
+        "parser_type": req.parser_type,
+        "target": req.target,
+        "mode": "celery" if dispatched else "inline",
+    }
 
 
 @router.get("/parsing/results/{task_id}")
 async def get_parsing_results(task_id: str):
-    tasks_db = "data/tasks.db"
-    if not os.path.exists(tasks_db):
+    if not os.path.exists("data/tasks.db"):
         raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
-    with sqlite3.connect(tasks_db) as conn:
-        cursor = conn.execute("SELECT status, results FROM tasks WHERE task_id = ?", (task_id,))
+
+    with sqlite3.connect("data/tasks.db") as conn:
+        cursor = conn.execute("SELECT status, results, error FROM tasks WHERE task_id = ?", (task_id,))
         row = cursor.fetchone()
         if not row:
             raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
-        status, results_json = row
+
+        status, results_json, error = row
+
         if status == "processing":
             return {"task_id": task_id, "status": "processing", "message": "Task is still running"}
+
+        if status == "failed":
+            return {"task_id": task_id, "status": "failed", "error": error, "results": []}
+
         results = json.loads(results_json) if results_json else []
         return {"task_id": task_id, "status": status, "total_found": len(results), "results": results[:100]}
