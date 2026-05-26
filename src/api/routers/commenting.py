@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List
 from src.celery_app import celery_app
@@ -42,54 +42,97 @@ async def start_commenting(config: CommentingConfig):
 
 @router.get("/commenting/logs")
 async def get_commenting_logs():
-    return [
-        {"channel": "Крипто Новости", "comment": "Отличный анализ рынка!", "likes": 12, "replies": 3, "time": "2 мин назад"},
-        {"channel": "DeFi Обзоры", "comment": "Интересная стратегия!", "likes": 8, "replies": 5, "time": "15 мин назад"},
-        {"channel": "NFT Новости", "comment": "Перспективный проект!", "likes": 21, "replies": 7, "time": "32 мин назад"},
-    ]
+    try:
+        from src.db.comment_memory import CommentMemory
+        mem = CommentMemory()
+        posts = mem.get_all_recent(hours=72)
+        return [
+            {
+                "channel": p.get("channel", ""),
+                "comment": p.get("text", ""),
+                "likes": 0,
+                "replies": 0,
+                "time": p.get("timestamp", ""),
+            }
+            for p in posts
+        ]
+    except Exception:
+        return []
 
 
 @router.post("/chatting/start")
 async def start_chatting(config: ChattingConfig):
-    return {"status": "active", "groups": config.groups, "strategy": config.strategy}
+    celery_app.send_task("run_commenting_task", args=[config.groups, config.strategy])
+    return {"status": "queued", "groups": config.groups, "strategy": config.strategy}
 
 
 @router.get("/dialogs/active")
 async def get_active_dialogs():
-    return {
-        "total_active": 12, "conversion_rate": 89, "leads": 23,
-        "dialogs": [
-            {"name": "Иван Петров", "stage": "hot", "last_msg": "2 мин", "status": "active"},
-            {"name": "Мария Иванова", "stage": "warm", "last_msg": "15 мин", "status": "active"},
-            {"name": "Олег Сидоров", "stage": "cold", "last_msg": "1 час", "status": "new"},
-        ]
-    }
+    try:
+        import sqlite3, os
+        BASE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "gramgpt.db")
+        conn = sqlite3.connect(BASE)
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute("SELECT * FROM leads ORDER BY last_contact DESC LIMIT 10").fetchall()
+        conn.close()
+        dialogs = []
+        for r in rows:
+            stage = r["status"] or "new"
+            dialogs.append({
+                "name": r["username"] or f"User #{r['tg_id']}",
+                "stage": "hot" if stage == "hot" else "warm" if stage in ("in_progress",) else "cold",
+                "last_msg": str(r.get("last_contact", "")),
+                "status": "active" if stage != "closed" else "new",
+            })
+        return {"total_active": len(dialogs), "conversion_rate": 0, "leads": len(dialogs), "dialogs": dialogs}
+    except Exception:
+        return {"total_active": 0, "conversion_rate": 0, "leads": 0, "dialogs": []}
 
 
 @router.post("/dialogs/start")
 async def start_dialogs():
-    return {"status": "active", "ai_mode": "auto", "funnel_steps": 4}
+    celery_app.send_task("run_commenting_task")
+    return {"status": "queued", "ai_mode": "auto", "funnel_steps": 4}
 
 
 @router.post("/reactions/start")
 async def start_reactions(config: ReactionsConfig):
-    return {"status": "active", "channels": config.channels, "emojis": config.emojis}
+    celery_app.send_task("run_commenting_task", args=[config.channels, config.emojis])
+    return {"status": "queued", "channels": config.channels, "emojis": config.emojis}
 
 
 @router.get("/reactions/stats")
 async def get_reactions_stats():
-    return {"total": 12847, "today": 1456, "channels": 24}
+    try:
+        from src.core.account_pool import AccountPool
+        pool = AccountPool()
+        accounts = pool.list_accounts()
+        total = sum(a.get("success_count", 0) for a in accounts)
+        return {"total": total, "today": 0, "channels": len(accounts)}
+    except Exception:
+        return {"total": 0, "today": 0, "channels": 0}
 
 
 @router.get("/warmup/accounts")
 async def get_warmup_accounts():
-    return [
-        {"phone": "+7 (999) 123-45-67", "trust": 94, "status": "active", "dialogs": 24},
-        {"phone": "+7 (999) 234-56-78", "trust": 78, "status": "warmup", "dialogs": 18},
-        {"phone": "+7 (999) 345-67-89", "trust": 65, "status": "warmup", "dialogs": 12},
-    ]
+    try:
+        from src.core.account_pool import AccountPool
+        pool = AccountPool()
+        accounts = pool.list_accounts()
+        return [
+            {
+                "phone": a.get("phone", f"+{a.get('id', 0)}"),
+                "trust": a.get("trust_score", 50),
+                "status": a.get("status", "idle"),
+                "dialogs": a.get("success_count", 0),
+            }
+            for a in accounts
+        ]
+    except Exception:
+        return []
 
 
 @router.post("/warmup/start")
 async def start_warmup():
-    return {"status": "active", "anti_ban": True, "human_emulation": True}
+    celery_app.send_task("run_account_check_task")
+    return {"status": "queued", "anti_ban": True, "human_emulation": True}

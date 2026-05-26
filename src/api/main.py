@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
@@ -11,21 +11,13 @@ from src.api.routers.analytics import router as analytics_router
 from src.api.routers.channels import router as channels_router
 from src.api.routers.admin import router as admin_router
 from src.core.auth_service import auth_service
+from typing import Optional
 import os
 import logging
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="GRAMGPT API")
-
-# Include routers
-app.include_router(web3_router)
-app.include_router(parsing_router)
-app.include_router(commenting_router)
-app.include_router(accounts_router)
-app.include_router(analytics_router)
-app.include_router(channels_router)
-app.include_router(admin_router)
 
 # ============ CORS CONFIGURATION ============
 ALLOWED_ORIGINS = [
@@ -43,14 +35,26 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
-# ============ JWT VERIFICATION ============
-security = HTTPBearer()
+# ============ OPTIONAL JWT AUTH ============
+security = HTTPBearer(auto_error=False)
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
-    payload = auth_service.verify_token(credentials.credentials)
-    if not payload:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-    return payload
+async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> Optional[dict]:
+    if credentials is None:
+        return None
+    try:
+        payload = auth_service.verify_token(credentials.credentials)
+        return payload
+    except Exception:
+        return None
+
+# Include routers (auth is optional - no token = limited data, token = full access)
+app.include_router(web3_router)
+app.include_router(parsing_router)
+app.include_router(commenting_router)
+app.include_router(accounts_router)
+app.include_router(analytics_router)
+app.include_router(channels_router)
+app.include_router(admin_router)
 
 # Static file paths
 base_dir = os.path.dirname(__file__)
