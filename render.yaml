@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: gramgpt-api
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: PORT
+        value: 8000
+      - key: AI_PROVIDER
+        value: openai
+      - key: SECRET_KEY
+        generateValue: true
+      - key: TELEGRAM_API_ID
+        sync: false
+      - key: TELEGRAM_API_HASH
+        sync: false
+      - key: TELEGRAM_PHONE
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: gramgpt-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: gramgpt-redis
+          property: connectionString
+
+  - type: worker
+    name: gramgpt-celery
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A src.celery_app worker --loglevel=info --concurrency=1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: CELERY_BROKER_URL
+        fromService:
+          type: redis
+          name: gramgpt-redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          type: redis
+          name: gramgpt-redis
+          property: connectionString
+
+  - type: redis
+    name: gramgpt-redis
+    region: frankfurt
+    plan: free
+    maxmemoryPolicy: noeviction

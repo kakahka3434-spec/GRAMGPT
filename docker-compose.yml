@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: gramgpt
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.local
+    volumes:
+      - ./data:/app/data
+      - gramgpt_sessions:/app/data/sessions
+    depends_on:
+      redis:
+        condition: service_started
+    command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+
+  celery_worker:
+    build: .
+    container_name: gramgpt-celery
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    volumes:
+      - ./data:/app/data
+      - gramgpt_sessions:/app/data/sessions
+    depends_on:
+      - redis
+      - app
+    command: celery -A src.celery_app worker --loglevel=info --concurrency=1
+
+  redis:
+    image: redis:7-alpine
+    container_name: gramgpt-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  gramgpt_sessions:
+  redis_data:

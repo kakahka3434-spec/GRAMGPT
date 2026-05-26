@@ -151,6 +151,11 @@ cython_debug/
 # PyCharm
 .idea/
 
+# Environment files (never commit secrets)
+.env
+.env.local
+.env.production
+
 # SQLite database files
 *.db
 *.db-journal
