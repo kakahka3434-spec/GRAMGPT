@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-reply-all" style="color: var(--accent-color)"></i> AI Автоответчик</h2>
+        <h2><i class="fas fa-reply-all" style="color: var(--primary)"></i> AI Автоответчик</h2>
         <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
@@ -41,7 +41,7 @@
     <!-- Scenarios -->
     <div class="card animate-in" style="animation-delay: 0.1s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;"><i class="fas fa-list-check" style="color: var(--accent-color);"></i> Сценарии ответов</h4>
+            <h4 style="margin: 0;"><i class="fas fa-list-check" style="color: var(--primary);"></i> Сценарии ответов</h4>
             <button class="add-btn" onclick="addScenario()"><i class="fas fa-plus"></i> Новый</button>
         </div>
 
@@ -55,7 +55,7 @@
             <div class="toggle-on"></div>
         </div>
         <div class="scenario-item">
-            <div class="scenario-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-tag" style="color: var(--warning-color);"></i></div>
+            <div class="scenario-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-tag" style="color: var(--warning);"></i></div>
             <div style="flex: 1;">
                 <div style="font-size: 13px; font-weight: 600;">Запрос цены</div>
                 <div style="font-size: 10px; color: var(--text-secondary);">Триггер: "цена", "стоимость", "сколько"</div>
@@ -64,7 +64,7 @@
             <div class="toggle-on"></div>
         </div>
         <div class="scenario-item">
-            <div class="scenario-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-question-circle" style="color: var(--success-color);"></i></div>
+            <div class="scenario-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-question-circle" style="color: var(--success);"></i></div>
             <div style="flex: 1;">
                 <div style="font-size: 13px; font-weight: 600;">FAQ</div>
                 <div style="font-size: 10px; color: var(--text-secondary);">Триггер: частые вопросы (AI определяет)</div>
@@ -73,7 +73,7 @@
             <div class="toggle-on"></div>
         </div>
         <div class="scenario-item">
-            <div class="scenario-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-calendar" style="color: var(--purple);"></i></div>
+            <div class="scenario-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-calendar" style="color: var(--accent);"></i></div>
             <div style="flex: 1;">
                 <div style="font-size: 13px; font-weight: 600;">Оффлайн-режим</div>
                 <div style="font-size: 10px; color: var(--text-secondary);">Триггер: сообщение в нерабочее время</div>
@@ -82,7 +82,7 @@
             <div class="toggle-on"></div>
         </div>
         <div class="scenario-item" style="border-bottom: none;">
-            <div class="scenario-icon" style="background: rgba(231,76,60,0.1);"><i class="fas fa-ban" style="color: var(--danger-color);"></i></div>
+            <div class="scenario-icon" style="background: rgba(231,76,60,0.1);"><i class="fas fa-ban" style="color: var(--danger);"></i></div>
             <div style="flex: 1;">
                 <div style="font-size: 13px; font-weight: 600;">Негатив / Спам</div>
                 <div style="font-size: 10px; color: var(--text-secondary);">Триггер: негативный тон, спам-слова</div>
@@ -94,7 +94,7 @@
 
     <!-- AI Settings -->
     <div class="card animate-in" style="animation-delay: 0.15s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-brain" style="color: var(--accent-color);"></i> Настройки AI</h4>
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-brain" style="color: var(--primary);"></i> Настройки AI</h4>
         <div style="margin-bottom: 12px;">
             <label class="label">Контекст бизнеса (AI будет использовать для ответов)</label>
             <textarea class="input-field" rows="3" placeholder="Опишите ваш бизнес, услуги, цены...">Мы — платформа автоматизации Telegram маркетинга. Основные услуги: парсинг аудитории, AI-комментинг, нейрочаттинг. Тарифы: Free, Pro ($49), Agency ($199).</textarea>
@@ -132,7 +132,7 @@
     <!-- Live Preview -->
     <div class="card animate-in" style="animation-delay: 0.2s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--accent-color);"></i> Последние ответы</h4>
+            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--primary);"></i> Последние ответы</h4>
             <span class="live-dot"></span>
         </div>
         <div class="reply-log">
@@ -172,28 +172,29 @@
     </div>
 
     <style>
-        .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary-color); color: var(--accent-color); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .scenario-item { display: flex; align-items: flex-start; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
-        .scenario-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(0,136,204,0.1); color: var(--accent-color); flex-shrink: 0; margin-top: 2px; }
+        .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary); color: var(--primary); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .scenario-item { display: flex; align-items: flex-start; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .scenario-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(0,136,204,0.1); color: var(--primary); flex-shrink: 0; margin-top: 2px; }
         .scenario-example { font-size: 10px; color: var(--text-secondary); font-style: italic; margin-top: 4px; padding: 4px 8px; background: rgba(48,54,61,0.3); border-radius: 6px; }
-        .toggle-on { width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
+        .toggle-on { width: 44px; height: 24px; background: var(--success); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
         .toggle-on::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
-        .input-field, textarea.input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; font-family: inherit; resize: vertical; }
-        .input-field:focus { outline: none; border-color: var(--primary-color); }
+        .input-field, textarea.input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; font-family: inherit; resize: vertical; }
+        .input-field:focus { outline: none; border-color: var(--primary); }
         .label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px; }
         .reply-log { display: flex; flex-direction: column; gap: 14px; }
         .reply-item { display: flex; flex-direction: column; gap: 6px; }
         .reply-in { background: rgba(48,54,61,0.3); padding: 10px 12px; border-radius: 12px 12px 12px 4px; max-width: 85%; }
-        .reply-out { background: rgba(0,136,204,0.1); padding: 10px 12px; border-radius: 12px 12px 4px 12px; max-width: 85%; align-self: flex-end; border-left: 2px solid var(--primary-color); }
-        .reply-name { font-size: 11px; font-weight: 600; color: var(--accent-color); display: block; margin-bottom: 2px; }
+        .reply-out { background: rgba(0,136,204,0.1); padding: 10px 12px; border-radius: 12px 12px 4px 12px; max-width: 85%; align-self: flex-end; border-left: 2px solid var(--primary); }
+        .reply-name { font-size: 11px; font-weight: 600; color: var(--primary); display: block; margin-bottom: 2px; }
         .reply-text { font-size: 12px; line-height: 1.5; display: block; }
         .reply-meta { font-size: 10px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-top: 4px; justify-content: flex-end; }
-        .ai-tag { background: var(--primary-color); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+        .ai-tag { background: var(--primary); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
     </style>
 
     <script>
         function addScenario() { alert('Создание нового сценария ответа...'); }
         function startAutoresponder() { alert('AI Автоответчик активирован! Мониторим входящие сообщения.'); }
     </script>
+<script src='main.js'></script>
 </body>
 </html>

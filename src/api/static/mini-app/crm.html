@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-address-book" style="color: var(--accent-color)"></i> CRM</h2>
+        <h2><i class="fas fa-address-book" style="color: var(--primary)"></i> CRM</h2>
         <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
@@ -38,10 +38,10 @@
 
     <!-- Pipeline Board -->
     <div class="card animate-in" style="animation-delay: 0.1s">
-        <h4 style="margin-bottom: 14px;"><i class="fas fa-columns" style="color: var(--accent-color);"></i> Pipeline</h4>
+        <h4 style="margin-bottom: 14px;"><i class="fas fa-columns" style="color: var(--primary);"></i> Pipeline</h4>
         <div class="pipeline-scroll">
             <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--accent-color);">
+                <div class="pipeline-header" style="border-color: var(--primary);">
                     <span>Новые</span>
                     <span class="pipeline-count">12</span>
                 </div>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--warning-color);">
+                <div class="pipeline-header" style="border-color: var(--warning);">
                     <span>В работе</span>
                     <span class="pipeline-count">8</span>
                 </div>
@@ -96,7 +96,7 @@
             </div>
 
             <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--success-color);">
+                <div class="pipeline-header" style="border-color: var(--success);">
                     <span>Горячие</span>
                     <span class="pipeline-count">5</span>
                 </div>
@@ -112,7 +112,7 @@
                         <span class="pip-tag">DeFi</span>
                         <span class="pip-tag hot">$1,200</span>
                     </div>
-                    <div style="font-size: 10px; color: var(--success-color); margin-top: 6px;"><i class="fas fa-fire"></i> Готова к закрытию</div>
+                    <div style="font-size: 10px; color: var(--success); margin-top: 6px;"><i class="fas fa-fire"></i> Готова к закрытию</div>
                 </div>
             </div>
         </div>
@@ -121,8 +121,8 @@
     <!-- Contact Card Detail -->
     <div class="glass-card animate-in" style="animation-delay: 0.15s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;"><i class="fas fa-user" style="color: var(--accent-color);"></i> Мария Иванова</h4>
-            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Горячий</span>
+            <h4 style="margin: 0;"><i class="fas fa-user" style="color: var(--primary);"></i> Мария Иванова</h4>
+            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Горячий</span>
         </div>
         <div class="contact-info">
             <div class="info-row"><i class="fas fa-at"></i><span>@maria_inv</span></div>
@@ -205,27 +205,27 @@
         .pipeline-col { min-width: 160px; flex-shrink: 0; }
         .pipeline-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; background: rgba(48,54,61,0.3); border-left: 3px solid; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
         .pipeline-count { background: rgba(48,54,61,0.6); padding: 2px 8px; border-radius: 10px; font-size: 10px; }
-        .pipeline-card { background: rgba(48,54,61,0.3); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
-        .pipeline-card:active { border-color: var(--primary-color); }
-        .pip-avatar { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); }
+        .pipeline-card { background: rgba(48,54,61,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+        .pipeline-card:active { border-color: var(--primary); }
+        .pip-avatar { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary), var(--primary)); }
         .pip-tags { display: flex; gap: 4px; flex-wrap: wrap; }
         .pip-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(48,54,61,0.6); color: var(--text-secondary); }
-        .pip-tag.hot { background: rgba(46,204,113,0.15); color: var(--success-color); font-weight: 600; }
+        .pip-tag.hot { background: rgba(46,204,113,0.15); color: var(--success); font-weight: 600; }
         .contact-info { display: flex; flex-direction: column; gap: 8px; }
         .info-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
         .info-row i { width: 16px; color: var(--text-secondary); font-size: 11px; }
         .timeline { display: flex; flex-direction: column; gap: 0; }
         .timeline-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; position: relative; }
-        .timeline-item::before { content: ''; position: absolute; left: 5px; top: 20px; bottom: -8px; width: 1px; background: var(--border-color); }
+        .timeline-item::before { content: ''; position: absolute; left: 5px; top: 20px; bottom: -8px; width: 1px; background: var(--border); }
         .timeline-item:last-child::before { display: none; }
         .tl-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
-        .tl-dot.green { background: var(--success-color); }
-        .tl-dot.blue { background: var(--accent-color); }
+        .tl-dot.green { background: var(--success); }
+        .tl-dot.blue { background: var(--primary); }
         .tl-dot.gray { background: var(--text-secondary); }
-        .input-field { padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; }
-        .input-field:focus { outline: none; border-color: var(--primary-color); }
-        .filter-chip { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 10px; font-weight: 600; cursor: pointer; }
-        .filter-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary-color); color: var(--accent-color); }
+        .input-field { padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; }
+        .input-field:focus { outline: none; border-color: var(--primary); }
+        .filter-chip { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 10px; font-weight: 600; cursor: pointer; }
+        .filter-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary); color: var(--primary); }
     </style>
 
     <script>
@@ -237,5 +237,6 @@
             btn.classList.add('active');
         }
     </script>
+<script src='main.js'></script>
 </body>
 </html>

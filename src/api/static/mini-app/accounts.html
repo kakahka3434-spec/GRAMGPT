@@ -10,94 +10,94 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-users-cog" style="color: var(--accent-color)"></i> Аккаунты</h2>
-        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+        <h2><i class="fas fa-users-cog" style="color: var(--primary)"></i> Аккаунты</h2>
+        <a href="index.html" class="text-secondary" style="text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
     </div>
 
     <!-- Overview -->
-    <div class="stat-row animate-in" style="animation-delay: 0.05s">
-        <div style="display: flex; justify-content: space-between;">
+    <div class="stat-row animate-in" style="animation-delay: 0.05s" id="accounts-overview">
+        <div class="flex" style="justify-content: space-between;">
             <div class="stat-item">
                 <h4>Всего</h4>
-                <div style="color: var(--accent-color)">8</div>
+                <div style="color: var(--primary); font-size: 22px; font-weight: 800;">8</div>
             </div>
-            <div class="stat-item" style="text-align: center;">
+            <div class="stat-item text-center">
                 <h4>Активных</h4>
-                <div style="color: var(--success-color)">5</div>
+                <div style="color: var(--success); font-size: 22px; font-weight: 800;">5</div>
             </div>
-            <div class="stat-item" style="text-align: right;">
+            <div class="stat-item" style="text-align: right">
                 <h4>Прогрев</h4>
-                <div style="color: var(--warning-color)">3</div>
+                <div style="color: var(--warning); font-size: 22px; font-weight: 800;">3</div>
             </div>
         </div>
     </div>
 
     <!-- Accounts List -->
     <div class="card animate-in" style="animation-delay: 0.1s">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;">Мои аккаунты</h4>
-            <button class="add-btn" onclick="addAccount()"><i class="fas fa-plus"></i> Добавить</button>
+        <div class="card-header">
+            <h4>Мои аккаунты</h4>
+            <button class="btn-add" onclick="addAccount()"><i class="fas fa-plus"></i> Добавить</button>
         </div>
 
-        <div class="acc-row">
-            <div class="acc-avatar-lg">A1</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; font-weight: 600;">+7 (999) 123-45-67</span>
-                    <span class="status-dot green"></span>
+        <div class="list-row">
+            <div class="avatar avatar-lg avatar-gradient">A1</div>
+            <div class="flex-1">
+                <div class="list-flex mb-6">
+                    <span class="text-sm" style="font-weight: 600;">+7 (999) 123-45-67</span>
+                    <span class="dot dot-green"></span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@user_account_1</div>
-                <div style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
-                    <span class="acc-tag">Активен</span>
-                    <span class="acc-tag">Прокси: US</span>
-                    <span class="acc-tag">24 диалога</span>
+                <div class="text-xs text-secondary mb-6">@user_account_1</div>
+                <div class="flex gap-6 flex-wrap mb-6">
+                    <span class="tag tag-green">Активен</span>
+                    <span class="tag tag-blue">Прокси: US</span>
+                    <span class="tag">24 диалога</span>
                 </div>
-                <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 94%;"></div></div>
-                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
+                <div class="progress-bar"><div class="progress-fill" style="width: 94%;"></div></div>
+                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
                     <span>Доверие: 94%</span>
                     <span>Роль: Комментатор</span>
                 </div>
             </div>
         </div>
 
-        <div class="acc-row">
-            <div class="acc-avatar-lg" style="background: linear-gradient(135deg, #f39c12, #e67e22);">A2</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; font-weight: 600;">+7 (999) 234-56-78</span>
-                    <span class="status-dot yellow"></span>
+        <div class="list-row">
+            <div class="avatar avatar-lg avatar-orange">A2</div>
+            <div class="flex-1">
+                <div class="list-flex mb-6">
+                    <span class="text-sm" style="font-weight: 600;">+7 (999) 234-56-78</span>
+                    <span class="dot dot-yellow"></span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@user_account_2</div>
-                <div style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
-                    <span class="acc-tag">Прогрев</span>
-                    <span class="acc-tag">Прокси: DE</span>
-                    <span class="acc-tag">18 диалогов</span>
+                <div class="text-xs text-secondary mb-6">@user_account_2</div>
+                <div class="flex gap-6 flex-wrap mb-6">
+                    <span class="tag tag-yellow">Прогрев</span>
+                    <span class="tag tag-blue">Прокси: DE</span>
+                    <span class="tag">18 диалогов</span>
                 </div>
-                <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #f39c12, #e67e22);"></div></div>
-                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
+                <div class="progress-bar"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #f39c12, #e67e22);"></div></div>
+                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
                     <span>Доверие: 78%</span>
                     <span>Роль: Чаттер</span>
                 </div>
             </div>
         </div>
 
-        <div class="acc-row">
-            <div class="acc-avatar-lg" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">A3</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; font-weight: 600;">+7 (999) 345-67-89</span>
-                    <span class="status-dot yellow"></span>
+        <div class="list-row">
+            <div class="avatar avatar-lg avatar-red">A3</div>
+            <div class="flex-1">
+                <div class="list-flex mb-6">
+                    <span class="text-sm" style="font-weight: 600;">+7 (999) 345-67-89</span>
+                    <span class="dot dot-yellow"></span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@user_account_3</div>
-                <div style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
-                    <span class="acc-tag">Прогрев</span>
-                    <span class="acc-tag">Прокси: NL</span>
-                    <span class="acc-tag">12 диалогов</span>
+                <div class="text-xs text-secondary mb-6">@user_account_3</div>
+                <div class="flex gap-6 flex-wrap mb-6">
+                    <span class="tag tag-yellow">Прогрев</span>
+                    <span class="tag tag-blue">Прокси: NL</span>
+                    <span class="tag">12 диалогов</span>
                 </div>
-                <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 65%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div></div>
-                <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
+                <div class="progress-bar"><div class="progress-fill" style="width: 65%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div></div>
+                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
                     <span>Доверие: 65%</span>
                     <span>Роль: Реактор</span>
                 </div>
@@ -107,37 +107,37 @@
 
     <!-- Import Section -->
     <div class="card animate-in" style="animation-delay: 0.15s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-file-import" style="color: var(--accent-color);"></i> Импорт аккаунтов</h4>
-        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Поддерживаются форматы: session файлы, tdata, JSON</div>
-        <div class="import-zone">
-            <i class="fas fa-cloud-upload-alt" style="font-size: 24px; color: var(--accent-color); margin-bottom: 8px;"></i>
-            <div style="font-size: 13px; font-weight: 600;">Перетащите файлы сюда</div>
-            <div style="font-size: 11px; color: var(--text-secondary);">или нажмите для выбора</div>
+        <h4 class="mb-12"><i class="fas fa-file-import" style="color: var(--primary);"></i> Импорт аккаунтов</h4>
+        <div class="text-xs text-secondary mb-12">Поддерживаются форматы: session файлы, tdata, JSON</div>
+        <div class="drop-zone" onclick="importAccounts()">
+            <div class="drop-zone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="drop-zone-title">Перетащите файлы сюда</div>
+            <div class="drop-zone-hint">или нажмите для выбора</div>
         </div>
     </div>
 
     <!-- Proxy Settings -->
     <div class="card animate-in" style="animation-delay: 0.2s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-globe" style="color: var(--accent-color);"></i> Прокси</h4>
-        <div class="proxy-item">
-            <span class="status-dot green" style="margin-right: 6px;"></span>
-            <span style="font-size: 12px; flex: 1;">185.xxx.xxx.12:8080</span>
-            <span class="acc-tag">US</span>
-            <span style="font-size: 11px; color: var(--success-color);">45ms</span>
+        <h4 class="mb-12"><i class="fas fa-globe" style="color: var(--primary);"></i> Прокси</h4>
+        <div class="list-row-sm">
+            <span class="dot dot-green"></span>
+            <span class="text-sm flex-1">185.xxx.xxx.12:8080</span>
+            <span class="tag">US</span>
+            <span class="text-xs" style="color: var(--success);">45ms</span>
         </div>
-        <div class="proxy-item">
-            <span class="status-dot green" style="margin-right: 6px;"></span>
-            <span style="font-size: 12px; flex: 1;">91.xxx.xxx.45:3128</span>
-            <span class="acc-tag">DE</span>
-            <span style="font-size: 11px; color: var(--success-color);">62ms</span>
+        <div class="list-row-sm">
+            <span class="dot dot-green"></span>
+            <span class="text-sm flex-1">91.xxx.xxx.45:3128</span>
+            <span class="tag">DE</span>
+            <span class="text-xs" style="color: var(--success);">62ms</span>
         </div>
-        <div class="proxy-item" style="border-bottom: none;">
-            <span class="status-dot yellow" style="margin-right: 6px;"></span>
-            <span style="font-size: 12px; flex: 1;">78.xxx.xxx.89:1080</span>
-            <span class="acc-tag">NL</span>
-            <span style="font-size: 11px; color: var(--warning-color);">128ms</span>
+        <div class="list-row-sm" style="border-bottom: none;">
+            <span class="dot dot-yellow"></span>
+            <span class="text-sm flex-1">78.xxx.xxx.89:1080</span>
+            <span class="tag">NL</span>
+            <span class="text-xs" style="color: var(--warning);">128ms</span>
         </div>
-        <button class="btn" style="margin-top: 12px; background: transparent; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 8px;" onclick="addProxy()">
+        <button class="btn btn-secondary mt-12" style="font-size: 12px; padding: 8px;" onclick="addProxy()">
             <i class="fas fa-plus"></i> Добавить прокси
         </button>
     </div>
@@ -145,37 +145,16 @@
     <div class="nav-bar animate-in" style="animation-delay: 0.25s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <style>
-        .acc-row { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
-        .acc-row:last-child { border-bottom: none; }
-        .acc-avatar-lg { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); }
-        .acc-tag { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(48,54,61,0.6); color: var(--text-secondary); font-weight: 500; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-        .status-dot.green { background: var(--success-color); }
-        .status-dot.yellow { background: var(--warning-color); }
-        .status-dot.red { background: var(--danger-color); }
-        .add-btn { background: rgba(0,136,204,0.1); border: 1px solid var(--primary-color); color: var(--accent-color); font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .add-btn:active { transform: scale(0.96); }
-        .import-zone { border: 2px dashed var(--border-color); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
-        .import-zone:hover { border-color: var(--primary-color); }
-        .proxy-item { display: flex; align-items: center; gap: 4px; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
-    </style>
-
+    <script src="main.js"></script>
     <script>
-        function addAccount() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Добавление аккаунта: загрузите session файл или введите данные авторизации.');
-            }
-        }
-        function addProxy() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Добавление прокси: введите адрес в формате IP:PORT:LOGIN:PASS');
-            }
-        }
+        function addAccount() { showModal('Добавление аккаунта', 'Загрузите session файл или введите данные авторизации.', 'Выбрать файл', 'Отмена', () => toast('info', 'Выберите файл', 'Поддерживаются .session и tdata')); }
+        function addProxy() { showModal('Добавление прокси', 'Введите адрес в формате IP:PORT:LOGIN:PASS', 'Добавить', 'Отмена', () => toast('success', 'Прокси добавлен')); }
+        function importAccounts() { toast('info', 'Импорт', 'Выберите файлы для импорта аккаунтов'); }
     </script>
 </body>
 </html>

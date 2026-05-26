@@ -7,178 +7,95 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .shield-ring { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+        .shield-inner { text-align: center; }
+        .emulation-grid { display: flex; flex-direction: column; }
+        .emul-item { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .emul-item:last-child { border-bottom: none; }
+        .emul-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: var(--primary-dim); color: var(--primary); flex-shrink: 0; }
+        .crisis-scenarios { display: flex; flex-direction: column; }
+        .crisis-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .crisis-item:last-child { border-bottom: none; }
+        .crisis-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .crisis-icon.green { background: rgba(46,204,113,0.1); color: var(--success); }
+        .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    </style>
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-shield-halved" style="color: var(--success-color)"></i> Anti-Ban Shield</h2>
-        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+        <h2><i class="fas fa-shield-halved" style="color: var(--success)"></i> Anti-Ban Shield</h2>
+        <a href="index.html" class="text-secondary" style="text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
     </div>
 
     <!-- Shield Status -->
-    <div class="glass-card animate-in" style="animation-delay: 0.05s; border-color: rgba(46,204,113,0.3);">
-        <div style="text-align: center; margin-bottom: 16px;">
-            <div class="shield-ring glow">
+    <div class="card animate-in" style="animation-delay: 0.05s; border-color: rgba(46,204,113,0.3);">
+        <div class="text-center mb-12">
+            <div class="shield-ring">
                 <div class="shield-inner">
-                    <i class="fas fa-shield-halved" style="font-size: 32px; color: var(--success-color);"></i>
-                    <div style="font-size: 24px; font-weight: 800; color: var(--success-color); margin-top: 4px;">SAFE</div>
+                    <i class="fas fa-shield-halved" style="font-size: 32px; color: var(--success);"></i>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--success); margin-top: 4px;">SAFE</div>
                 </div>
             </div>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Все системы работают нормально</div>
+            <div class="text-xs text-secondary mt-8">Все системы работают нормально</div>
         </div>
-
         <div class="metric-grid">
-            <div class="metric-card">
-                <div style="font-size: 22px; font-weight: 800; color: var(--success-color);">12</div>
-                <div class="metric-label">Risk Score</div>
-                <div style="font-size: 9px; color: var(--success-color); margin-top: 2px;">Низкий</div>
-            </div>
-            <div class="metric-card">
-                <div style="font-size: 22px; font-weight: 800; color: var(--success-color);">97%</div>
-                <div class="metric-label">Human-Like</div>
-                <div style="font-size: 9px; color: var(--success-color); margin-top: 2px;">Отлично</div>
-            </div>
-            <div class="metric-card">
-                <div style="font-size: 22px; font-weight: 800; color: var(--success-color);">0</div>
-                <div class="metric-label">Банов</div>
-                <div style="font-size: 9px; color: var(--text-secondary); margin-top: 2px;">За 30 дней</div>
-            </div>
-            <div class="metric-card">
-                <div style="font-size: 22px; font-weight: 800; color: var(--accent-color);">142</div>
-                <div class="metric-label">Дней без бана</div>
-                <div style="font-size: 9px; color: var(--accent-color); margin-top: 2px;">Рекорд!</div>
-            </div>
+            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)">12</div><div class="metric-label">Risk Score</div><div class="text-xs" style="color:var(--success);margin-top:2px">Низкий</div></div>
+            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)">97%</div><div class="metric-label">Human-Like</div><div class="text-xs" style="color:var(--success);margin-top:2px">Отлично</div></div>
+            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)">0</div><div class="metric-label">Банов</div><div class="text-xs text-secondary" style="margin-top:2px">За 30 дней</div></div>
+            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--primary)">142</div><div class="metric-label">Дней без бана</div><div class="text-xs" style="color:var(--primary);margin-top:2px">Рекорд!</div></div>
         </div>
     </div>
 
     <!-- Human Emulation Engine -->
     <div class="card animate-in" style="animation-delay: 0.1s">
-        <h4 style="margin-bottom: 14px;"><i class="fas fa-brain" style="color: var(--accent-color);"></i> Human Emulation Engine</h4>
+        <h4 class="mb-12"><i class="fas fa-brain" style="color: var(--primary);"></i> Human Emulation Engine</h4>
         <div class="emulation-grid">
-            <div class="emul-item">
-                <div class="emul-icon"><i class="fas fa-keyboard"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Typing Emulation</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Скорость набора: 45-120 WPM с ошибками</div>
-                </div>
-                <div class="toggle-on"></div>
-            </div>
-            <div class="emul-item">
-                <div class="emul-icon"><i class="fas fa-clock"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Activity Schedule</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Активность 8:00-23:00, паузы на обед</div>
-                </div>
-                <div class="toggle-on"></div>
-            </div>
-            <div class="emul-item">
-                <div class="emul-icon"><i class="fas fa-random"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Random Delays</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Случайные задержки 2-300 сек</div>
-                </div>
-                <div class="toggle-on"></div>
-            </div>
-            <div class="emul-item">
-                <div class="emul-icon"><i class="fas fa-fingerprint"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Device Fingerprint</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Уникальный отпечаток для каждого аккаунта</div>
-                </div>
-                <div class="toggle-on"></div>
-            </div>
-            <div class="emul-item" style="border-bottom: none;">
-                <div class="emul-icon"><i class="fas fa-eye"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Read Simulation</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Имитация чтения перед ответом</div>
-                </div>
-                <div class="toggle-on"></div>
-            </div>
+            <div class="emul-item"><div class="emul-icon"><i class="fas fa-keyboard"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Typing Emulation</div><div class="text-xs text-secondary">Скорость набора: 45-120 WPM с ошибками</div></div><span class="status-badge badge-green">Вкл</span></div>
+            <div class="emul-item"><div class="emul-icon"><i class="fas fa-clock"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Activity Schedule</div><div class="text-xs text-secondary">Активность 8:00-23:00, паузы на обед</div></div><span class="status-badge badge-green">Вкл</span></div>
+            <div class="emul-item"><div class="emul-icon"><i class="fas fa-random"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Random Delays</div><div class="text-xs text-secondary">Случайные задержки 2-300 сек</div></div><span class="status-badge badge-green">Вкл</span></div>
+            <div class="emul-item"><div class="emul-icon"><i class="fas fa-fingerprint"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Device Fingerprint</div><div class="text-xs text-secondary">Уникальный отпечаток для каждого аккаунта</div></div><span class="status-badge badge-green">Вкл</span></div>
+            <div class="emul-item" style="border-bottom:none"><div class="emul-icon"><i class="fas fa-eye"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Read Simulation</div><div class="text-xs text-secondary">Имитация чтения перед ответом</div></div><span class="status-badge badge-green">Вкл</span></div>
         </div>
     </div>
 
     <!-- AI Crisis Manager -->
     <div class="card animate-in" style="animation-delay: 0.15s">
-        <h4 style="margin-bottom: 14px;"><i class="fas fa-robot" style="color: var(--danger-color);"></i> AI Crisis Manager</h4>
-        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">Автоматическое реагирование на угрозы в реальном времени</div>
+        <h4 class="mb-12"><i class="fas fa-robot" style="color: var(--danger);"></i> AI Crisis Manager</h4>
+        <div class="text-xs text-secondary mb-12">Автоматическое реагирование на угрозы в реальном времени</div>
         <div class="crisis-scenarios">
-            <div class="crisis-item">
-                <div class="crisis-icon green"><i class="fas fa-check-circle"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Flood Wait</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Авто-пауза + экспоненциальный backoff</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Авто</span>
-            </div>
-            <div class="crisis-item">
-                <div class="crisis-icon green"><i class="fas fa-check-circle"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Spam Report</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Смена стратегии + переключение аккаунта</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Авто</span>
-            </div>
-            <div class="crisis-item">
-                <div class="crisis-icon green"><i class="fas fa-check-circle"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Phone Ban</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Изоляция аккаунта + уведомление</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Авто</span>
-            </div>
-            <div class="crisis-item">
-                <div class="crisis-icon green"><i class="fas fa-check-circle"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">IP Block</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Автоматическая ротация прокси</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Авто</span>
-            </div>
-            <div class="crisis-item" style="border-bottom: none;">
-                <div class="crisis-icon green"><i class="fas fa-check-circle"></i></div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Captcha</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Автоматическое решение + fallback</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Авто</span>
-            </div>
+            <div class="crisis-item"><div class="crisis-icon green"><i class="fas fa-check-circle"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Flood Wait</div><div class="text-xs text-secondary">Авто-пауза + экспоненциальный backoff</div></div><span class="status-badge badge-green">Авто</span></div>
+            <div class="crisis-item"><div class="crisis-icon green"><i class="fas fa-check-circle"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Spam Report</div><div class="text-xs text-secondary">Смена стратегии + переключение аккаунта</div></div><span class="status-badge badge-green">Авто</span></div>
+            <div class="crisis-item"><div class="crisis-icon green"><i class="fas fa-check-circle"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Phone Ban</div><div class="text-xs text-secondary">Изоляция аккаунта + уведомление</div></div><span class="status-badge badge-green">Авто</span></div>
+            <div class="crisis-item"><div class="crisis-icon green"><i class="fas fa-check-circle"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">IP Block</div><div class="text-xs text-secondary">Автоматическая ротация прокси</div></div><span class="status-badge badge-green">Авто</span></div>
+            <div class="crisis-item" style="border-bottom:none"><div class="crisis-icon green"><i class="fas fa-check-circle"></i></div><div class="flex-1"><div class="text-sm" style="font-weight:600;">Captcha</div><div class="text-xs text-secondary">Автоматическое решение + fallback</div></div><span class="status-badge badge-green">Авто</span></div>
         </div>
     </div>
 
     <!-- Risk History -->
     <div class="card animate-in" style="animation-delay: 0.2s">
-        <h4 style="margin-bottom: 14px;"><i class="fas fa-history" style="color: var(--accent-color);"></i> История рисков (7 дней)</h4>
-        <div class="chart-container" style="height: 100px;">
-            <div class="chart-col"><div class="chart-bar" style="height: 15%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">8</span></div><div class="chart-label">Пн</div></div>
-            <div class="chart-col"><div class="chart-bar" style="height: 12%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">6</span></div><div class="chart-label">Вт</div></div>
-            <div class="chart-col"><div class="chart-bar" style="height: 25%; background: linear-gradient(180deg, var(--warning-color), rgba(243,156,18,0.3));"><span class="chart-value">18</span></div><div class="chart-label">Ср</div></div>
-            <div class="chart-col"><div class="chart-bar" style="height: 18%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">11</span></div><div class="chart-label">Чт</div></div>
-            <div class="chart-col"><div class="chart-bar" style="height: 14%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">9</span></div><div class="chart-label">Пт</div></div>
-            <div class="chart-col"><div class="chart-bar" style="height: 10%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">5</span></div><div class="chart-label">Сб</div></div>
-            <div class="chart-col"><div class="chart-bar active" style="height: 20%; background: linear-gradient(180deg, var(--success-color), rgba(46,204,113,0.3));"><span class="chart-value">12</span></div><div class="chart-label">Вс</div></div>
+        <h4 class="mb-12"><i class="fas fa-history" style="color: var(--primary);"></i> История рисков (7 дней)</h4>
+        <div class="flex gap-4" style="height:100px;align-items:flex-end;">
+            <div class="chart-col"><div style="width:100%;height:15%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:12%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:25%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--warning),rgba(243,156,18,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:18%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:14%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:10%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3))"></div></div>
+            <div class="chart-col"><div style="width:100%;height:20%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--success),rgba(46,204,113,0.3));opacity:1;box-shadow:0 0 6px rgba(0,229,255,0.2)"></div></div>
         </div>
     </div>
 
     <!-- Settings -->
     <div class="card animate-in" style="animation-delay: 0.25s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-sliders-h" style="color: var(--accent-color);"></i> Настройки защиты</h4>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Авто-пауза при риске > 50</span>
-            <div class="toggle-on"></div>
-        </div>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Уведомления о рисках</span>
-            <div class="toggle-on"></div>
-        </div>
-        <div class="setting-item">
-            <span style="font-size: 13px;">Авто-ротация прокси</span>
-            <div class="toggle-on"></div>
-        </div>
-        <div class="setting-item" style="border-bottom: none;">
-            <span style="font-size: 13px;">Лимит действий/час</span>
-            <select>
+        <h4 class="mb-12"><i class="fas fa-sliders-h" style="color: var(--primary);"></i> Настройки защиты</h4>
+        <div class="setting-item"><span class="text-sm">Авто-пауза при риске > 50</span><span class="status-badge badge-green">Вкл</span></div>
+        <div class="setting-item"><span class="text-sm">Уведомления о рисках</span><span class="status-badge badge-green">Вкл</span></div>
+        <div class="setting-item"><span class="text-sm">Авто-ротация прокси</span><span class="status-badge badge-green">Вкл</span></div>
+        <div class="setting-item" style="border-bottom: none;"><span class="text-sm">Лимит действий/час</span>
+            <select class="form-select" style="width:auto">
                 <option>10 (безопасный)</option>
                 <option selected>25 (оптимальный)</option>
                 <option>50 (агрессивный)</option>
@@ -194,19 +111,6 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <style>
-        .shield-ring { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--success-color); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
-        .shield-inner { text-align: center; }
-        .emulation-grid { display: flex; flex-direction: column; }
-        .emul-item { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
-        .emul-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(0,136,204,0.1); color: var(--accent-color); flex-shrink: 0; }
-        .toggle-on { width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer; flex-shrink: 0; }
-        .toggle-on::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
-        .crisis-scenarios { display: flex; flex-direction: column; }
-        .crisis-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
-        .crisis-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-        .crisis-icon.green { background: rgba(46,204,113,0.1); color: var(--success-color); }
-        .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
-    </style>
+    <script src="main.js"></script>
 </body>
 </html>

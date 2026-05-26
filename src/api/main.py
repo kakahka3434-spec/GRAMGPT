@@ -85,3 +85,10 @@ async def blog_post(slug: str):
 @app.get("/functions")
 async def functions_page():
     return FileResponse(os.path.join(landing_path, "functions.html"))
+
+@app.get("/sw.js")
+async def service_worker():
+    resp = FileResponse(os.path.join(landing_path, "sw.js"))
+    resp.headers["Service-Worker-Allowed"] = "/"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp

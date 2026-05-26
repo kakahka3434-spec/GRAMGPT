@@ -10,59 +10,59 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-comments" style="color: var(--accent-color)"></i> Нейрокомментинг</h2>
-        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+        <h2><i class="fas fa-comments" style="color: var(--primary)"></i> Нейрокомментинг</h2>
+        <a href="index.html" class="text-secondary" style="text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
     </div>
 
     <!-- Status -->
     <div class="stat-row animate-in" style="animation-delay: 0.05s">
-        <div style="display: flex; justify-content: space-between;">
+        <div class="flex" style="justify-content: space-between;">
             <div class="stat-item">
                 <h4>Комментариев</h4>
-                <div style="color: var(--accent-color)">847</div>
+                <div style="color: var(--primary); font-size: 22px; font-weight: 800;" id="comment-stats-total">847</div>
             </div>
-            <div class="stat-item" style="text-align: center;">
+            <div class="stat-item text-center">
                 <h4>Каналов</h4>
-                <div>12</div>
+                <div style="font-size: 22px; font-weight: 800;" id="comment-stats-channels">12</div>
             </div>
-            <div class="stat-item" style="text-align: right;">
+            <div class="stat-item" style="text-align: right">
                 <h4>Вовлечённость</h4>
-                <div style="color: var(--success-color)">89%</div>
+                <div style="color: var(--success); font-size: 22px; font-weight: 800;" id="comment-stats-engage">89%</div>
             </div>
         </div>
     </div>
 
     <!-- Settings -->
     <div class="card animate-in" style="animation-delay: 0.1s">
-        <h4 style="margin-bottom: 12px;">Настройки генерации</h4>
-        <div style="margin-bottom: 12px;">
-            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Целевые каналы</label>
-            <input type="text" placeholder="@channel1, @channel2" style="width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px;">
+        <h4 class="mb-12">Настройки генерации</h4>
+        <div class="form-group">
+            <label class="form-label">Целевые каналы</label>
+            <input type="text" class="form-input" id="comment-channels" placeholder="@channel1, @channel2">
         </div>
-        <div style="margin-bottom: 12px;">
-            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Тон комментариев</label>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-                <button class="tone-btn active" onclick="selectTone(this)">Экспертный</button>
-                <button class="tone-btn" onclick="selectTone(this)">Дружелюбный</button>
-                <button class="tone-btn" onclick="selectTone(this)">Провокационный</button>
+        <div class="form-group">
+            <label class="form-label">Тон комментариев</label>
+            <div class="btn-option-grid">
+                <button class="btn-option active" onclick="selectTone(this)">Экспертный</button>
+                <button class="btn-option" onclick="selectTone(this)">Дружелюбный</button>
+                <button class="btn-option" onclick="selectTone(this)">Провокационный</button>
             </div>
         </div>
-        <div style="display: flex; gap: 8px;">
-            <div style="flex: 1;">
-                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Модель</label>
-                <select style="width: 100%;">
-                    <option>GPT-4o-mini</option>
-                    <option selected>GPT-4o</option>
+        <div class="flex gap-8">
+            <div class="flex-1">
+                <label class="form-label">Модель</label>
+                <select class="form-select" id="comment-model">
+                    <option value="gpt-4o-mini">GPT-4o-mini</option>
+                    <option value="gpt-4o" selected>GPT-4o</option>
                 </select>
             </div>
-            <div style="flex: 1;">
-                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Частота</label>
-                <select style="width: 100%;">
-                    <option>Каждый пост</option>
-                    <option selected>Каждый 2-й</option>
-                    <option>Каждый 5-й</option>
+            <div class="flex-1">
+                <label class="form-label">Частота</label>
+                <select class="form-select" id="comment-frequency">
+                    <option value="every">Каждый пост</option>
+                    <option value="every_2nd" selected>Каждый 2-й</option>
+                    <option value="every_5th">Каждый 5-й</option>
                 </select>
             </div>
         </div>
@@ -70,59 +70,56 @@
 
     <!-- Activity Log -->
     <div class="card animate-in" style="animation-delay: 0.15s">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="margin: 0;">Последние комментарии</h4>
-            <span style="font-size: 11px; color: var(--success-color);"><i class="fas fa-circle" style="font-size: 6px;"></i> Активно</span>
+        <div class="card-header">
+            <h4>Последние комментарии</h4>
+            <span class="indicator indicator-green"><i class="fas fa-circle"></i> Активно</span>
         </div>
-
-        <div class="comment-log">
+        <div id="comment-log">
             <div class="comment-item">
                 <div class="comment-channel">
-                    <span class="channel-badge">C</span>
+                    <span class="avatar avatar-sm avatar-gradient">C</span>
                     <div>
-                        <div style="font-size: 12px; font-weight: 600;">Крипто Новости</div>
-                        <div style="font-size: 10px; color: var(--text-secondary);">2 мин назад</div>
+                        <div class="text-sm" style="font-weight: 600;">Крипто Новости</div>
+                        <div class="text-xs text-secondary">2 мин назад</div>
                     </div>
                 </div>
                 <div class="comment-text">
-                    Отличный анализ рынка! Особенно согласен с прогнозом по ETH — технические индикаторы действительно указывают на бычий тренд.
-                    <span class="ai-tag">AI</span>
+                    Отличный анализ рынка! Особенно согласен с прогнозом по ETH.
+                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
                 </div>
                 <div class="comment-metrics">
                     <span><i class="fas fa-thumbs-up"></i> 12</span>
                     <span><i class="fas fa-reply"></i> 3</span>
                 </div>
             </div>
-
             <div class="comment-item">
                 <div class="comment-channel">
-                    <span class="channel-badge" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">D</span>
+                    <span class="avatar avatar-sm avatar-red">D</span>
                     <div>
-                        <div style="font-size: 12px; font-weight: 600;">DeFi Обзоры</div>
-                        <div style="font-size: 10px; color: var(--text-secondary);">15 мин назад</div>
+                        <div class="text-sm" style="font-weight: 600;">DeFi Обзоры</div>
+                        <div class="text-xs text-secondary">15 мин назад</div>
                     </div>
                 </div>
                 <div class="comment-text">
-                    Интересная стратегия! Кто уже пробовал yield farming на этом протоколе? Было бы интересно увидеть реальные результаты.
-                    <span class="ai-tag">AI</span>
+                    Интересная стратегия! Кто уже пробовал yield farming на этом протоколе?
+                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
                 </div>
                 <div class="comment-metrics">
                     <span><i class="fas fa-thumbs-up"></i> 8</span>
                     <span><i class="fas fa-reply"></i> 5</span>
                 </div>
             </div>
-
             <div class="comment-item">
                 <div class="comment-channel">
-                    <span class="channel-badge" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">N</span>
+                    <span class="avatar avatar-sm avatar-purple">N</span>
                     <div>
-                        <div style="font-size: 12px; font-weight: 600;">NFT Новости</div>
-                        <div style="font-size: 10px; color: var(--text-secondary);">32 мин назад</div>
+                        <div class="text-sm" style="font-weight: 600;">NFT Новости</div>
+                        <div class="text-xs text-secondary">32 мин назад</div>
                     </div>
                 </div>
                 <div class="comment-text">
-                    Этот NFT проект выглядит перспективно. Команда сильная, road-map чёткий.
-                    <span class="ai-tag">AI</span>
+                    Этот NFT проект выглядит перспективно. Команда сильная.
+                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
                 </div>
                 <div class="comment-metrics">
                     <span><i class="fas fa-thumbs-up"></i> 21</span>
@@ -139,50 +136,37 @@
     <div class="nav-bar animate-in" style="animation-delay: 0.25s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <style>
-        .tone-btn {
-            padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);
-            background: var(--card-bg); color: var(--text-secondary); font-size: 11px;
-            font-weight: 600; cursor: pointer; transition: all 0.2s;
-        }
-        .tone-btn.active { border-color: var(--primary-color); color: var(--accent-color); background: rgba(0,136,204,0.1); }
-        .tone-btn:active { transform: scale(0.96); }
-
-        .comment-item { padding: 12px 0; border-bottom: 1px solid var(--border-color); }
-        .comment-item:last-child { border-bottom: none; }
-        .comment-channel { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .channel-badge {
-            width: 28px; height: 28px; border-radius: 8px; display: flex;
-            align-items: center; justify-content: center; font-size: 11px;
-            font-weight: 700; color: white;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-        }
-        .comment-text {
-            font-size: 12px; line-height: 1.5; color: var(--text-color);
-            background: rgba(48,54,61,0.3); padding: 10px 12px; border-radius: 10px;
-            margin-bottom: 6px;
-        }
-        .ai-tag {
-            background: var(--primary-color); color: white; font-size: 9px;
-            font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 4px;
-        }
-        .comment-metrics { display: flex; gap: 12px; font-size: 11px; color: var(--text-secondary); }
-        .comment-metrics i { margin-right: 3px; }
-        input:focus { outline: none; border-color: var(--primary-color); }
-    </style>
-
+    <script src="main.js"></script>
     <script>
         function selectTone(btn) {
-            document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.btn-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            haptic('light');
         }
-        function toggleCommenting() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Нейрокомментинг запущен! AI анализирует целевые каналы и генерирует комментарии.');
+        async function toggleCommenting() {
+            haptic('medium');
+            const channels = document.getElementById('comment-channels').value.trim();
+            if (!channels) {
+                toast('warning', 'Укажите каналы', 'Введите целевые каналы для комментирования');
+                return;
+            }
+            const activeTone = document.querySelector('.btn-option.active');
+            const tones = { 'Экспертный': 'expert', 'Дружелюбный': 'engaging', 'Провокационный': 'casual' };
+            toast('info', 'Запуск', 'AI анализирует целевые каналы...');
+            try {
+                await api.post('/commenting/start', {
+                    channels: channels.split(',').map(c => c.trim()),
+                    tone: tones[activeTone?.textContent.trim()] || 'expert',
+                    model: document.getElementById('comment-model').value
+                });
+                toast('success', 'Нейрокомментинг запущен', 'AI генерирует и публикует комментарии');
+            } catch (err) {
+                toast('error', 'Ошибка', err.message);
             }
         }
     </script>

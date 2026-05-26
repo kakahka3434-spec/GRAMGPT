@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-message" style="color: var(--accent-color)"></i> Нейрочаттинг</h2>
+        <h2><i class="fas fa-message" style="color: var(--primary)"></i> Нейрочаттинг</h2>
         <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
@@ -21,7 +21,7 @@
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Сообщений</h4>
-                <div style="color: var(--accent-color)">2,341</div>
+                <div style="color: var(--primary)">2,341</div>
             </div>
             <div class="stat-item" style="text-align: center;">
                 <h4>Групп</h4>
@@ -29,7 +29,7 @@
             </div>
             <div class="stat-item" style="text-align: right;">
                 <h4>Ответов</h4>
-                <div style="color: var(--success-color)">456</div>
+                <div style="color: var(--success)">456</div>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                     <div style="font-size: 13px; font-weight: 600;">Крипто Обсуждения</div>
                     <div style="font-size: 11px; color: var(--text-secondary);">158 участников &bull; 12 сообщ/час</div>
                 </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Активно</span>
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Активно</span>
             </div>
             <div class="group-item">
                 <div class="group-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">DF</div>
@@ -55,7 +55,7 @@
                     <div style="font-size: 13px; font-weight: 600;">DeFi Трейдеры</div>
                     <div style="font-size: 11px; color: var(--text-secondary);">342 участника &bull; 8 сообщ/час</div>
                 </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Активно</span>
+                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Активно</span>
             </div>
             <div class="group-item">
                 <div class="group-avatar" style="background: linear-gradient(135deg, #e67e22, #d35400);">NF</div>
@@ -63,7 +63,7 @@
                     <div style="font-size: 13px; font-weight: 600;">NFT Коллекционеры</div>
                     <div style="font-size: 11px; color: var(--text-secondary);">95 участников &bull; 5 сообщ/час</div>
                 </div>
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning-color);">Пауза</span>
+                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning);">Пауза</span>
             </div>
         </div>
     </div>
@@ -159,31 +159,32 @@
     <div class="nav-bar animate-in" style="animation-delay: 0.3s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
     <style>
-        .input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px; }
-        .input-field:focus { outline: none; border-color: var(--primary-color); }
+        .input-field { width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; }
+        .input-field:focus { outline: none; border-color: var(--primary); }
         .label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px; }
-        .group-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .group-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
         .group-item:last-child { border-bottom: none; }
-        .group-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); }
-        .tone-btn { padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; justify-content: center; }
-        .tone-btn.active { border-color: var(--primary-color); color: var(--accent-color); background: rgba(0,136,204,0.1); }
+        .group-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary), var(--primary)); }
+        .tone-btn { padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; justify-content: center; }
+        .tone-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(0,136,204,0.1); }
         .tone-btn:active { transform: scale(0.96); }
-        .toggle-on { width: 44px; height: 24px; background: var(--success-color); border-radius: 12px; position: relative; cursor: pointer; }
+        .toggle-on { width: 44px; height: 24px; background: var(--success); border-radius: 12px; position: relative; cursor: pointer; }
         .toggle-on::after { content: ''; width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
         .chat-preview { display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { display: flex; gap: 8px; }
         .chat-msg-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, #3498db, #2980b9); }
-        .chat-msg-ai .chat-msg-avatar { background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); }
+        .chat-msg-ai .chat-msg-avatar { background: linear-gradient(135deg, var(--primary), var(--primary)); }
         .chat-msg-content { flex: 1; }
         .chat-msg-name { font-size: 11px; font-weight: 600; margin-bottom: 2px; color: var(--text-secondary); }
         .chat-msg-text { font-size: 12px; line-height: 1.5; background: rgba(48,54,61,0.3); padding: 8px 12px; border-radius: 0 10px 10px 10px; display: inline-block; }
-        .chat-msg-ai .chat-msg-text { background: rgba(0,136,204,0.1); border-left: 2px solid var(--primary-color); }
-        .ai-tag { background: var(--primary-color); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+        .chat-msg-ai .chat-msg-text { background: rgba(0,136,204,0.1); border-left: 2px solid var(--primary); }
+        .ai-tag { background: var(--primary); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
     </style>
 
     <script>
@@ -193,9 +194,10 @@
         }
         function startChatting() {
             if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Нейрочаттинг запущен! AI анализирует контекст групп и генерирует ответы.');
+                toast('info', '');
             }
         }
     </script>
+<script src='main.js'></script>
 </body>
 </html>

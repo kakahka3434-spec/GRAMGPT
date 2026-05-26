@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-file-chart-line" style="color: var(--accent-color)"></i> Отчёты</h2>
+        <h2><i class="fas fa-file-chart-line" style="color: var(--primary)"></i> Отчёты</h2>
         <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
@@ -18,7 +18,7 @@
 
     <!-- Quick Report -->
     <div class="glass-card animate-in" style="animation-delay: 0.05s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-magic" style="color: var(--accent-color);"></i> Быстрый отчёт</h4>
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-magic" style="color: var(--primary);"></i> Быстрый отчёт</h4>
         <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">AI автоматически генерирует отчёт по выбранному периоду</div>
         <div style="display: flex; gap: 6px; margin-bottom: 14px;">
             <button class="period-chip active" onclick="selectPeriod(this)">Сегодня</button>
@@ -36,7 +36,7 @@
     <!-- Report Preview -->
     <div class="card animate-in" style="animation-delay: 0.1s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--accent-color);"></i> Превью: Месячный отчёт</h4>
+            <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--primary);"></i> Превью: Месячный отчёт</h4>
             <span style="font-size: 10px; color: var(--text-secondary);">Апрель 2026</span>
         </div>
 
@@ -67,27 +67,27 @@
             <div class="report-title">Эффективность модулей</div>
             <div class="module-perf">
                 <div class="perf-row">
-                    <span style="font-size: 12px;"><i class="fas fa-crosshairs" style="color: var(--accent-color); width: 18px;"></i> Парсинг</span>
+                    <span style="font-size: 12px;"><i class="fas fa-crosshairs" style="color: var(--primary); width: 18px;"></i> Парсинг</span>
                     <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 95%;"></div></div>
                     <span style="font-size: 11px; font-weight: 600;">2,450</span>
                 </div>
                 <div class="perf-row">
-                    <span style="font-size: 12px;"><i class="fas fa-comments" style="color: var(--accent-color); width: 18px;"></i> Комментинг</span>
+                    <span style="font-size: 12px;"><i class="fas fa-comments" style="color: var(--primary); width: 18px;"></i> Комментинг</span>
                     <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 82%;"></div></div>
                     <span style="font-size: 11px; font-weight: 600;">1,890</span>
                 </div>
                 <div class="perf-row">
-                    <span style="font-size: 12px;"><i class="fas fa-message" style="color: var(--accent-color); width: 18px;"></i> Чаттинг</span>
+                    <span style="font-size: 12px;"><i class="fas fa-message" style="color: var(--primary); width: 18px;"></i> Чаттинг</span>
                     <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 68%;"></div></div>
                     <span style="font-size: 11px; font-weight: 600;">1,120</span>
                 </div>
                 <div class="perf-row">
-                    <span style="font-size: 12px;"><i class="fas fa-robot" style="color: var(--accent-color); width: 18px;"></i> Диалоги</span>
+                    <span style="font-size: 12px;"><i class="fas fa-robot" style="color: var(--primary); width: 18px;"></i> Диалоги</span>
                     <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 55%;"></div></div>
                     <span style="font-size: 11px; font-weight: 600;">847</span>
                 </div>
                 <div class="perf-row">
-                    <span style="font-size: 12px;"><i class="fas fa-heart" style="color: var(--accent-color); width: 18px;"></i> Реакции</span>
+                    <span style="font-size: 12px;"><i class="fas fa-heart" style="color: var(--primary); width: 18px;"></i> Реакции</span>
                     <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 78%;"></div></div>
                     <span style="font-size: 11px; font-weight: 600;">3,456</span>
                 </div>
@@ -120,7 +120,7 @@
 
     <!-- Saved Reports -->
     <div class="card animate-in" style="animation-delay: 0.15s">
-        <h4 style="margin-bottom: 12px;"><i class="fas fa-folder" style="color: var(--accent-color);"></i> Сохранённые отчёты</h4>
+        <h4 style="margin-bottom: 12px;"><i class="fas fa-folder" style="color: var(--primary);"></i> Сохранённые отчёты</h4>
         <div class="saved-report" onclick="downloadReport('march')">
             <div class="sr-icon"><i class="fas fa-file-pdf" style="color: #e74c3c;"></i></div>
             <div style="flex: 1;">
@@ -156,23 +156,23 @@
     </div>
 
     <style>
-        .period-chip { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; }
-        .period-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary-color); color: var(--accent-color); }
+        .period-chip { padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 11px; font-weight: 600; cursor: pointer; }
+        .period-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary); color: var(--primary); }
         .report-section { margin-bottom: 4px; }
-        .report-title { font-size: 12px; font-weight: 700; margin-bottom: 10px; color: var(--text-color); }
+        .report-title { font-size: 12px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
         .report-metrics { display: flex; gap: 8px; }
         .rpt-metric { flex: 1; text-align: center; padding: 10px; background: rgba(48,54,61,0.3); border-radius: 10px; }
-        .rpt-val { font-size: 16px; font-weight: 800; color: var(--accent-color); }
+        .rpt-val { font-size: 16px; font-weight: 800; color: var(--primary); }
         .rpt-lbl { font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-top: 2px; }
         .rpt-change { font-size: 10px; margin-top: 4px; font-weight: 600; }
-        .rpt-change.up { color: var(--success-color); }
+        .rpt-change.up { color: var(--success); }
         .module-perf { display: flex; flex-direction: column; gap: 8px; }
         .perf-row { display: flex; align-items: center; }
         .safety-box { flex: 1; text-align: center; padding: 12px; border-radius: 10px; }
         .safety-box i { font-size: 14px; margin-bottom: 4px; }
-        .safety-box.green { background: rgba(46,204,113,0.08); color: var(--success-color); }
-        .safety-box.blue { background: rgba(0,136,204,0.08); color: var(--accent-color); }
-        .saved-report { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .safety-box.green { background: rgba(46,204,113,0.08); color: var(--success); }
+        .safety-box.blue { background: rgba(0,136,204,0.08); color: var(--primary); }
+        .saved-report { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
         .sr-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(48,54,61,0.3); font-size: 16px; flex-shrink: 0; }
     </style>
 
@@ -184,5 +184,6 @@
         function generateReport(fmt) { alert('Генерация отчёта в формате ' + fmt.toUpperCase() + '...'); }
         function downloadReport(month) { alert('Скачивание отчёта за ' + month + '...'); }
     </script>
+<script src='main.js'></script>
 </body>
 </html>

@@ -10,94 +10,95 @@
 </head>
 <body>
     <div class="header animate-in">
-        <h2><i class="fas fa-crosshairs" style="color: var(--accent-color)"></i> Парсинг</h2>
-        <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+        <h2><i class="fas fa-crosshairs" style="color: var(--primary)"></i> Парсинг</h2>
+        <a href="index.html" class="text-secondary" style="text-decoration: none; font-size: 14px;">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
     </div>
 
     <!-- Parser Type Selection -->
     <div class="card animate-in" style="animation-delay: 0.05s">
-        <h4 style="margin-bottom: 12px;">Тип парсинга</h4>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
-            <button class="parser-type-btn active" onclick="selectParserType(this, 'users')">
+        <h4 class="mb-12">Тип парсинга</h4>
+        <div class="btn-option-grid btn-option-grid-4">
+            <button class="btn-option active" onclick="window.selectOption(this, 'users')">
                 <i class="fas fa-users"></i> Пользователи
             </button>
-            <button class="parser-type-btn" onclick="selectParserType(this, 'channels')">
+            <button class="btn-option" onclick="window.selectOption(this, 'channels')">
                 <i class="fas fa-broadcast-tower"></i> Каналы
             </button>
-            <button class="parser-type-btn" onclick="selectParserType(this, 'messages')">
+            <button class="btn-option" onclick="window.selectOption(this, 'messages')">
                 <i class="fas fa-envelope"></i> Сообщения
             </button>
-            <button class="parser-type-btn" onclick="selectParserType(this, 'keywords')">
+            <button class="btn-option" onclick="window.selectOption(this, 'keywords')">
                 <i class="fas fa-key"></i> По ключам
             </button>
         </div>
     </div>
 
     <!-- Parser Settings -->
-    <div class="card animate-in" style="animation-delay: 0.1s">
-        <h4 style="margin-bottom: 12px;">Настройки</h4>
-        <div style="margin-bottom: 12px;">
-            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Целевые каналы / группы</label>
-            <input type="text" placeholder="@channel_name или t.me/link" style="width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px;">
+    <div class="card animate-in" style="animation-delay: 0.1s" id="settings-card">
+        <h4 class="mb-12">Настройки</h4>
+        <div class="form-group">
+            <label class="form-label">Целевые каналы / группы</label>
+            <input type="text" class="form-input" id="target-input" placeholder="@channel_name или t.me/link">
         </div>
-        <div style="margin-bottom: 12px;">
-            <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Ключевые слова (опционально)</label>
-            <input type="text" placeholder="крипто, трейдинг, NFT" style="width: 100%; padding: 10px 14px; background: rgba(48,54,61,0.4); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); font-size: 13px;">
+        <div class="form-group">
+            <label class="form-label">Ключевые слова (опционально)</label>
+            <input type="text" class="form-input" id="keywords-input" placeholder="крипто, трейдинг, NFT">
         </div>
-        <div style="display: flex; gap: 8px;">
-            <div style="flex: 1;">
-                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Лимит</label>
-                <select style="width: 100%;">
-                    <option>100</option>
-                    <option>500</option>
-                    <option selected>1000</option>
-                    <option>5000</option>
+        <div class="flex gap-8">
+            <div class="flex-1">
+                <label class="form-label">Лимит</label>
+                <select class="form-select" id="limit-select">
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                    <option value="1000" selected>1000</option>
+                    <option value="5000">5000</option>
                 </select>
             </div>
-            <div style="flex: 1;">
-                <label style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px;">Период</label>
-                <select style="width: 100%;">
-                    <option>24 часа</option>
-                    <option selected>7 дней</option>
-                    <option>30 дней</option>
-                    <option>Все время</option>
+            <div class="flex-1">
+                <label class="form-label">Период</label>
+                <select class="form-select" id="period-select">
+                    <option value="24h">24 часа</option>
+                    <option value="7d" selected>7 дней</option>
+                    <option value="30d">30 дней</option>
+                    <option value="all">Все время</option>
                 </select>
             </div>
         </div>
     </div>
 
     <!-- Results Preview -->
-    <div class="card animate-in" style="animation-delay: 0.15s">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="margin: 0;">Результаты</h4>
-            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">1,247 найдено</span>
+    <div class="card animate-in" style="animation-delay: 0.15s" id="results-card">
+        <div class="card-header">
+            <h4>Результаты</h4>
+            <span class="status-badge badge-blue" id="results-count">1,247 найдено</span>
         </div>
-
-        <div class="parsed-user">
-            <div class="parsed-avatar">ИП</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Иван Петров</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@ivanpetrov &bull; Crypto Канал</div>
+        <div id="results-list">
+            <div class="parsed-user">
+                <div class="avatar avatar-md avatar-gradient">ИП</div>
+                <div class="flex-1">
+                    <div class="text-sm" style="font-weight: 600;">Иван Петров</div>
+                    <div class="text-xs text-secondary">@ivanpetrov &bull; Crypto Канал</div>
+                </div>
+                <span class="status-badge badge-blue">Спарсен</span>
             </div>
-            <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color);">Спарсен</span>
-        </div>
-        <div class="parsed-user">
-            <div class="parsed-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">МИ</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Мария Иванова</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@mivanova &bull; DeFi Группа</div>
+            <div class="parsed-user">
+                <div class="avatar avatar-md avatar-red">МИ</div>
+                <div class="flex-1">
+                    <div class="text-sm" style="font-weight: 600;">Мария Иванова</div>
+                    <div class="text-xs text-secondary">@mivanova &bull; DeFi Группа</div>
+                </div>
+                <span class="status-badge badge-blue">Спарсен</span>
             </div>
-            <span class="status-badge" style="background: rgba(0,136,204,0.15); color: var(--accent-color);">Спарсен</span>
-        </div>
-        <div class="parsed-user">
-            <div class="parsed-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">ОС</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Олег Сидоров</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">@olegsidorov &bull; NFT Новости</div>
+            <div class="parsed-user">
+                <div class="avatar avatar-md avatar-purple">ОС</div>
+                <div class="flex-1">
+                    <div class="text-sm" style="font-weight: 600;">Олег Сидоров</div>
+                    <div class="text-xs text-secondary">@olegsidorov &bull; NFT Новости</div>
+                </div>
+                <span class="status-badge badge-green">Новый</span>
             </div>
-            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success-color);">Новый</span>
         </div>
     </div>
 
@@ -108,41 +109,39 @@
     <div class="nav-bar animate-in" style="animation-delay: 0.25s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <style>
-        .parser-type-btn {
-            padding: 10px; border-radius: 10px; border: 1px solid var(--border-color);
-            background: var(--card-bg); color: var(--text-secondary); font-size: 12px;
-            font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex;
-            align-items: center; gap: 6px; justify-content: center;
-        }
-        .parser-type-btn.active { border-color: var(--primary-color); color: var(--accent-color); background: rgba(0,136,204,0.1); }
-        .parser-type-btn:active { transform: scale(0.96); }
-        .parsed-user {
-            display: flex; align-items: center; gap: 10px; padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .parsed-user:last-child { border-bottom: none; }
-        .parsed-avatar {
-            width: 36px; height: 36px; border-radius: 10px; display: flex;
-            align-items: center; justify-content: center; font-size: 11px;
-            font-weight: 700; color: white; flex-shrink: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-        }
-        input:focus { outline: none; border-color: var(--primary-color); }
-    </style>
-
+    <script src="main.js"></script>
     <script>
-        function selectParserType(btn, type) {
-            document.querySelectorAll('.parser-type-btn').forEach(b => b.classList.remove('active'));
+        window.selectOption = function(btn) {
+            document.querySelectorAll('.btn-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-        }
-        function startParsing() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.showAlert('Парсинг запущен! Результаты будут доступны через несколько минут.');
+            haptic('light');
+        };
+        async function startParsing() {
+            haptic('medium');
+            const target = document.getElementById('target-input').value.trim();
+            if (!target) {
+                toast('warning', 'Укажите цель', 'Введите название канала или группу для парсинга');
+                return;
+            }
+            const activeType = document.querySelector('.btn-option.active');
+            const parserType = activeType ? activeType.textContent.trim().toLowerCase() : 'users';
+
+            toast('info', 'Парсинг запущен', 'Поиск аудитории в фоновом режиме...');
+            try {
+                const result = await api.post('/parsing/start', {
+                    parser_type: parserType,
+                    target: target,
+                    keywords: document.getElementById('keywords-input').value || null,
+                    limit: parseInt(document.getElementById('limit-select').value) || 1000
+                });
+                toast('success', 'Парсинг запущен', `Task ID: ${result.task_id}. Результаты появятся через несколько минут.`);
+            } catch (err) {
+                toast('error', 'Ошибка', err.message);
             }
         }
     </script>

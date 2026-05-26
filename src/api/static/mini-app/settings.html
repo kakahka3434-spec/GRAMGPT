@@ -16,53 +16,42 @@
     </div>
 
     <div class="card animate-in" style="animation-delay: 0.05s">
-        <h3>Ваш Тариф: <span style="color: var(--accent-color)">PRO</span></h3>
-        <div class="setting-item">
-            <span>Модель ИИ</span>
-            <select>
+        <h3>Ваш Тариф: <span style="color: var(--primary);">PRO</span></h3>
+        <div class="setting-item"><span class="text-sm">Модель ИИ</span>
+            <select class="form-select" style="width:auto">
                 <option>GPT-4o</option>
                 <option>GPT-4o-mini</option>
             </select>
         </div>
-        <div class="setting-item">
-            <span>Мульти-аккаунты</span>
-            <span style="color: var(--accent-color)">12 / 20</span>
-        </div>
-        <div class="setting-item">
-            <span>Human Emulation</span>
-            <span style="color: var(--success-color)">Активен</span>
-        </div>
-        <div class="setting-item">
-            <span>Anti-Ban Shield</span>
-            <span style="color: var(--success-color)">Активен</span>
-        </div>
+        <div class="setting-item"><span class="text-sm">Мульти-аккаунты</span><span style="color: var(--primary);">12 / 20</span></div>
+        <div class="setting-item"><span class="text-sm">Human Emulation</span><span class="status-badge badge-green">Активен</span></div>
+        <div class="setting-item"><span class="text-sm">Anti-Ban Shield</span><span class="status-badge badge-green">Активен</span></div>
     </div>
 
     <div class="card animate-in" style="animation-delay: 0.1s">
         <h3>Платежи (TON Connect)</h3>
-        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Подключите TON кошелёк для оплаты подписки и покупки шаблонов.</p>
-        <button class="btn" onclick="window.Telegram.WebApp.showAlert('Подключение кошелька TON...')">
-            <i class="fas fa-gem"></i> Подключить TON Wallet
-        </button>
+        <p class="text-sm text-secondary mb-12">Подключите TON кошелёк для оплаты подписки и покупки шаблонов.</p>
+        <button class="btn" onclick="connectTON()"><i class="fas fa-gem"></i> Подключить TON Wallet</button>
     </div>
 
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h3>Реферальная программа</h3>
-        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">Приглашайте друзей и получайте +20% к лимитам.</p>
-        <button class="btn" style="background: rgba(0,136,204,0.15); color: var(--accent-color);" onclick="window.Telegram.WebApp.showAlert('Скопируйте реф-ссылку из бота: /start')">
-            <i class="fas fa-share"></i> Получить ссылку
-        </button>
+        <p class="text-sm text-secondary mb-8">Приглашайте друзей и получайте +20% к лимитам.</p>
+        <button class="btn btn-secondary" onclick="getReferralLink()"><i class="fas fa-share"></i> Получить ссылку</button>
     </div>
 
     <div class="nav-bar animate-in" style="animation-delay: 0.2s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
         <a href="campaigns.html" class="nav-item"><i class="fas fa-tasks"></i></a>
+        <a href="channel.html" class="nav-item"><i class="fas fa-tv"></i></a>
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i></a>
         <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i></a>
     </div>
 
+    <script src="main.js"></script>
     <script>
-        window.Telegram.WebApp.ready();
+        function connectTON() { toast('info', 'Подключение TON', 'Выберите кошелёк для подключения'); }
+        function getReferralLink() { toast('success', 'Ссылка скопирована', 'Отправьте друзьям: gramgpt.io/ref/your_id'); }
     </script>
 </body>
 </html>
