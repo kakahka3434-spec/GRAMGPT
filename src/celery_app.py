@@ -1,8 +1,34 @@
+"""
+Celery app with auto-detection of Redis.
+- If Redis is available: normal distributed task queue
+- If Redis is NOT available: task_always_eager (runs inline synchronously)
+"""
+
+import asyncio
+import logging
 import os
+import socket
+from typing import Optional
+
 from celery import Celery
 from src.config import settings
 
+logger = logging.getLogger(__name__)
+
+
+def _redis_is_available(host: str = "localhost", port: int = 6379, timeout: float = 1.0) -> bool:
+    """Check if Redis is reachable."""
+    try:
+        s = socket.create_connection((host, port), timeout=timeout)
+        s.close()
+        return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        return False
+
+
+# Determine broker URL
 redis_pw = settings.redis_password
+
 if redis_pw:
     broker_url = f"redis://:{redis_pw}@localhost:6379/0"
     result_url = f"redis://:{redis_pw}@localhost:6379/1"
@@ -10,10 +36,19 @@ else:
     broker_url = settings.celery_broker_url
     result_url = settings.celery_result_backend
 
+# Auto-detect Redis
+redis_available = _redis_is_available()
+task_always_eager = settings.celery_task_always_eager or not redis_available
+
+if not redis_available:
+    logger.warning("Redis not available — Celery will run tasks inline (task_always_eager=True)")
+    logger.warning("Install Redis for distributed task processing: https://redis.io/download")
+
+# Create Celery app
 celery_app = Celery(
     "gramgpt",
-    broker=broker_url,
-    backend=result_url,
+    broker=broker_url if redis_available else "memory://localhost/",
+    backend=result_url if redis_available else "cache+memory://",
 )
 
 celery_app.conf.update(
@@ -27,18 +62,15 @@ celery_app.conf.update(
     task_soft_time_limit=540,
     worker_prefetch_multiplier=1,
     task_acks_late=True,
+    task_always_eager=task_always_eager,
+    task_eager_propagates=True,
 )
 
-import asyncio
-import logging
-from typing import Optional
 
-logger = logging.getLogger(__name__)
-
+# --- Task implementations ---
 
 @celery_app.task(bind=True, max_retries=3, default_retry_delay=60)
 def run_parsing_task(self, parser_type: str, target: str, keywords: Optional[str] = None, limit: int = 100):
-    """Run parsing in background Celery task."""
     from src.services.parser_service import run_parsing
 
     try:
@@ -56,7 +88,6 @@ def run_parsing_task(self, parser_type: str, target: str, keywords: Optional[str
 
 @celery_app.task(bind=True, max_retries=2, default_retry_delay=120)
 def run_commenting_task(self, channels: list, tone: str, model: str, max_per_hour: int = 10):
-    """Run commenting campaign in background Celery task."""
     from src.services.telegram_user_client import TelegramUserClient
     from src.services.comment_sender import CommentSender
     from src.core.pipeline_orchestrator import PipelineOrchestrator
@@ -99,7 +130,6 @@ def run_commenting_task(self, channels: list, tone: str, model: str, max_per_hou
 
 @celery_app.task(bind=True, max_retries=1)
 def run_account_check_task(self, account_ids: list):
-    """Check health/GGR for accounts in background."""
     from src.core.account_pool import AccountPool
     pool = AccountPool()
     results = []

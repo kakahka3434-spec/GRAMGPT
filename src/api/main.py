@@ -10,6 +10,7 @@ from src.api.routers.accounts import router as accounts_router
 from src.api.routers.analytics import router as analytics_router
 from src.api.routers.channels import router as channels_router
 from src.api.routers.admin import router as admin_router
+from src.api.routers.health import router as health_router
 from src.core.auth_service import auth_service
 from typing import Optional
 import os
@@ -55,6 +56,7 @@ app.include_router(accounts_router)
 app.include_router(analytics_router)
 app.include_router(channels_router)
 app.include_router(admin_router)
+app.include_router(health_router)
 
 # Static file paths
 base_dir = os.path.dirname(__file__)
