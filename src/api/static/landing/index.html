@@ -5,427 +5,659 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GRAMGPT — ИИ-комбайн для Telegram</title>
     <meta name="description" content="GRAMGPT — первый ИИ-комбайн нового поколения для Telegram. Нейрокомментинг, нейрочаттинг, парсинг, прогрев аккаунтов и массовые реакции.">
+    <meta property="og:title" content="GRAMGPT — ИИ-комбайн для Telegram">
+    <meta property="og:description" content="Первый ИИ-комбайн нового поколения для Telegram. Нейрокомментинг, нейрочаттинг, парсинг, прогрев аккаунтов.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GRAMGPT — ИИ-комбайн для Telegram">
+    <meta name="twitter:description" content="Первый ИИ-комбайн нового поколения для Telegram. Нейрокомментинг, нейрочаттинг, парсинг, прогрев аккаунтов.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/landing.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "GRAMGPT",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "ИИ-комбайн для автоматизации продвижения в Telegram. Нейрокомментинг, парсинг аудитории, прогрев аккаунтов и массовые реакции.",
+        "offers": [
+            { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
+            { "@type": "Offer", "name": "Pro", "price": "49", "priceCurrency": "USD" },
+            { "@type": "Offer", "name": "Agency", "price": "199", "priceCurrency": "USD" }
+        ],
+        "author": { "@type": "Organization", "name": "GRAMGPT" }
+    }
+    </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">GRAM<span>GPT</span></a>
-            <div class="nav-links" id="navLinks">
-                <a href="#features">Возможности</a>
-                <a href="#how-it-works">Как работает</a>
-                <a href="#pricing">Цены</a>
-                <a href="#reviews">Отзывы</a>
-                <a href="#faq">FAQ</a>
-            </div>
-            <a href="#pricing" class="btn btn-primary btn-sm">Начать</a>
-            <button class="mobile-toggle" id="mobileToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-            <div class="hero-badge animate-fade-in">
-                <i class="fas fa-bolt"></i> ИИ нового поколения
-            </div>
-            <h1 class="animate-fade-in">Первый <span class="gradient-text">ИИ-комбайн</span><br>для Telegram</h1>
-            <p class="hero-subtitle animate-fade-in">
-                Продвижение Telegram с помощью GRAMGPT — нейрокомментинг, нейрочаттинг,
-                парсинг аудитории, прогрев аккаунтов и массовые реакции. Всё в одном инструменте.
-            </p>
-            <div class="hero-actions animate-fade-in">
-                <a href="#pricing" class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket"></i> Начать бесплатно
-                </a>
-                <a href="#how-it-works" class="btn btn-outline btn-lg">
-                    <i class="fas fa-play"></i> Как работает
-                </a>
-            </div>
-            <div class="hero-stats animate-fade-in">
-                <div class="hero-stat">
-                    <div class="hero-stat-value">8</div>
-                    <div class="hero-stat-label">модулей</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">24/7</div>
-                    <div class="hero-stat-label">автоматизация</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">0</div>
-                    <div class="hero-stat-label">банов</div>
-                </div>
-            </div>
-        </div>
+<!-- ===== PRELOADER ===== -->
+<div class="preloader" id="preloader">
+    <div class="preloader-scan"></div>
+    <div class="preloader-logo">GRAM<span>GPT</span></div>
+    <div class="preloader-ring"></div>
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    <div class="preloader-text">[INITIALIZING SYSTEM...]</div>
+</div>
 
-        <!-- Floating demo cards -->
-        <div class="hero-demo">
-            <div class="demo-card demo-card-1 animate-float">
-                <div class="demo-card-header">
-                    <div class="demo-dot green"></div>
-                    <span>Менеджер аккаунтов</span>
-                </div>
-                <div class="demo-account">
-                    <div class="demo-avatar">A1</div>
-                    <div>
-                        <div class="demo-name">+7 (999) 123-45-67</div>
-                        <div class="demo-status">Активен &bull; 24 диалога</div>
-                    </div>
-                    <div class="demo-trust">94%</div>
-                </div>
-                <div class="demo-account">
-                    <div class="demo-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">A2</div>
-                    <div>
-                        <div class="demo-name">+7 (999) 234-56-78</div>
-                        <div class="demo-status">Прогрев &bull; 18 диалогов</div>
-                    </div>
-                    <div class="demo-trust" style="color: #f39c12;">78%</div>
-                </div>
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+    <div class="container nav-container">
+        <a href="#" class="logo">GRAM<span>GPT</span></a>
+        <div class="nav-links" id="navLinks">
+            <a href="/functions">Все функции</a>
+            <a href="#pricing">Цены</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#faq">FAQ</a>
+            <a href="/blog">Блог</a>
+        </div>
+        <a href="#pricing" class="btn btn-primary btn-sm" data-track="header_cta">Начать</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="hero-atmo-1"></div>
+        <div class="hero-grid">
+            <div class="hero-grid-inner"></div>
+        </div>
+        <div class="hero-orbs">
+            <div class="hero-orb"></div>
+            <div class="hero-orb"></div>
+            <div class="hero-orb"></div>
+        </div>
+        <div class="hero-particles">
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+        </div>
+        <div class="hero-glow-line"></div>
+    </div>
+    <div class="container hero-content">
+        <div class="hero-badge animate-fade-in">
+            <i class="fas fa-bolt"></i> v2.0 — Нейросеть нового поколения
+        </div>
+        <h1 class="animate-fade-in" style="animation-delay: 0.1s">
+            Кибер-эволюция <span class="thin">вашего</span><br>
+            <span class="gradient-text">Telegram трафика</span>
+        </h1>
+        <p class="hero-subtitle animate-fade-in" style="animation-delay: 0.2s">
+            Нейрокомментинг, парсинг аудитории, прогрев аккаунтов и массовые реакции — 
+            всё в одном инструменте с AI-оркестрацией.
+        </p>
+        <div class="hero-actions animate-fade-in" style="animation-delay: 0.3s">
+            <a href="#pricing" class="btn btn-primary btn-lg btn-magnetic btn-glow" data-track="hero_cta">
+                <i class="fas fa-rocket"></i> Подключить терминал
+            </a>
+            <a href="#how-it-works" class="btn btn-outline btn-lg btn-magnetic" data-track="hero_video">
+                <i class="fas fa-play"></i> Как работает
+            </a>
+        </div>
+        <div class="hero-stats animate-fade-in" style="animation-delay: 0.4s">
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="847" data-suffix=""></div>
+                <div class="hero-stat-label">онлайн</div>
             </div>
-            <div class="demo-card demo-card-2 animate-float" style="animation-delay: 0.5s">
-                <div class="demo-card-header">
-                    <div class="demo-dot blue"></div>
-                    <span>Нейрочаттинг</span>
-                </div>
-                <div class="demo-chat">
-                    <div class="demo-msg demo-msg-other">Что думаете о новом обновлении ETH?</div>
-                    <div class="demo-msg demo-msg-ai">
-                        Согласен! По графику +15% за месяц
-                        <span class="ai-badge">AI</span>
-                    </div>
-                </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="1230" data-suffix=""></div>
+                <div class="hero-stat-label">аккаунтов активно</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="99.7" data-suffix="%"></div>
+                <div class="hero-stat-label">uptime</div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Возможности</div>
-                <h2>Всё, что нужно для <span class="gradient-text">продвижения</span></h2>
-                <p>8 модулей. Один интерфейс. Полная автоматизация Telegram.</p>
+    <!-- Dashboard Mockup -->
+    <div class="hero-dashboard animate-fade-right" style="animation-delay: 0.5s">
+        <div class="dashboard-frame">
+            <div class="dashboard-titlebar">
+                <div class="dashboard-dot red"></div>
+                <div class="dashboard-dot yellow"></div>
+                <div class="dashboard-dot green"></div>
+                <span>Command Center — GRAMGPT</span>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-crosshairs"></i></div>
+            <div class="dashboard-body">
+                <div class="dashboard-sidebar">
+                    <div class="dashboard-sidebar-item active"><i class="fas fa-terminal"></i> Console</div>
+                    <div class="dashboard-sidebar-item"><i class="fas fa-users"></i> Accounts</div>
+                    <div class="dashboard-sidebar-item"><i class="fas fa-chart-line"></i> Analytics</div>
+                    <div class="dashboard-sidebar-item"><i class="fas fa-shield-halved"></i> Shield</div>
+                    <div class="dashboard-sidebar-item"><i class="fas fa-robot"></i> AI Agents</div>
+                </div>
+                <div class="dashboard-main">
+                    <div class="dashboard-stats-row">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-value">42</div>
+                            <div class="dashboard-stat-label">Accounts</div>
+                        </div>
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-value">12.4K</div>
+                            <div class="dashboard-stat-label">Comments</div>
+                        </div>
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-value">94.5%</div>
+                            <div class="dashboard-stat-label">Trust Score</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-chart">
+                        <div class="chart-bars">
+                            <div class="chart-bar" style="height: 40%"></div>
+                            <div class="chart-bar" style="height: 65%"></div>
+                            <div class="chart-bar" style="height: 30%"></div>
+                            <div class="chart-bar" style="height: 75%"></div>
+                            <div class="chart-bar" style="height: 50%"></div>
+                            <div class="chart-bar" style="height: 85%"></div>
+                            <div class="chart-bar" style="height: 55%"></div>
+                            <div class="chart-bar" style="height: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="dashboard-activity">
+                        <div class="activity-item"><span class="activity-dot green"></span> @channel_42 — comment posted</div>
+                        <div class="activity-item"><span class="activity-dot green"></span> @crypto_talk — reaction added</div>
+                        <div class="activity-item"><span class="activity-dot yellow"></span> @invest_grp — rate limit warning</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="arrow"></div>
+    </div>
+</section>
+
+<!-- ===== TRUST BAR ===== -->
+<section class="trust-bar-section">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <div class="trust-value" data-target="5" data-suffix="x"></div>
+                <div class="trust-label">Эффективность</div>
+                <div class="trust-progress-mini"><div class="trust-progress-mini-fill" data-width="90%"></div></div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value" data-target="10" data-suffix="x"></div>
+                <div class="trust-label">Скорость</div>
+                <div class="trust-progress-mini"><div class="trust-progress-mini-fill" data-width="85%"></div></div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value" data-target="0.1" data-suffix="%"></div>
+                <div class="trust-label">Бан аккаунтов</div>
+                <div class="trust-progress-mini"><div class="trust-progress-mini-fill" data-width="95%"></div></div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value" data-target="500" data-suffix="+"></div>
+                <div class="trust-label">Юзеров</div>
+                <div class="trust-progress-mini"><div class="trust-progress-mini-fill" data-width="80%"></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SCROLL STORYTELLING ===== -->
+<section class="section story-section section-dark" id="features">
+    <div class="container story-container">
+        <div class="story-nav">
+            <div class="story-nav-item active">
+                <span class="nav-index">01</span> Автоматизация 24/7
+            </div>
+            <div class="story-nav-item">
+                <span class="nav-index">02</span> Защита от банов
+            </div>
+            <div class="story-nav-item">
+                <span class="nav-index">03</span> Аналитика и ROI
+            </div>
+        </div>
+        <div class="story-content">
+            <!-- Block 1 -->
+            <div class="story-block visible" id="story-1">
+                <div class="story-block-icon"><i class="fas fa-robot"></i></div>
+                <h3>Автоматизация 24/7</h3>
+                <p>Нейросеть работает без выходных. Умная очередь с приоритизацией и AI-оркестрацией всех модулей.</p>
+                <div class="story-terminal terminal-container" id="terminal1" data-lines='["<span class=time>[12:47:01]</span> <span class=channel>@channel_42</span> — comment posted <span class=status>| delay: 3.2s | trust: 97%</span>", "<span class=time>[12:47:03]</span> <span class=channel>@crypto_talk</span> — reaction added <span class=status>| delay: 1.8s | trust: 99%</span>", "<span class=time>[12:47:06]</span> <span class=channel>@invest_grp</span> — chat response <span class=status>| delay: 4.1s | trust: 94%</span>", "<span class=time>[12:47:10]</span> <span class=channel>@tech_news</span> — comment posted <span class=status>| delay: 2.5s | trust: 96%</span>"]'>
+                    <div class="terminal-line"><span class="time">[12:47:01]</span> <span class="channel">@channel_42</span> — comment posted <span class="status">| delay: 3.2s | trust: 97%</span></div>
+                </div>
+            </div>
+            <!-- Block 2 -->
+            <div class="story-block" id="story-2">
+                <div class="story-block-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Защита от банов</h3>
+                <p>Предиктивный Anti-Ban Shield анализирует риски в реальном времени. AI Crisis Manager нейтрализует угрозы автоматически.</p>
+                <div class="story-visual">
+                    <div class="heatmap-grid" id="heatmap1">
+                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Block 3 -->
+            <div class="story-block" id="story-3">
+                <div class="story-block-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Аналитика и ROI</h3>
+                <p>AI Orchestrator создаёт стратегии с предиктивным ROI на основе 10,000+ кейсов. Автоматическая оптимизация кампаний.</p>
+                <div class="story-visual" style="height:140px; background: rgba(0,229,255,0.04); border-radius:10px; display:flex; align-items:flex-end; gap:6px; padding:16px;">
+                    <div style="flex:1; height:30%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:55%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:25%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:70%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:45%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:80%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:60%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:90%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:50%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                    <div style="flex:1; height:75%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURES GRID (Original 8 modules) ===== -->
+<section class="section reveal">
+    <div class="container">
+        <div class="section-header reveal reveal-delay-1">
+            <div class="section-badge">Возможности</div>
+            <h2>Всё, что нужно для <span class="gradient-text">продвижения</span></h2>
+            <p>8 модулей. Один интерфейс. Полная автоматизация Telegram.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon"><i class="fas fa-crosshairs"></i></div>
+                <h3>Умный парсинг</h3>
+                <p>Сканирование каналов, групп и сообщений. Сбор целевой аудитории с поведенческим анализом и Cross-Platform маппингом.</p>
+                <ul class="feature-list">
+                    <li>Парсер каналов и пользователей</li>
+                    <li>Парсер по ключевым словам</li>
+                    <li>Поведенческий анализ (AI)</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon"><i class="fas fa-fire"></i></div>
+                <h3>Прогрев аккаунтов</h3>
+                <p>Автоматическое повышение доверия аккаунтов. Human Emulation Engine имитирует поведение реального пользователя.</p>
+                <ul class="feature-list">
+                    <li>Biological Rhythm Sync</li>
+                    <li>Device Fingerprinting</li>
+                    <li>Anti-Ban Shield</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                <h3>Нейрокомментинг</h3>
+                <p>AI генерирует осмысленные комментарии под постами. Thread Hijacking и Question Baiting для максимального вовлечения.</p>
+                <ul class="feature-list">
+                    <li>GPT-4o генерация</li>
+                    <li>Эмоциональный резонанс</li>
+                    <li>Автоматические ответы</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-4">
+                <div class="feature-icon"><i class="fas fa-message"></i></div>
+                <h3>Нейрочаттинг</h3>
+                <p>Осмысленные ответы в группах и чатах. Отработка возражений из библиотеки 500+ сценариев.</p>
+                <ul class="feature-list">
+                    <li>Отработка возражений</li>
+                    <li>Urgency + Social Proof</li>
+                    <li>Конвертация лидов</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                <h3>НейроДиалоги</h3>
+                <p>AI ведёт личные переписки и конвертирует лидов. Полная автоматизация воронки продаж в ЛС.</p>
+                <ul class="feature-list">
+                    <li>Автоматические ЛС</li>
+                    <li>Авто-воронки продаж</li>
+                    <li>CRM-синхронизация</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                <h3>Массовые реакции</h3>
+                <p>Реакции по сообщениям в группах с эмоциональным маппингом. Reaction Funnel для последовательного вовлечения.</p>
+                <ul class="feature-list">
+                    <li>Эмоциональный маппинг</li>
+                    <li>Reaction Funnel</li>
+                    <li>Авто-подбор реакций</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Защита аккаунтов</h3>
+                <p>Предиктивный Anti-Ban Shield анализирует риски. AI Crisis Manager нейтрализует угрозы автоматически.</p>
+                <ul class="feature-list">
+                    <li>Predictive Ban Shield</li>
+                    <li>AI Crisis Manager</li>
+                    <li>Auto-Appeal генератор</li>
+                </ul>
+            </div>
+            <div class="feature-card reveal reveal-delay-4">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Аналитика и ROI</h3>
+                <p>AI Orchestrator создаёт стратегии с предиктивным ROI на основе 10,000+ кейсов. Автоматическая оптимизация.</p>
+                <ul class="feature-list">
+                    <li>Predictive ROI</li>
+                    <li>AI Orchestrator 2.0</li>
+                    <li>Авто-оптимизация</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:48px">
+            <a href="/functions" class="btn btn-outline btn-lg">
+                <i class="fas fa-grid-2"></i> Смотреть все 16 модулей
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== INTERFACE SECTION (Command Center) ===== -->
+<section class="section section-dark interface-section reveal">
+    <div class="container interface-layout">
+        <div class="interface-features">
+            <div class="section-badge">Командный центр</div>
+            <h2 style="font-size:36px; font-weight:800; margin-bottom:24px; letter-spacing:-0.5px;">Всё под <span class="gradient-text">контролем</span></h2>
+            <div class="interface-feature reveal reveal-delay-1">
+                <div class="interface-feature-icon"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <h4>Единая панель управления</h4>
+                    <p>Все модули в одном интерфейсе — парсинг, комментинг, чаттинг, аналитика</p>
+                </div>
+            </div>
+            <div class="interface-feature reveal reveal-delay-2">
+                <div class="interface-feature-icon"><i class="fas fa-clock"></i></div>
+                <div>
+                    <h4>Мониторинг в реальном времени</h4>
+                    <p>Активность аккаунтов, статус кампаний и метрики в реальном времени</p>
+                </div>
+            </div>
+            <div class="interface-feature reveal reveal-delay-3">
+                <div class="interface-feature-icon"><i class="fas fa-shield-halved"></i></div>
+                <div>
+                    <h4>AI-защита автоматически</h4>
+                    <p>Anti-Ban Shield предупреждает риски до того, как они возникнут</p>
+                </div>
+            </div>
+        </div>
+        <div class="interface-mockup reveal reveal-delay-2">
+            <div class="dashboard-skeleton">
+                <div class="skeleton-titlebar">
+                    <div class="skeleton-dot"></div>
+                    <div class="skeleton-dot"></div>
+                    <div class="skeleton-dot"></div>
+                </div>
+                <div class="skeleton-body">
+                    <div class="skeleton-sidebar">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div class="skeleton-main">
+                        <div class="skeleton-row">
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                        </div>
+                        <div class="skeleton-chart-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section" id="how-it-works">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">Как работает</div>
+            <h2>От парсинга до <span class="gradient-text">продаж</span></h2>
+            <p>Посмотрите, как GRAMGPT автоматизирует весь процесс продвижения</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-number">01</div>
+                <div class="step-content">
                     <h3>Умный парсинг</h3>
-                    <p>Сканирование каналов, групп и сообщений. Сбор целевой аудитории с поведенческим анализом и Cross-Platform маппингом.</p>
-                    <ul class="feature-list">
-                        <li>Парсер каналов и пользователей</li>
-                        <li>Парсер по ключевым словам</li>
-                        <li>Поведенческий анализ (AI)</li>
-                    </ul>
+                    <p>Сканирование каналов и сбор целевой аудитории</p>
+                    <div class="step-demo">
+                        <div class="step-demo-item">
+                            <div class="demo-avatar small">ИП</div>
+                            <span>Иван Петров</span>
+                            <span class="tag tag-green">Спарсено</span>
+                        </div>
+                        <div class="step-demo-item">
+                            <div class="demo-avatar small" style="background:linear-gradient(135deg, #EF4444, #DC2626);">МИ</div>
+                            <span>Мария Иванова</span>
+                            <span class="tag tag-green">Спарсено</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-fire"></i></div>
+            </div>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-number">02</div>
+                <div class="step-content">
                     <h3>Прогрев аккаунтов</h3>
-                    <p>Автоматическое повышение доверия аккаунтов. Human Emulation Engine имитирует поведение реального пользователя.</p>
-                    <ul class="feature-list">
-                        <li>Biological Rhythm Sync</li>
-                        <li>Device Fingerprinting</li>
-                        <li>Anti-Ban Shield</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-comments"></i></div>
-                    <h3>Нейрокомментинг</h3>
-                    <p>AI генерирует осмысленные комментарии под постами. Thread Hijacking и Question Baiting для максимального вовлечения.</p>
-                    <ul class="feature-list">
-                        <li>GPT-4o генерация</li>
-                        <li>Эмоциональный резонанс</li>
-                        <li>Автоматические ответы</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-message"></i></div>
-                    <h3>Нейрочаттинг</h3>
-                    <p>Осмысленные ответы в группах и чатах. Отработка возражений из библиотеки 500+ сценариев.</p>
-                    <ul class="feature-list">
-                        <li>Отработка возражений</li>
-                        <li>Urgency + Social Proof</li>
-                        <li>Конвертация лидов</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                    <h3>НейроДиалоги</h3>
-                    <p>AI ведёт личные переписки и конвертирует лидов. Полная автоматизация воронки продаж в ЛС.</p>
-                    <ul class="feature-list">
-                        <li>Автоматические ЛС</li>
-                        <li>Авто-воронки продаж</li>
-                        <li>CRM-синхронизация</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-heart"></i></div>
-                    <h3>Массовые реакции</h3>
-                    <p>Реакции по сообщениям в группах с эмоциональным маппингом. Reaction Funnel для последовательного вовлечения.</p>
-                    <ul class="feature-list">
-                        <li>Эмоциональный маппинг</li>
-                        <li>Reaction Funnel</li>
-                        <li>Авто-подбор реакций</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-                    <h3>Защита аккаунтов</h3>
-                    <p>Предиктивный Anti-Ban Shield анализирует риски. AI Crisis Manager нейтрализует угрозы автоматически.</p>
-                    <ul class="feature-list">
-                        <li>Predictive Ban Shield</li>
-                        <li>AI Crisis Manager</li>
-                        <li>Auto-Appeal генератор</li>
-                    </ul>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Аналитика и ROI</h3>
-                    <p>AI Orchestrator создаёт стратегии с предиктивным ROI на основе 10,000+ кейсов. Автоматическая оптимизация.</p>
-                    <ul class="feature-list">
-                        <li>Predictive ROI</li>
-                        <li>AI Orchestrator 2.0</li>
-                        <li>Авто-оптимизация</li>
-                    </ul>
+                    <p>Автоматическое повышение доверия</p>
+                    <div class="step-demo">
+                        <div class="trust-bar">
+                            <span>Доверие</span>
+                            <div class="trust-progress"><div class="trust-fill" style="width:94%"></div></div>
+                            <span class="trust-value">94%</span>
+                        </div>
+                        <div class="trust-bar">
+                            <span>Доверие</span>
+                            <div class="trust-progress"><div class="trust-fill" style="width:78%; background:linear-gradient(90deg,#F59E0B,#D97706)"></div></div>
+                            <span class="trust-value" style="color:#F59E0B">78%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="section section-dark" id="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Как работает</div>
-                <h2>От парсинга до <span class="gradient-text">продаж</span></h2>
-                <p>Посмотрите, как GRAMGPT автоматизирует весь процесс продвижения</p>
-            </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Умный парсинг</h3>
-                        <p>Сканирование каналов и сбор целевой аудитории</p>
-                        <div class="step-demo">
-                            <div class="step-demo-item">
-                                <div class="demo-avatar small">JS</div>
-                                <span>Иван Петров</span>
-                                <span class="tag tag-green">Спарсено</span>
-                            </div>
-                            <div class="step-demo-item">
-                                <div class="demo-avatar small" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">MG</div>
-                                <span>Мария Иванова</span>
-                                <span class="tag tag-green">Спарсено</span>
-                            </div>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Нейрокомментинг + Конверсия</h3>
+                    <p>AI генерирует комментарии и конвертирует лидов</p>
+                    <div class="step-demo">
+                        <div class="mini-chat">
+                            <div class="mini-msg">Отличный анализ! <span class="ai-badge">AI</span></div>
+                            <div class="mini-msg">Очень информативный пост <span class="ai-badge">AI</span></div>
                         </div>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Прогрев аккаунтов</h3>
-                        <p>Автоматическое повышение доверия</p>
-                        <div class="step-demo">
-                            <div class="trust-bar">
-                                <span>Доверие</span>
-                                <div class="trust-progress"><div class="trust-fill" style="width: 94%"></div></div>
-                                <span class="trust-value">94%</span>
+                        <div class="result-stats" style="margin-top:12px;">
+                            <div class="result-stat">
+                                <div class="result-value" style="color:var(--primary)">+340%</div>
+                                <div class="result-label">подписчиков</div>
                             </div>
-                            <div class="trust-bar">
-                                <span>Доверие</span>
-                                <div class="trust-progress"><div class="trust-fill" style="width: 78%; background: linear-gradient(90deg, #f39c12, #e67e22)"></div></div>
-                                <span class="trust-value" style="color: #f39c12">78%</span>
+                            <div class="result-stat">
+                                <div class="result-value" style="color:var(--success)">15K+</div>
+                                <div class="result-label">лидов</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Нейрокомментинг</h3>
-                        <p>AI генерирует комментарии</p>
-                        <div class="step-demo">
-                            <div class="mini-chat">
-                                <div class="mini-msg">Отличный анализ! <span class="ai-badge">AI</span></div>
-                                <div class="mini-msg">Очень информативный пост <span class="ai-badge">AI</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">04</div>
-                    <div class="step-content">
-                        <h3>Конверсия</h3>
-                        <p>Рост лидов и продаж</p>
-                        <div class="step-demo">
-                            <div class="result-stats">
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--accent)">+340%</div>
-                                    <div class="result-label">подписчиков</div>
-                                </div>
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--success)">15K+</div>
-                                    <div class="result-label">лидов</div>
-                                </div>
-                                <div class="result-stat">
-                                    <div class="result-value" style="color: var(--primary)">0</div>
-                                    <div class="result-label">банов</div>
-                                </div>
+                            <div class="result-stat">
+                                <div class="result-value" style="color:var(--primary)">0</div>
+                                <div class="result-label">банов</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Comparison -->
-    <section class="section" id="comparison">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Сравнение</div>
-                <h2>Почему выбирают <span class="gradient-text">GRAMGPT</span>?</h2>
-                <p>Сравните наши возможности с альтернативами на рынке</p>
+<!-- ===== COMPARISON TABLE ===== -->
+<section class="section section-dark reveal">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">Сравнение</div>
+            <h2>Почему выбирают <span class="gradient-text">GRAMGPT</span>?</h2>
+            <p>Сравните наши возможности с альтернативами на рынке</p>
+        </div>
+        <div class="comparison-table-wrap reveal reveal-delay-1">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Функция</th>
+                        <th class="highlight-col">GRAMGPT</th>
+                        <th>Софт-комбайны</th>
+                        <th>Аналитика</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Парсинг пользователей и каналов</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-minus-circle check-partial"></i></td>
+                    </tr>
+                    <tr>
+                        <td>AI-комментирование (GPT-4o)</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Умный прогрев аккаунтов</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-minus-circle check-partial"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Нейрочаттинг (ЛС)</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Массовые реакции</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Защита от банов (AI)</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-minus-circle check-partial"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Predictive ROI</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                        <td><i class="fas fa-minus-circle check-partial"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Веб-приложение (Mini App)</td>
+                        <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
+                        <td><i class="fas fa-times-circle check-no"></i></td>
+                        <td><i class="fas fa-check-circle check-yes"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section section-dark" id="pricing">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">Тарифы</div>
+            <h2>Выберите свой <span class="gradient-text">тариф</span></h2>
+            <p>Начните бесплатно. Масштабируйте по мере роста.</p>
+        </div>
+
+        <div class="pricing-toggle reveal reveal-delay-1">
+            <span class="pricing-toggle-label active" data-period="monthly">Monthly</span>
+            <div class="pricing-toggle-switch">
+                <div class="pricing-toggle-thumb"></div>
             </div>
-            <div class="comparison-table-wrap">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Функция</th>
-                            <th class="highlight-col">GRAMGPT</th>
-                            <th>Софт-комбайны</th>
-                            <th>Аналитика</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Парсинг пользователей и каналов</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-minus-circle check-partial"></i></td>
-                        </tr>
-                        <tr>
-                            <td>AI-комментирование (GPT-4o)</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Умный прогрев аккаунтов</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-minus-circle check-partial"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Нейрочаттинг (ЛС)</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Массовые реакции</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Защита от банов (AI)</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-minus-circle check-partial"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Predictive ROI</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                            <td><i class="fas fa-minus-circle check-partial"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Веб-приложение (Mini App)</td>
-                            <td class="highlight-col"><i class="fas fa-check-circle check-yes"></i></td>
-                            <td><i class="fas fa-times-circle check-no"></i></td>
-                            <td><i class="fas fa-check-circle check-yes"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <span class="pricing-toggle-label" data-period="yearly">Yearly</span>
+            <span class="pricing-toggle-discount">−20%</span>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card reveal reveal-delay-1">
+                <div class="pricing-name">Free</div>
+                <div class="pricing-price" data-monthly="$0<span>/мес</span>" data-yearly="$0<span>/год</span>">$0<span>/мес</span></div>
+                <div class="pricing-desc">Для знакомства с платформой</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> 1 аккаунт</li>
+                    <li><i class="fas fa-check"></i> 100 действий/день</li>
+                    <li><i class="fas fa-check"></i> Базовый парсинг</li>
+                    <li><i class="fas fa-check"></i> GPT-4o-mini</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Нейрочаттинг</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Anti-Ban Shield</li>
+                </ul>
+                <a href="#" class="btn btn-outline btn-full" data-track="pricing_free">Начать</a>
+            </div>
+            <div class="pricing-card pricing-popular reveal reveal-delay-2">
+                <div class="pricing-badge">Популярный</div>
+                <div class="pricing-name">Pro</div>
+                <div class="pricing-price" data-monthly="$49<span>/мес</span>" data-yearly="$470<span>/год</span>">$49<span>/мес</span></div>
+                <div class="pricing-desc">Для активного продвижения</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> 10 аккаунтов</li>
+                    <li><i class="fas fa-check"></i> Безлимит действий</li>
+                    <li><i class="fas fa-check"></i> Все парсеры</li>
+                    <li><i class="fas fa-check"></i> GPT-4o</li>
+                    <li><i class="fas fa-check"></i> Нейрокомментинг</li>
+                    <li><i class="fas fa-check"></i> Нейрочаттинг</li>
+                    <li><i class="fas fa-check"></i> Anti-Ban Shield</li>
+                    <li><i class="fas fa-check"></i> Авто-воронки</li>
+                </ul>
+                <a href="#" class="btn btn-primary btn-full" data-track="pricing_pro">Выбрать Pro</a>
+            </div>
+            <div class="pricing-card reveal reveal-delay-3">
+                <div class="pricing-name">Agency</div>
+                <div class="pricing-price" data-monthly="$199<span>/мес</span>" data-yearly="$1910<span>/год</span>">$199<span>/мес</span></div>
+                <div class="pricing-desc">Для агентств и команд</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> 50+ аккаунтов</li>
+                    <li><i class="fas fa-check"></i> Безлимит всего</li>
+                    <li><i class="fas fa-check"></i> AI Orchestrator 2.0</li>
+                    <li><i class="fas fa-check"></i> Мульти-воронки</li>
+                    <li><i class="fas fa-check"></i> CRM-интеграция</li>
+                    <li><i class="fas fa-check"></i> White-label</li>
+                    <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
+                    <li><i class="fas fa-check"></i> API доступ</li>
+                </ul>
+                <a href="#" class="btn btn-outline btn-full" data-track="pricing_agency">Связаться</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Pricing -->
-    <section class="section section-dark" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Тарифы</div>
-                <h2>Выберите свой <span class="gradient-text">тариф</span></h2>
-                <p>Начните бесплатно. Масштабируйте по мере роста.</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-name">Free</div>
-                    <div class="pricing-price">$0<span>/мес</span></div>
-                    <div class="pricing-desc">Для знакомства с платформой</div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 1 аккаунт</li>
-                        <li><i class="fas fa-check"></i> 100 действий/день</li>
-                        <li><i class="fas fa-check"></i> Базовый парсинг</li>
-                        <li><i class="fas fa-check"></i> GPT-4o-mini</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Нейрочаттинг</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Anti-Ban Shield</li>
-                    </ul>
-                    <a href="#" class="btn btn-outline btn-full">Начать</a>
-                </div>
-                <div class="pricing-card pricing-popular">
-                    <div class="pricing-badge">Популярный</div>
-                    <div class="pricing-name">Pro</div>
-                    <div class="pricing-price">$49<span>/мес</span></div>
-                    <div class="pricing-desc">Для активного продвижения</div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 10 аккаунтов</li>
-                        <li><i class="fas fa-check"></i> Безлимит действий</li>
-                        <li><i class="fas fa-check"></i> Все парсеры</li>
-                        <li><i class="fas fa-check"></i> GPT-4o</li>
-                        <li><i class="fas fa-check"></i> Нейрокомментинг</li>
-                        <li><i class="fas fa-check"></i> Нейрочаттинг</li>
-                        <li><i class="fas fa-check"></i> Anti-Ban Shield</li>
-                        <li><i class="fas fa-check"></i> Авто-воронки</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary btn-full">Выбрать Pro</a>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-name">Agency</div>
-                    <div class="pricing-price">$199<span>/мес</span></div>
-                    <div class="pricing-desc">Для агентств и команд</div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 50+ аккаунтов</li>
-                        <li><i class="fas fa-check"></i> Безлимит всего</li>
-                        <li><i class="fas fa-check"></i> AI Orchestrator 2.0</li>
-                        <li><i class="fas fa-check"></i> Мульти-воронки</li>
-                        <li><i class="fas fa-check"></i> CRM-интеграция</li>
-                        <li><i class="fas fa-check"></i> White-label</li>
-                        <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
-                        <li><i class="fas fa-check"></i> API доступ</li>
-                    </ul>
-                    <a href="#" class="btn btn-outline btn-full">Связаться</a>
-                </div>
-            </div>
+<!-- ===== REVIEWS CAROUSEL ===== -->
+<section class="section" id="reviews">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">Отзывы</div>
+            <h2>Что говорят <span class="gradient-text">клиенты</span></h2>
         </div>
-    </section>
-
-    <!-- Reviews -->
-    <section class="section" id="reviews">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Отзывы</div>
-                <h2>Что говорят <span class="gradient-text">клиенты</span></h2>
-            </div>
-            <div class="reviews-grid">
+        <div class="reviews-carousel reveal reveal-delay-1">
+            <div class="reviews-track">
                 <div class="review-card">
                     <div class="review-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -445,7 +677,7 @@
                     </div>
                     <p class="review-text">Нейрокомментинг и нейрочаттинг — это мощь. Комбайн сам комментирует в целевых группах, пишет от лица аккаунтов, отвечает в чатах, и всё выглядит живо. Ни один аналог рядом не стоял.</p>
                     <div class="review-author">
-                        <div class="review-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">ЛВ</div>
+                        <div class="review-avatar" style="background:linear-gradient(135deg,#EF4444,#DC2626);">ЛВ</div>
                         <div>
                             <div class="review-name">Лена В.</div>
                             <div class="review-role">Продюсер Telegram-проектов</div>
@@ -458,7 +690,7 @@
                     </div>
                     <p class="review-text">Управляю 30+ клиентскими аккаунтами из одной панели. Anti-Ban Shield реально работает — за 4 месяца ни одного бана. ROI клиентов вырос на 200%+.</p>
                     <div class="review-author">
-                        <div class="review-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">АМ</div>
+                        <div class="review-avatar" style="background:linear-gradient(135deg,#B44AFF,#7C3AED);">АМ</div>
                         <div>
                             <div class="review-name">Алексей М.</div>
                             <div class="review-role">Маркетинговое агентство</div>
@@ -466,160 +698,193 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Case Studies -->
-    <section class="section section-dark" id="cases">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Кейсы</div>
-                <h2>Реальные истории <span class="gradient-text">успеха</span></h2>
+            <div class="carousel-nav">
+                <button class="carousel-dot active" aria-label="Отзыв 1"></button>
+                <button class="carousel-dot" aria-label="Отзыв 2"></button>
+                <button class="carousel-dot" aria-label="Отзыв 3"></button>
             </div>
-            <div class="cases-grid">
-                <div class="case-card">
-                    <div class="case-icon"><i class="fab fa-bitcoin"></i></div>
-                    <h3>Крипто-проект</h3>
-                    <p>Криптостартап увеличил базу подписчиков на 340% за 2 месяца с помощью нейрокомментинга и массовых реакций.</p>
-                    <div class="case-stats">
-                        <div class="case-stat">
-                            <strong>+340%</strong>
-                            <span>подписчиков</span>
-                        </div>
-                        <div class="case-stat">
-                            <strong>2 мес</strong>
-                            <span>срок</span>
-                        </div>
-                    </div>
+            <div class="carousel-arrows">
+                <button class="carousel-arrow" data-dir="prev" aria-label="Предыдущий"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow" data-dir="next" aria-label="Следующий"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CASE STUDIES ===== -->
+<section class="section section-dark" id="cases">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">Кейсы</div>
+            <h2>Реальные истории <span class="gradient-text">успеха</span></h2>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card reveal reveal-delay-1">
+                <div class="case-icon"><i class="fab fa-bitcoin"></i></div>
+                <h3>Крипто-проект</h3>
+                <p>Криптостартап увеличил базу подписчиков на 340% за 2 месяца с помощью нейрокомментинга и массовых реакций.</p>
+                <div class="case-stats">
+                    <div class="case-stat"><strong>+340%</strong><span>подписчиков</span></div>
+                    <div class="case-stat"><strong>2 мес</strong><span>срок</span></div>
                 </div>
-                <div class="case-card">
-                    <div class="case-icon"><i class="fas fa-shopping-cart"></i></div>
-                    <h3>Интернет-магазин</h3>
-                    <p>E-commerce бизнес привлёк 15,000+ целевых лидов через парсинг конкурентов и нейрочаттинг.</p>
-                    <div class="case-stats">
-                        <div class="case-stat">
-                            <strong>15K+</strong>
-                            <span>лидов</span>
-                        </div>
-                        <div class="case-stat">
-                            <strong>30 дней</strong>
-                            <span>срок</span>
-                        </div>
-                    </div>
+            </div>
+            <div class="case-card reveal reveal-delay-2">
+                <div class="case-icon"><i class="fas fa-shopping-cart"></i></div>
+                <h3>Интернет-магазин</h3>
+                <p>E-commerce бизнес привлёк 15,000+ целевых лидов через парсинг конкурентов и нейрочаттинг.</p>
+                <div class="case-stats">
+                    <div class="case-stat"><strong>15K+</strong><span>лидов</span></div>
+                    <div class="case-stat"><strong>30 дней</strong><span>срок</span></div>
                 </div>
-                <div class="case-card">
-                    <div class="case-icon"><i class="fas fa-users"></i></div>
-                    <h3>Маркетинговое агентство</h3>
-                    <p>Агентство управляет 50+ клиентскими аккаунтами из одной панели с автоматической защитой от банов.</p>
-                    <div class="case-stats">
-                        <div class="case-stat">
-                            <strong>50+</strong>
-                            <span>аккаунтов</span>
-                        </div>
-                        <div class="case-stat">
-                            <strong>0</strong>
-                            <span>банов</span>
-                        </div>
-                    </div>
+            </div>
+            <div class="case-card reveal reveal-delay-3">
+                <div class="case-icon"><i class="fas fa-users"></i></div>
+                <h3>Маркетинговое агентство</h3>
+                <p>Агентство управляет 50+ клиентскими аккаунтами из одной панели с автоматической защитой от банов.</p>
+                <div class="case-stats">
+                    <div class="case-stat"><strong>50+</strong><span>аккаунтов</span></div>
+                    <div class="case-stat"><strong>0</strong><span>банов</span></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FAQ -->
-    <section class="section" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">FAQ</div>
-                <h2>Частые <span class="gradient-text">вопросы</span></h2>
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">FAQ</div>
+            <h2>Частые <span class="gradient-text">вопросы</span></h2>
+        </div>
+        <div class="faq-list reveal reveal-delay-1">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Что такое GRAMGPT и зачем он нужен?</span>
+                    <div class="faq-icon"></div>
+                </button>
+                <div class="faq-answer">
+                    <p>GRAMGPT — это ИИ-комбайн для автоматизации продвижения в Telegram. Он объединяет 8 модулей: парсинг аудитории, прогрев аккаунтов, нейрокомментинг, нейрочаттинг, НейроДиалоги, массовые реакции, защиту от банов и аналитику с предиктивным ROI.</p>
+                </div>
             </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Что такое GRAMGPT и зачем он нужен?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>GRAMGPT — это ИИ-комбайн для автоматизации продвижения в Telegram. Он объединяет 8 модулей: парсинг аудитории, прогрев аккаунтов, нейрокомментинг, нейрочаттинг, НейроДиалоги, массовые реакции, защиту от банов и аналитику с предиктивным ROI.</p>
-                    </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Безопасно ли использовать? Не забанят аккаунт?</span>
+                    <div class="faq-icon"></div>
+                </button>
+                <div class="faq-answer">
+                    <p>GRAMGPT использует Human Emulation Engine, который имитирует поведение реального пользователя. Anti-Ban Shield предиктивно анализирует риски и автоматически останавливает действия при высоком риске. AI Crisis Manager нейтрализует угрозы. За все время работы — 0 банов у клиентов Pro и Agency.</p>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Безопасно ли использовать? Не забанят аккаунт?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>GRAMGPT использует Human Emulation Engine, который имитирует поведение реального пользователя. Anti-Ban Shield предиктивно анализирует риски и автоматически останавливает действия при высоком риске. AI Crisis Manager нейтрализует угрозы. За все время работы — 0 банов у клиентов Pro и Agency.</p>
-                    </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Какие модели ИИ используются?</span>
+                    <div class="faq-icon"></div>
+                </button>
+                <div class="faq-answer">
+                    <p>Для генерации текстов используется GPT-4o (на тарифе Pro и Agency) и GPT-4o-mini (на Free). Для генерации изображений — DALL-E 3. Для распознавания голоса — Whisper. Все модели от OpenAI, последние версии.</p>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Какие модели ИИ используются?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Для генерации текстов используется GPT-4o (на тарифе Pro и Agency) и GPT-4o-mini (на Free). Для генерации изображений — DALL-E 3. Для распознавания голоса — Whisper. Все модели от OpenAI, последние версии.</p>
-                    </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Можно ли использовать со своим API ключом?</span>
+                    <div class="faq-icon"></div>
+                </button>
+                <div class="faq-answer">
+                    <p>Да, GRAMGPT поддерживает подключение собственного API ключа OpenAI. Это может быть выгоднее при большом объёме использования. Настройка через переменные окружения.</p>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Можно ли использовать со своим API ключом?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Да, GRAMGPT поддерживает подключение собственного API ключа OpenAI. Это может быть выгоднее при большом объёме использования. Настройка через переменные окружения.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Есть ли API для интеграции?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Да, на тарифе Agency доступен полноценный REST API для управления кампаниями, аналитикой, аккаунтами и всеми модулями. Документация доступна через Swagger UI.</p>
-                    </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Есть ли API для интеграции?</span>
+                    <div class="faq-icon"></div>
+                </button>
+                <div class="faq-answer">
+                    <p>Да, на тарифе Agency доступен полноценный REST API для управления кампаниями, аналитикой, аккаунтами и всеми модулями. Документация доступна через Swagger UI.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CTA -->
-    <section class="section cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Готовы начать?</h2>
-                <p>Присоединяйтесь к 1000+ пользователям, которые уже автоматизировали свой Telegram</p>
-                <a href="#pricing" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Начать бесплатно</a>
+<!-- ===== CTA ===== -->
+<section class="section cta-section reveal">
+    <div class="cta-bg"></div>
+    <div class="container">
+        <div class="cta-content">
+            <h2>Готовы захватить Telegram?</h2>
+            <p>30 секунд на регистрацию. Без карты.</p>
+            <a href="#pricing" class="btn btn-primary btn-lg btn-magnetic btn-glow" data-track="final_cta">
+                <i class="fas fa-rocket"></i> Начать бесплатно
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">GRAM<span>GPT</span></a>
+                <p>ИИ-комбайн для Telegram нового поколения. Нейрокомментинг, парсинг, прогрев — всё в одном инструменте.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Продукт</h4>
+                <a href="/functions">Все функции</a>
+                <a href="#pricing">Цены</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="footer-links">
+                <h4>Ресурсы</h4>
+                <a href="/api/v1/status">API Status</a>
+                <a href="/docs">API Docs</a>
+                <a href="#cases">Кейсы</a>
+            </div>
+            <div class="footer-links">
+                <h4>Правовая</h4>
+                <a href="#">Политика конфиденциальности</a>
+                <a href="#">Условия использования</a>
+                <a href="#">Договор оферты</a>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <a href="#" class="logo">GRAM<span>GPT</span></a>
-                    <p>ИИ-комбайн для Telegram нового поколения</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Продукт</h4>
-                    <a href="#features">Возможности</a>
-                    <a href="#pricing">Цены</a>
-                    <a href="#faq">FAQ</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Ресурсы</h4>
-                    <a href="/api/v1/status">API Status</a>
-                    <a href="/docs">API Docs</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024-2026 GRAMGPT. All rights reserved.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2024-2026 GRAMGPT. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="/static/js/landing.js"></script>
+<script src="/static/js/landing.js"></script>
+
+<!-- Yandex.Metrica -->
+<script>
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym(109236208,"init",{clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:"dataLayer"});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/109236208" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHYLMNL0HX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VHYLMNL0HX');
+</script>
+
 </body>
 </html>
