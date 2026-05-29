@@ -90,7 +90,7 @@ async def get_commenting_logs():
         return [
             {
                 "channel": p.get("channel", ""),
-                "comment": p.get("text", ""),
+                "comment": p.get("comment_preview", ""),
                 "likes": 0,
                 "replies": 0,
                 "time": p.get("timestamp", ""),
