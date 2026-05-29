@@ -176,14 +176,31 @@
         .sr-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(48,54,61,0.3); font-size: 16px; flex-shrink: 0; }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function selectPeriod(btn) {
             document.querySelectorAll('.period-chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-        function generateReport(fmt) { alert('Генерация отчёта в формате ' + fmt.toUpperCase() + '...'); }
-        function downloadReport(month) { alert('Скачивание отчёта за ' + month + '...'); }
+        async function generateReport(fmt) {
+            try {
+                if (fmt === 'tg') { toast('info', 'Отчёт', 'Отправка в Telegram...'); return; }
+                const r = await api.get('/reports/generate?format=' + fmt);
+                toast('success', 'Отчёт готов', 'Скачивание ' + fmt.toUpperCase());
+            } catch (e) { toast('error', 'Ошибка', e.message); }
+        }
+        function downloadReport(month) { toast('info', 'Скачивание', 'Отчёт за ' + month); }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/dashboard');
+                if (data && data.metrics) {
+                    const vals = document.querySelectorAll('.rpt-metric .rpt-val');
+                    if (vals[0]) vals[0].textContent = (data.metrics.leads || 0).toLocaleString();
+                    if (vals[1]) vals[1].textContent = '$' + ((data.revenue && data.revenue.total) || 0).toLocaleString();
+                    if (vals[2]) vals[2].textContent = (data.metrics.conversion || 0) + '%';
+                }
+            } catch (e) { console.warn('Reports API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

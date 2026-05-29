@@ -190,18 +190,32 @@
         .funnel-bar { display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function toggleEmoji(btn) { btn.classList.toggle('active'); }
         function selectMapping(btn) {
             document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-        function startReactions() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                toast('info', '');
+        async function startReactions() {
+            try {
+                const channels = [...document.querySelectorAll('.post-item')].map(el => el.querySelector('div:first-child')?.textContent?.trim() || '').filter(Boolean);
+                const emojis = [...document.querySelectorAll('.emoji-btn.active')].map(b => b.textContent).filter(Boolean);
+                const result = await api.post('/reactions/start', { channels, emojis });
+                toast('success', 'Реакции запущены', emojis.length + ' emoji на ' + channels.length + ' каналов');
+            } catch (e) {
+                toast('error', 'Ошибка', e.message);
             }
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const stats = await api.get('/reactions/stats');
+                if (stats) {
+                    const el = document.querySelector('.stat-row > div');
+                    if (el) el.innerHTML = '<div class="stat-item"><h4>Реакций</h4><div style="color:var(--primary)">' + (stats.total || 0).toLocaleString() + '</div></div><div class="stat-item" style="text-align:center;"><h4>Каналов</h4><div>' + (stats.channels || 0) + '</div></div><div class="stat-item" style="text-align:right;"><h4>Сегодня</h4><div style="color:var(--success)">' + (stats.today || 0).toLocaleString() + '</div></div>';
+                }
+            } catch (e) { console.warn('Reactions stats error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

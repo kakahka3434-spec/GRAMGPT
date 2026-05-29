@@ -65,6 +65,7 @@ base_dir = os.path.dirname(__file__)
 mini_app_path = os.path.join(base_dir, "static/mini-app")
 landing_path = os.path.join(base_dir, "static/landing")
 
+app.mount("/mini-app", StaticFiles(directory=mini_app_path, html=True), name="mini-app")
 app.mount("/panel", StaticFiles(directory=mini_app_path, html=True), name="panel")
 app.mount("/static", StaticFiles(directory=landing_path), name="landing-static")
 

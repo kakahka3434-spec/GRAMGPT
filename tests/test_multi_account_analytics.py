@@ -63,17 +63,13 @@ async def test_account_pool():
         success = pool.add_account(
             phone="+79990000001",
             session_path="data/sessions/test1.session",
-            proxy=None,
-            validate_proxy=False
         )
         print(f"   Add account 1: {'✅' if success else '❌'}")
         
-        # Add second account with proxy
+        # Add second account (proxy managed separately via Proxy Manager)
         success = pool.add_account(
             phone="+79990000002",
             session_path="data/sessions/test2.session",
-            proxy="http://test.proxy:8080",
-            validate_proxy=False  # Skip validation for test
         )
         print(f"   Add account 2: {'✅' if success else '❌'}")
         
@@ -81,7 +77,6 @@ async def test_account_pool():
         success = pool.add_account(
             phone="+79990000001",
             session_path="data/sessions/test1.session",
-            validate_proxy=False
         )
         print(f"   Duplicate check: {'⚠️ Blocked' if not success else '❌ Unexpected'}")
         
@@ -128,8 +123,8 @@ async def test_analytics_exporter():
     try:
         # Create pool with test data
         pool = AccountPool(pool_file=temp_file)
-        pool.add_account("+79990000001", "sessions/test1.session", validate_proxy=False)
-        pool.add_account("+79990000002", "sessions/test2.session", validate_proxy=False)
+        pool.add_account("+79990000001", "sessions/test1.session")
+        pool.add_account("+79990000002", "sessions/test2.session")
         
         # Create exporter
         exporter = AnalyticsExporter(account_pool=pool)
@@ -189,7 +184,6 @@ async def test_account_rotation_simulation():
             pool.add_account(
                 phone=f"+7999000000{i}",
                 session_path=f"sessions/test{i}.session",
-                validate_proxy=False
             )
         
         print(f"   Added 3 accounts: ✅")

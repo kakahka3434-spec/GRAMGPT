@@ -26,87 +26,15 @@
 
     <!-- Today -->
     <div class="section-title animate-in" style="animation-delay: 0.08s">Сегодня</div>
-
-    <div class="notif-list">
+    <div class="notif-list" id="notif-list-today">
         <div class="notif-item animate-in" style="animation-delay: 0.1s">
-            <div class="notif-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-user-plus" style="color: var(--success);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Новый лид конвертирован</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Иван Петров перешёл на этап "Горячий" в воронке продаж</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> 2 минуты назад</div>
-            </div>
-            <div class="notif-dot"></div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.12s">
-            <div class="notif-icon" style="background: rgba(0,136,204,0.1);"><i class="fas fa-chart-line" style="color: var(--primary);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">AI комментарий стал вирусным</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Комментарий в "NFT Новости" набрал 21 лайк и 7 ответов</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> 15 минут назад</div>
-            </div>
-            <div class="notif-dot"></div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.14s">
-            <div class="notif-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-fire" style="color: var(--warning);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Прогрев завершён</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Account #2 достиг trust score 82%. Готов к работе.</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> 32 минуты назад</div>
-            </div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.16s">
-            <div class="notif-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-paper-plane" style="color: var(--success);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Пост опубликован</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">@gramgpt_channel — "Обзор рынка: ETH 2.0" набрал 892 просмотра</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> 1 час назад</div>
-            </div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.18s">
-            <div class="notif-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-heart" style="color: var(--accent);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Масс-реакции: задание выполнено</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">456 реакций поставлено в 3 каналах за последний час</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> 1 час назад</div>
-            </div>
+            <div class="notif-icon" style="background: rgba(48,54,61,0.4);"><i class="fas fa-spinner" style="color: var(--text-secondary);"></i></div>
+            <div style="flex: 1;"><div style="font-size: 13px; font-weight: 600;">Загрузка...</div><div style="font-size: 11px; color: var(--text-secondary);">Получаем уведомления</div></div>
         </div>
     </div>
 
-    <!-- Yesterday -->
     <div class="section-title animate-in" style="animation-delay: 0.2s">Вчера</div>
-
-    <div class="notif-list">
-        <div class="notif-item animate-in" style="animation-delay: 0.22s">
-            <div class="notif-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-shield-halved" style="color: var(--success);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Anti-Ban Shield: угроза нейтрализована</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Flood Wait обнаружен и обработан автоматически. Пауза 5 мин.</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> Вчера, 18:45</div>
-            </div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.24s">
-            <div class="notif-icon" style="background: rgba(0,136,204,0.1);"><i class="fas fa-crosshairs" style="color: var(--primary);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Парсинг завершён</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Собрано 1,247 контактов из 5 групп. Готово к нейрочаттингу.</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> Вчера, 14:20</div>
-            </div>
-        </div>
-
-        <div class="notif-item animate-in" style="animation-delay: 0.26s">
-            <div class="notif-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-trophy" style="color: var(--warning);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Достижение разблокировано!</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">"1000 лидов" — собрано более 1000 лидов через платформу</div>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> Вчера, 12:00</div>
-            </div>
-        </div>
-    </div>
+    <div class="notif-list" id="notif-list-yesterday"></div>
 
     <div class="nav-bar animate-in" style="animation-delay: 0.3s">
         <a href="index.html" class="nav-item"><i class="fas fa-home"></i></a>
@@ -127,12 +55,38 @@
         .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 4px; }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function filterNotif(btn, type) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            document.querySelectorAll('.notif-item').forEach(el => {
+                if (type === 'all') { el.style.display = ''; return; }
+                const icon = el.querySelector('.notif-icon i');
+                const match = (type === 'alerts' && icon?.classList.contains('fa-exclamation-triangle')) ||
+                    (type === 'success' && icon?.classList.contains('fa-check')) ||
+                    (type === 'info' && (icon?.classList.contains('fa-info') || (!icon?.classList.contains('fa-exclamation-triangle') && !icon?.classList.contains('fa-check'))));
+                el.style.display = match || type === 'all' ? '' : 'none';
+            });
         }
+        function renderNotif(item) {
+            const icons = { success: ['fa-check', 'var(--success)'], alert: ['fa-exclamation-triangle', 'var(--warning)'], info: ['fa-info', 'var(--primary)'] };
+            const ico = icons[item.type] || icons.info;
+            return '<div class="notif-item animate-in"><div class="notif-icon" style="background: rgba(48,54,61,0.3);"><i class="fas ' + ico[0] + '" style="color: ' + ico[1] + ';"></i></div><div style="flex: 1;"><div style="font-size: 13px; font-weight: 600;">' + (item.title || '') + '</div><div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">' + (item.message || '') + '</div><div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;"><i class="fas fa-clock"></i> ' + (item.time || '') + '</div></div></div>';
+        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/notifications');
+                const todayEl = document.getElementById('notif-list-today');
+                const yesterdayEl = document.getElementById('notif-list-yesterday');
+                if (data.notifications && data.notifications.length) {
+                    todayEl.innerHTML = data.notifications.slice(0, 5).map(renderNotif).join('');
+                    if (data.notifications.length > 5) yesterdayEl.innerHTML = data.notifications.slice(5).map(renderNotif).join('');
+                } else {
+                    todayEl.innerHTML = '<div class="notif-item" style="padding: 20px; text-align: center; justify-content: center; color: var(--text-secondary); font-size: 13px;"><i class="fas fa-bell-slash" style="margin-right: 8px;"></i>Нет уведомлений</div>';
+                }
+            } catch (e) { console.warn('Notif API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

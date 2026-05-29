@@ -173,15 +173,29 @@
         .leader-avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; flex-shrink: 0; background: linear-gradient(135deg, var(--primary), var(--primary)); }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function copyLink() {
             navigator.clipboard.writeText(document.getElementById('refLink').textContent);
-            alert('Ссылка скопирована!');
+            toast('success', 'Скопировано', 'Реферальная ссылка скопирована');
         }
-        function shareTo(platform) { alert('Поделиться через ' + platform); }
-        function withdrawFunds() { alert('Вывод средств через TON кошелёк...'); }
-        function getPromo(type) { alert('Загрузка промо-материалов: ' + type); }
+        function shareTo(platform) { toast('info', 'Поделиться', 'Через ' + platform); }
+        function withdrawFunds() { toast('info', 'Вывод', 'Вывод через TON кошелёк...'); }
+        function getPromo(type) { toast('info', 'Промо', 'Загрузка: ' + type); }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/referral/stats');
+                if (data) {
+                    document.querySelector('.glass-card > div:first-child').textContent = '$' + (data.total_earned || 0);
+                    const metrics = document.querySelectorAll('.glass-card .metric-card .metric-value');
+                    if (metrics[0]) metrics[0].textContent = data.referrals || 0;
+                    if (metrics[1]) metrics[1].textContent = data.active_referrals || 0;
+                    if (metrics[2]) metrics[2].textContent = (data.commission_rate || 30) + '%';
+                    if (metrics[3]) metrics[3].textContent = '$' + (data.this_month || 0);
+                    document.querySelector('.glass-card .btn').innerHTML = '<i class="fas fa-wallet"></i> Вывести $' + (data.total_earned || 0);
+                }
+            } catch (e) { console.warn('Referral API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

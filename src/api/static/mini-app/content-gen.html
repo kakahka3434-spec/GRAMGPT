@@ -622,5 +622,16 @@
         }
     </script>
 <script src='main.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const hist = await api.get('/content/history');
+            if (hist && hist.length) {
+                const container = document.querySelector('.card:last-of-type');
+                if (container) container.innerHTML = hist.slice(0, 4).map(h => '<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-' + (h.type === 'image' ? 'image' : h.type === 'poll' ? 'poll' : 'pen-fancy') + '" style="color:var(--primary);font-size:12px;"></i><div style="font-size:12px;font-weight:600;">' + (h.title || h.topic || '') + '</div></div><span style="font-size:10px;color:var(--text-secondary);">' + (h.created_at || '') + '</span></div></div>').join('');
+            }
+        } catch (e) { console.warn('Content API error:', e); }
+    });
+</script>
 </body>
 </html>

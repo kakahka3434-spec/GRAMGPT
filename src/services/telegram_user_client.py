@@ -63,6 +63,11 @@ class TelegramUserClient:
         self._is_connected = False
         
         logger.info(f"TelegramUserClient initialized for phone: {phone}")
+
+    @property
+    def client(self) -> Optional[TelegramClient]:
+        """Expose underlying Telethon client for ChannelDiscovery etc."""
+        return self._client
     
     async def connect(self) -> bool:
         """

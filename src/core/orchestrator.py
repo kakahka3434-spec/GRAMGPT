@@ -2,61 +2,85 @@ from typing import Dict, Any, List
 import json
 import logging
 import random
-from src.core.openai_client import openai_client
+from src.core.ai_client import ai_client
 from src.db.database import db
 
 logger = logging.getLogger(__name__)
 
+
 class AIOrchestrator:
     def __init__(self):
-        self.optimization_interval = 7200  # 2 hours in seconds
+        self.optimization_interval = 7200
 
     async def create_campaign_strategy(self, campaign_name: str, goal: str) -> Dict[str, Any]:
-        """Generates a multi-step campaign strategy with Predictive ROI."""
         prompt = (
-            f"Создай детальную маркетинговую стратегию 2.0 для кампании '{campaign_name}'.\n"
-            f"Цель: {goal}\n\n"
-            "Включи:\n"
-            "1. Этапы (Парсинг, Прогрев, Взаимодействие).\n"
-            "2. Предиктивный ROI (оценка на основе 10,000+ кейсов).\n"
-            "3. Рекомендованные каналы (TG, WA, Email).\n"
-            "4. План оптимизации.\n"
-            "Верни JSON объект."
+            f"Create a detailed marketing strategy 2.0 for campaign '{campaign_name}'.\n"
+            f"Goal: {goal}\n\n"
+            "Include:\n"
+            "1. Stages (Parsing, Warmup, Engagement, Closing).\n"
+            "2. Predicted ROI estimate based on similar campaigns.\n"
+            "3. Recommended channels (TG, WA, Email).\n"
+            "4. Optimization plan.\n"
+            "Return JSON object with keys: name, predicted_roi, steps (array of {day, action}), channels, optimization_metrics."
         )
-
         messages = [{"role": "user", "content": prompt}]
-        response = await openai_client.get_chat_response(0, messages)
-
         try:
+            response = await ai_client.get_chat_response(0, messages)
             start = response.find("{")
             end = response.rfind("}") + 1
             strategy = json.loads(response[start:end])
         except Exception:
-            # Fallback sophisticated mock strategy
             strategy = {
                 "name": campaign_name,
                 "predicted_roi": f"{random.randint(150, 400)}%",
                 "steps": [
-                    {"day": "1-3", "action": "Behavioral Scraping & Warmup"},
-                    {"day": "4-7", "action": "Neuro-Commenting & Reaction Funnel"},
-                    {"day": "8-14", "action": "Neuro-Chatting & DM Close"}
+                    {"day": "1-3", "action": "Scraping & Warmup"},
+                    {"day": "4-7", "action": "Commenting & Reaction Funnel"},
+                    {"day": "8-14", "action": "Chatting & DM Close"},
                 ],
                 "channels": ["Telegram", "WhatsApp"],
-                "optimization_metrics": ["Conversion Rate", "Ban Risk Score"]
+                "optimization_metrics": ["Conversion Rate", "Ban Risk Score"],
             }
 
-        db.create_campaign(campaign_name, goal, strategy)
+        try:
+            db.create_campaign(campaign_name, goal, strategy)
+        except Exception as e:
+            logger.warning(f"Could not persist campaign: {e}")
         return strategy
 
-    async def auto_optimization_loop(self, campaign_id: int):
-        """AI-driven optimization loop that adjusts campaign parameters."""
-        logger.info(f"Running Auto-Optimization for campaign {campaign_id}...")
-        # In a real system, this would analyze live metrics and call OpenAI to adjust texts/targets
-        # For MVP, we simulate the logic
-        metrics = {"conversion": 0.05, "replies": 12, "bans": 0}
+    async def auto_optimization_loop(self, campaign_id: int) -> Dict:
+        logger.info(f"Auto-optimizing campaign #{campaign_id}...")
+        try:
+            campaign = db.get_campaign(campaign_id)
+        except Exception:
+            campaign = None
 
-        prompt = f"Проанализируй метрики кампании: {metrics}. Предложи улучшения для текстов и времени рассылки."
-        # ... logic to apply improvements ...
-        return {"status": "optimized", "adjustments": ["Changed CTA", "Shifted activity to evening"]}
+        metrics = {
+            "conversion": campaign.get("conversion_rate", 0.05) if campaign else 0.05,
+            "replies": campaign.get("total_replies", 12) if campaign else 12,
+            "bans": campaign.get("ban_count", 0) if campaign else 0,
+        }
+
+        prompt = (
+            f"Analyze campaign campaign #{campaign_id} metrics: {json.dumps(metrics)}.\n"
+            "Suggest 3 specific improvements to increase conversion and reduce ban risk. "
+            "Return JSON with: adjustments (array of strings), risk_level (low/medium/high), "
+            "recommended_delay_change (int minutes)."
+        )
+        try:
+            response = await ai_client.get_chat_response(0, [{"role": "user", "content": prompt}])
+            start = response.find("{")
+            end = response.rfind("}") + 1
+            result = json.loads(response[start:end])
+        except Exception:
+            result = {
+                "adjustments": ["Shift activity to evening hours", "Reduce comment frequency", "Add emoji variety"],
+                "risk_level": "medium",
+                "recommended_delay_change": 30,
+            }
+
+        logger.info(f"Optimization result for #{campaign_id}: {result.get('adjustments', [])}")
+        return {"status": "optimized", "campaign_id": campaign_id, **result}
+
 
 orchestrator = AIOrchestrator()

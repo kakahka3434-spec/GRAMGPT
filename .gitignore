@@ -169,3 +169,9 @@ proxies.txt
 
 # Output files
 data/outputs/
+
+# Telethon session files (contain auth credentials)
+data/sessions/
+
+# Runtime data files
+data/*.json

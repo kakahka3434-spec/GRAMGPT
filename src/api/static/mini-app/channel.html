@@ -608,18 +608,42 @@
                 el.classList.add('toggle-on');
             }
         }
-        function addChannel() { alert('Добавьте канал: введите @username или ссылку'); }
-        function createPost() { alert('Создание нового поста...'); }
-        function generatePost() { alert('AI генерирует пост на основе трендов и настроек...'); }
-        function manualPost() { alert('Открыть редактор для ручного создания поста...'); }
-        function regeneratePost() { alert('Перегенерация поста...'); }
-        function editPost() { alert('Редактирование поста...'); }
-        function publishNow() { alert('Пост опубликован в канале!'); }
-        function schedulePost() { alert('Выберите дату и время для публикации'); }
-        function activateTool(tool) { alert('Инструмент ' + tool + ' активирован!'); }
-        function useTrend(el) { document.getElementById('postTopic').value = el.querySelector('div[style] > div:first-child').textContent; }
-        function refreshTrends() { alert('Обновление трендов из 247 источников...'); }
+        function addChannel() { toast('info', 'Канал', 'Введите @username или ссылку'); }
+        function createPost() { toast('info', 'Пост', 'Создание нового поста...'); }
+        async function generatePost() {
+            try {
+                const topic = document.getElementById('postTopic')?.value || 'крипто';
+                const r = await api.post('/content/generate', { topic, type: 'post', tone: 'expert' });
+                toast('success', 'Пост сгенерирован', 'AI создал текст');
+            } catch (e) { toast('error', 'Ошибка', e.message); }
+        }
+        function manualPost() { toast('info', 'Редактор', 'Открыть ручной редактор'); }
+        function regeneratePost() { toast('info', 'Перегенерация', 'Создаём новый вариант...'); }
+        function editPost() { toast('info', 'Редактор', 'Редактирование поста'); }
+        function publishNow() { toast('success', 'Опубликовано', 'Пост отправлен в канал'); }
+        function schedulePost() { toast('info', 'Планирование', 'Выберите дату и время'); }
+        function activateTool(tool) { toast('success', tool, 'Инструмент активирован'); }
+        function useTrend(el) { const t = el.querySelector('div:first-child + div > div:first-child'); if (t) document.getElementById('postTopic').value = t.textContent; }
+        function refreshTrends() { toast('info', 'Тренды', 'Обновление из 247 источников...'); }
     </script>
 <script src='main.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const [statsResp, trendsResp, planResp] = await Promise.all([
+                api.get('/channel/list?limit=5').catch(() => null),
+                api.get('/channel/trends').catch(() => null),
+                api.get('/channel/content-plan').catch(() => null),
+            ]);
+            if (statsResp && statsResp.length) {
+                const stats = document.querySelector('.stat-row > div');
+                if (stats) {
+                    const total = statsResp.reduce((s, c) => s + (c.subscribers || 0), 0);
+                    stats.innerHTML = '<div class="stat-item"><h4>Подписчиков</h4><div style="color:var(--primary)">' + (total || 0).toLocaleString() + '</div></div><div class="stat-item" style="text-align:center;"><h4>Каналов</h4><div style="color:var(--success)">+' + statsResp.length + '</div></div><div class="stat-item" style="text-align:right;"><h4>ER</h4><div style="color:var(--warning)">' + (statsResp[0]?.er || '—') + '%</div></div>';
+                }
+            }
+        } catch (e) { console.warn('Channel API error:', e); }
+    });
+</script>
 </body>
 </html>

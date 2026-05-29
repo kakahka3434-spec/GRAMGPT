@@ -25,7 +25,8 @@ def _get_incidents_db():
         CREATE TABLE IF NOT EXISTS incidents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             type TEXT, action TEXT, title TEXT, details TEXT,
-            source TEXT DEFAULT 'system',
+            account_id TEXT, source TEXT DEFAULT 'system',
+            reported_at TEXT, resolved_at TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -45,6 +46,7 @@ async def get_analytics():
         return {
             "active_accounts": active_count,
             "total_accounts": len(accounts),
+            "leads_captured": total_comments,
             "comments_total": total_comments,
             "avg_trust_score": round(health.get("avg_trust", 0), 1),
             "risk_accounts": health.get("at_risk", 0),

@@ -161,9 +161,23 @@
         .completed-test { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
     </style>
 
+    <script src='main.js'></script>
     <script>
-        function createTest() { alert('Создание нового A/B теста...'); }
+        async function createTest() {
+            try {
+                const r = await api.get('/abtests');
+                toast('info', 'A/B Тест', 'Создание нового теста...');
+            } catch (e) { toast('error', 'Ошибка', e.message); }
+        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/abtests');
+                if (data && data.active && data.active.length) {
+                    const container = document.querySelector('.test-card');
+                    if (container) container.outerHTML = data.active.map((t, i) => '<div class="test-card" style="margin-top:' + (i > 0 ? '12' : '0') + 'px"><div style="font-size:13px;font-weight:700;">' + (t.name || 'Test') + '</div><div style="font-size:11px;color:var(--text-secondary);">' + (t.description || '') + '</div></div>').join('');
+                }
+            } catch (e) { console.warn('AB test API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

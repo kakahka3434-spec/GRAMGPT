@@ -32,6 +32,7 @@ class Account:
     phone: str
     session_path: str
     proxy: Optional[str] = None
+    proxy_id: Optional[int] = None
     status: str = AccountStatus.WARMING.value
     added_at: str = ""
     last_used: Optional[str] = None
@@ -103,7 +104,7 @@ class AccountPool:
         self,
         phone: str,
         session_path: str,
-        proxy: Optional[str] = None,
+        proxy_id: Optional[int] = None,
         validate_proxy: bool = True
     ) -> bool:
         """
@@ -112,35 +113,40 @@ class AccountPool:
         Args:
             phone: Phone number with country code
             session_path: Path to Telethon session file
-            proxy: Optional proxy URL (http://host:port or socks5://host:port)
+            proxy_id: Optional proxy ID from the proxies pool
             validate_proxy: Whether to validate proxy before adding
         
         Returns:
             True if added successfully
         """
-        # Check if already exists
         if any(acc.phone == phone for acc in self.accounts):
             logger.warning(f"⚠️ Account {phone} already in pool")
             return False
-        
-        # Validate proxy if provided
-        if proxy and validate_proxy:
-            if not asyncio.run(self.proxy_manager.validate_proxy(proxy)):
-                logger.warning(f"⚠️ Proxy {proxy} failed validation, adding without proxy")
-                proxy = None
-        
-        # Create account
+
+        proxy_url = None
+        if proxy_id is not None:
+            import sqlite3
+            try:
+                conn = sqlite3.connect("gramgpt.db")
+                row = conn.execute("SELECT url FROM proxies WHERE id=? AND is_active=1", (proxy_id,)).fetchone()
+                if row:
+                    proxy_url = row[0]
+                conn.close()
+            except Exception as e:
+                logger.warning(f"Could not resolve proxy_id {proxy_id}: {e}")
+
         account = Account(
             phone=phone,
             session_path=session_path,
-            proxy=proxy,
+            proxy_id=proxy_id,
+            proxy=proxy_url,
             status=AccountStatus.WARMING.value
         )
-        
+
         self.accounts.append(account)
         self._save_pool()
-        
-        logger.info(f"✅ Added account {phone} to pool (proxy: {proxy or 'none'})")
+
+        logger.info(f"✅ Added account {phone} (proxy_id={proxy_id}, proxy={proxy_url or 'none'})")
         return True
     
     def remove_account(self, phone: str) -> bool:
@@ -364,7 +370,57 @@ class AccountPool:
 """
         return text
     
+    def get_available_proxies(self) -> List[Dict]:
+        """Fetch proxies from SQLite pool for dropdown selection."""
+        try:
+            db_path = "gramgpt.db"
+            if os.path.exists(db_path):
+                import sqlite3
+                conn = sqlite3.connect(db_path)
+                conn.row_factory = sqlite3.Row
+                rows = conn.execute(
+                    "SELECT id, url, type, host, port, is_active, ping_ms, country FROM proxies WHERE is_active=1 ORDER BY ping_ms ASC"
+                ).fetchall()
+                conn.close()
+                return [dict(r) for r in rows]
+        except Exception as e:
+            logger.warning(f"Could not load proxies: {e}")
+        return []
+
+    def update_account_proxy(self, phone: str, proxy_id: Optional[int] = None) -> bool:
+        """Change proxy assigned to an account. proxy_id=None means no proxy."""
+        for acc in self.accounts:
+            if acc.phone == phone:
+                acc.proxy_id = proxy_id
+                if proxy_id is not None:
+                    proxies = self.get_available_proxies()
+                    match = next((p for p in proxies if p["id"] == proxy_id), None)
+                    acc.proxy = match["url"] if match else None
+                else:
+                    acc.proxy = None
+                self._save_pool()
+                logger.info(f"🔌 Account {phone} proxy changed to {acc.proxy or 'none'}")
+                return True
+        return False
+
     def list_accounts(self) -> List[Dict]:
         """Return list of all accounts as dicts."""
         self._update_cooldowns()
-        return [asdict(acc) for acc in self.accounts]
+        result = []
+        for acc in self.accounts:
+            d = asdict(acc)
+            # Enrich with proxy info from proxy_id
+            if acc.proxy_id:
+                import sqlite3
+                try:
+                    conn = sqlite3.connect("gramgpt.db")
+                    row = conn.execute("SELECT url, ping_ms, is_active FROM proxies WHERE id=?", (acc.proxy_id,)).fetchone()
+                    if row:
+                        d["proxy_url"] = row[0]
+                        d["proxy_ping"] = row[1]
+                        d["proxy_active"] = bool(row[2])
+                    conn.close()
+                except Exception:
+                    pass
+            result.append(d)
+        return result

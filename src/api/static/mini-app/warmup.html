@@ -166,13 +166,38 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Настройки</span></a>
     </div>
 
+    <script src='main.js'></script>
     <script>
-        function startWarmup() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                toast('info', '');
+        async function startWarmup() {
+            try {
+                const result = await api.post('/warmup/start');
+                toast('success', 'Прогрев запущен', (result.accounts || 0) + ' аккаунтов в работе');
+            } catch (e) {
+                toast('error', 'Ошибка', e.message);
             }
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const accounts = await api.get('/warmup/accounts');
+                const container = document.querySelector('.animate-in:has(.card)') || document.querySelectorAll('.animate-in')[2];
+                if (!container || !accounts || !accounts.length) return;
+                const colors = ['var(--primary),var(--accent)', 'var(--warning),#F97316', 'var(--danger),#DC2626'];
+                container.querySelectorAll('.card:not(:first-child)').forEach(el => el.remove());
+                const header = container.querySelector('h4') || container.querySelector('div:first-child h4');
+                accounts.slice(0, 5).forEach((a, i) => {
+                    const pct = a.trust_score || a.progress || 50;
+                    const status = a.status || 'active';
+                    const done = a.total_dialogs || a.dialogs || 0;
+                    const statusColor = status === 'active' ? 'var(--success)' : status === 'warmup' ? 'var(--warning)' : 'var(--danger)';
+                    const statusText = status === 'active' ? 'Активен' : status === 'warmup' ? 'Прогрев' : 'Не активен';
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.cssText = 'padding: 14px; margin-bottom: 8px;';
+                    div.innerHTML = '<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,' + colors[i % 3] + ');display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;">A' + (i + 1) + '</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:600;">' + (a.phone || 'Account #' + (i + 1)) + '</span><span style="font-size:18px;font-weight:800;color:' + (pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--danger)') + ';">' + pct + '%</span></div><div style="font-size:10px;color:' + statusColor + ';margin:2px 0 6px;"><i class="fas fa-circle" style="font-size:5px;"></i> ' + statusText + ' &bull; ' + done + ' диалогов</div><div class="progress-bar" style="height:4px;"><div class="progress-fill" style="width:' + pct + '%;' + (pct < 80 ? 'background: linear-gradient(90deg, ' + (pct < 60 ? 'var(--danger),#DC2626' : 'var(--warning),#F97316') + ');' : '') + '"></div></div></div></div>';
+                    container.appendChild(div);
+                });
+            } catch (e) { console.warn('Warmup API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

@@ -162,7 +162,8 @@
                 await api.post('/commenting/start', {
                     channels: channels.split(',').map(c => c.trim()),
                     tone: tones[activeTone?.textContent.trim()] || 'expert',
-                    model: document.getElementById('comment-model').value
+                    model: document.getElementById('comment-model').value,
+                    frequency: document.getElementById('comment-frequency').value || 'every_2nd'
                 });
                 toast('success', 'Нейрокомментинг запущен', 'AI генерирует и публикует комментарии');
             } catch (err) {

@@ -28,7 +28,7 @@ async def run_parsing(
         api_id=settings.telegram_api_id,
         api_hash=settings.telegram_api_hash,
         phone=settings.telegram_phone or "",
-        session_path=f"data/sessions/parse_{task_id[:8]}.session",
+        session_path="data/sessions/gramgpt_user",
     )
     try:
         connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)

@@ -212,5 +212,34 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 <script src='main.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const data = await api.get('/heatmap/data');
+            if (data) {
+                const m = document.querySelectorAll('.metric-card .metric-value');
+                if (m[0]) m[0].textContent = data.peak_hour || '—';
+                if (m[1]) m[1].textContent = data.best_day ? data.best_day.substring(0,2) : '—';
+                if (m[2]) m[2].textContent = (data.actions_today || 0).toLocaleString();
+                if (m[3]) m[3].textContent = data.avg_per_hour || 0;
+                const mods = data.by_module || {};
+                const bars = document.querySelectorAll('.card:not(.glass-card) .progress-bar .progress-fill');
+                const labels = document.querySelectorAll('.card:not(.glass-card) .flex span:last-child');
+                const modules = ['parsing', 'commenting', 'reactions', 'chatting', 'dialogs'];
+                const maxVal = Math.max(...Object.values(mods), 1);
+                modules.forEach((mod, i) => {
+                    const val = mods[mod] || 0;
+                    if (bars[i]) bars[i].style.width = (val / maxVal * 100) + '%';
+                    if (labels[i]) labels[i].textContent = val.toLocaleString() + ' действий';
+                });
+                const recs = data.recommendations || [];
+                const recEl = document.querySelector('.glass-card');
+                if (recEl && recs.length) {
+                    recEl.innerHTML = recs.map(r => '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;"><i class="fas fa-lightbulb" style="color:var(--warning);margin-top:2px;"></i><div style="font-size:12px;">' + r + '</div></div>').join('');
+                }
+            }
+        } catch (e) { console.warn('Heatmap API error:', e); }
+    });
+</script>
 </body>
 </html>

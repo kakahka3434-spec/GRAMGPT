@@ -16,130 +16,42 @@
         </a>
     </div>
 
-    <!-- Overview -->
     <div class="stat-row animate-in" style="animation-delay: 0.05s" id="accounts-overview">
         <div class="flex" style="justify-content: space-between;">
-            <div class="stat-item">
-                <h4>Всего</h4>
-                <div style="color: var(--primary); font-size: 22px; font-weight: 800;">8</div>
-            </div>
-            <div class="stat-item text-center">
-                <h4>Активных</h4>
-                <div style="color: var(--success); font-size: 22px; font-weight: 800;">5</div>
-            </div>
-            <div class="stat-item" style="text-align: right">
-                <h4>Прогрев</h4>
-                <div style="color: var(--warning); font-size: 22px; font-weight: 800;">3</div>
-            </div>
+            <div class="stat-item"><h4>Всего</h4><div id="stat-total" style="color: var(--primary); font-size: 22px; font-weight: 800;">0</div></div>
+            <div class="stat-item text-center"><h4>Активных</h4><div id="stat-active" style="color: var(--success); font-size: 22px; font-weight: 800;">0</div></div>
+            <div class="stat-item text-center"><h4>Прогрев</h4><div id="stat-warming" style="color: var(--warning); font-size: 22px; font-weight: 800;">0</div></div>
+            <div class="stat-item" style="text-align: right"><h4>Бан</h4><div id="stat-banned" style="color: var(--danger); font-size: 22px; font-weight: 800;">0</div></div>
         </div>
     </div>
 
-    <!-- Accounts List -->
     <div class="card animate-in" style="animation-delay: 0.1s">
         <div class="card-header">
             <h4>Мои аккаунты</h4>
-            <button class="btn-add" onclick="addAccount()"><i class="fas fa-plus"></i> Добавить</button>
+            <button class="btn-add" onclick="showAddModal()"><i class="fas fa-plus"></i> Добавить</button>
         </div>
-
-        <div class="list-row">
-            <div class="avatar avatar-lg avatar-gradient">A1</div>
-            <div class="flex-1">
-                <div class="list-flex mb-6">
-                    <span class="text-sm" style="font-weight: 600;">+7 (999) 123-45-67</span>
-                    <span class="dot dot-green"></span>
-                </div>
-                <div class="text-xs text-secondary mb-6">@user_account_1</div>
-                <div class="flex gap-6 flex-wrap mb-6">
-                    <span class="tag tag-green">Активен</span>
-                    <span class="tag tag-blue">Прокси: US</span>
-                    <span class="tag">24 диалога</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 94%;"></div></div>
-                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
-                    <span>Доверие: 94%</span>
-                    <span>Роль: Комментатор</span>
-                </div>
-            </div>
+        <div id="accounts-list"></div>
+        <div id="accounts-empty" style="display:none; padding: 40px 20px; text-align:center;">
+            <i class="fas fa-users" style="font-size: 40px; color: var(--text-secondary); opacity: 0.3; margin-bottom: 12px;"></i>
+            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Нет аккаунтов</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Добавьте первый аккаунт для работы</div>
+            <button class="btn" onclick="showAddModal()"><i class="fas fa-plus"></i> Добавить аккаунт</button>
         </div>
-
-        <div class="list-row">
-            <div class="avatar avatar-lg avatar-orange">A2</div>
-            <div class="flex-1">
-                <div class="list-flex mb-6">
-                    <span class="text-sm" style="font-weight: 600;">+7 (999) 234-56-78</span>
-                    <span class="dot dot-yellow"></span>
-                </div>
-                <div class="text-xs text-secondary mb-6">@user_account_2</div>
-                <div class="flex gap-6 flex-wrap mb-6">
-                    <span class="tag tag-yellow">Прогрев</span>
-                    <span class="tag tag-blue">Прокси: DE</span>
-                    <span class="tag">18 диалогов</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #f39c12, #e67e22);"></div></div>
-                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
-                    <span>Доверие: 78%</span>
-                    <span>Роль: Чаттер</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="list-row">
-            <div class="avatar avatar-lg avatar-red">A3</div>
-            <div class="flex-1">
-                <div class="list-flex mb-6">
-                    <span class="text-sm" style="font-weight: 600;">+7 (999) 345-67-89</span>
-                    <span class="dot dot-yellow"></span>
-                </div>
-                <div class="text-xs text-secondary mb-6">@user_account_3</div>
-                <div class="flex gap-6 flex-wrap mb-6">
-                    <span class="tag tag-yellow">Прогрев</span>
-                    <span class="tag tag-blue">Прокси: NL</span>
-                    <span class="tag">12 диалогов</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" style="width: 65%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div></div>
-                <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
-                    <span>Доверие: 65%</span>
-                    <span>Роль: Реактор</span>
-                </div>
-            </div>
+        <div id="accounts-loading" style="display:none; padding: 40px; text-align:center;">
+            <div class="spinner"></div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">Загрузка...</div>
         </div>
     </div>
 
     <!-- Import Section -->
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h4 class="mb-12"><i class="fas fa-file-import" style="color: var(--primary);"></i> Импорт аккаунтов</h4>
-        <div class="text-xs text-secondary mb-12">Поддерживаются форматы: session файлы, tdata, JSON</div>
-        <div class="drop-zone" onclick="importAccounts()">
+        <div class="text-xs text-secondary mb-12">Session файлы, tdata, JSON</div>
+        <div class="drop-zone" onclick="toast('info','Импорт','Выберите файлы для импорта')">
             <div class="drop-zone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
             <div class="drop-zone-title">Перетащите файлы сюда</div>
             <div class="drop-zone-hint">или нажмите для выбора</div>
         </div>
-    </div>
-
-    <!-- Proxy Settings -->
-    <div class="card animate-in" style="animation-delay: 0.2s">
-        <h4 class="mb-12"><i class="fas fa-globe" style="color: var(--primary);"></i> Прокси</h4>
-        <div class="list-row-sm">
-            <span class="dot dot-green"></span>
-            <span class="text-sm flex-1">185.xxx.xxx.12:8080</span>
-            <span class="tag">US</span>
-            <span class="text-xs" style="color: var(--success);">45ms</span>
-        </div>
-        <div class="list-row-sm">
-            <span class="dot dot-green"></span>
-            <span class="text-sm flex-1">91.xxx.xxx.45:3128</span>
-            <span class="tag">DE</span>
-            <span class="text-xs" style="color: var(--success);">62ms</span>
-        </div>
-        <div class="list-row-sm" style="border-bottom: none;">
-            <span class="dot dot-yellow"></span>
-            <span class="text-sm flex-1">78.xxx.xxx.89:1080</span>
-            <span class="tag">NL</span>
-            <span class="text-xs" style="color: var(--warning);">128ms</span>
-        </div>
-        <button class="btn btn-secondary mt-12" style="font-size: 12px; padding: 8px;" onclick="addProxy()">
-            <i class="fas fa-plus"></i> Добавить прокси
-        </button>
     </div>
 
     <div class="nav-bar animate-in" style="animation-delay: 0.25s">
@@ -150,11 +62,248 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 
-    <script src="main.js"></script>
-    <script>
-        function addAccount() { showModal('Добавление аккаунта', 'Загрузите session файл или введите данные авторизации.', 'Выбрать файл', 'Отмена', () => toast('info', 'Выберите файл', 'Поддерживаются .session и tdata')); }
-        function addProxy() { showModal('Добавление прокси', 'Введите адрес в формате IP:PORT:LOGIN:PASS', 'Добавить', 'Отмена', () => toast('success', 'Прокси добавлен')); }
-        function importAccounts() { toast('info', 'Импорт', 'Выберите файлы для импорта аккаунтов'); }
-    </script>
+    <!-- Add Account Modal -->
+    <div class="modal-overlay" id="add-modal" onclick="if(event.target===this)modalClose('add-modal')">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Добавить аккаунт</div>
+                <div class="modal-close" onclick="modalClose('add-modal')"><i class="fas fa-times"></i></div>
+            </div>
+            <div style="padding: 16px;">
+                <label style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;display:block;">Номер телефона</label>
+                <input class="input" id="add-phone" placeholder="+79123456789" style="margin-bottom:12px;">
+
+                <label style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;display:block;">Session файл (путь)</label>
+                <input class="input" id="add-session" value="data/sessions/default.session" style="margin-bottom:12px;">
+
+                <label style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;display:block;">Прокси (из пула)</label>
+                <select class="input" id="add-proxy" style="margin-bottom:12px;">
+                    <option value="">— Без прокси —</option>
+                </select>
+                <div style="display:flex;gap:8px;">
+                    <a href="proxy.html" style="font-size:11px;color:var(--primary);text-decoration:none;">
+                        <i class="fas fa-external-link-alt"></i> Управлять прокси
+                    </a>
+                </div>
+
+                <button class="btn" style="width:100%;margin-top:12px;" onclick="addAccount()">
+                    <i class="fas fa-plus"></i> Добавить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Proxy Modal -->
+    <div class="modal-overlay" id="proxy-modal" onclick="if(event.target===this)modalClose('proxy-modal')">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Сменить прокси</div>
+                <div class="modal-close" onclick="modalClose('proxy-modal')"><i class="fas fa-times"></i></div>
+            </div>
+            <div style="padding: 16px;">
+                <label style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;display:block;">Выберите прокси для <span id="proxy-phone-label"></span></label>
+                <select class="input" id="edit-proxy-select"></select>
+                <div style="display:flex;gap:8px;margin-top:12px;">
+                    <button class="btn btn-outline" style="flex:1;" onclick="modalClose('proxy-modal')">Отмена</button>
+                    <button class="btn" style="flex:1;" onclick="confirmProxyChange()">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div class="modal-overlay" id="delete-modal" onclick="if(event.target===this)modalClose('delete-modal')">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Удалить аккаунт</div>
+                <div class="modal-close" onclick="modalClose('delete-modal')"><i class="fas fa-times"></i></div>
+            </div>
+            <div style="padding: 16px; text-align:center;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 36px; color: var(--danger); margin-bottom: 12px;"></i>
+                <div style="font-size: 14px; margin-bottom: 6px;">Удалить аккаунт <span id="delete-phone-label" style="font-weight:700;"></span>?</div>
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;">Это действие нельзя отменить</div>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn btn-outline" style="flex:1;" onclick="modalClose('delete-modal')">Отмена</button>
+                    <button class="btn" style="flex:1;background:var(--danger);color:white;" onclick="confirmDelete()">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+.spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--bg-card); color: var(--text); font-size: 13px; outline: none; box-sizing: border-box; }
+.input:focus { border-color: var(--primary); }
+select.input { cursor: pointer; appearance: auto; }
+</style>
+<script src='main.js'></script>
+<script>
+let deletePhone = null;
+let editPhone = null;
+
+async function load() {
+    document.getElementById('accounts-loading').style.display = 'block';
+    document.getElementById('accounts-list').innerHTML = '';
+    document.getElementById('accounts-empty').style.display = 'none';
+
+    try {
+        const res = await api.get('/accounts');
+        const data = res.data || res;
+        const accs = data.accounts || [];
+
+        document.getElementById('stat-total').textContent = accs.length;
+        document.getElementById('stat-active').textContent = accs.filter(a => a.status === 'active').length;
+        document.getElementById('stat-warming').textContent = accs.filter(a => a.status === 'warming' || a.status === 'cooldown').length;
+        document.getElementById('stat-banned').textContent = accs.filter(a => a.status === 'banned' || a.status === 'error').length;
+
+        const list = document.getElementById('accounts-list');
+        list.innerHTML = '';
+        document.getElementById('accounts-loading').style.display = 'none';
+
+        if (accs.length === 0) {
+            document.getElementById('accounts-empty').style.display = 'block';
+            return;
+        }
+
+        accs.forEach((a, i) => {
+            const statusColors = { active: 'green', warming: 'yellow', cooldown: 'orange', banned: 'red', error: 'red' };
+            const statusLabels = { active: 'Активен', warming: 'Прогрев', cooldown: 'Ожидание', banned: 'Забанен', error: 'Ошибка' };
+            const sc = statusColors[a.status] || 'grey';
+            const sl = statusLabels[a.status] || a.status;
+            const trust = Math.max(0, 100 - (a.error_count || 0) * 10);
+            const proxyLabel = a.proxy_active === false ? ' (offline)' : a.proxy_ping ? ` (${a.proxy_ping}ms)` : '';
+
+            const row = document.createElement('div');
+            row.className = 'list-row';
+            row.innerHTML = `
+                <div class="avatar avatar-lg ${sc === 'green' ? 'avatar-gradient' : sc === 'red' ? 'avatar-red' : 'avatar-orange'}">${(a.phone || '??').slice(-2)}</div>
+                <div class="flex-1">
+                    <div class="list-flex mb-6">
+                        <span class="text-sm" style="font-weight: 600;">${a.phone || '—'}</span>
+                        <span class="dot dot-${sc}"></span>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+                        <span class="tag tag-${sc}">${sl}</span>
+                        <span class="tag tag-blue" style="cursor:pointer;" onclick="showEditProxy('${a.phone}')">
+                            ${a.proxy ? a.proxy.split('@').pop() || a.proxy : '🔌 Без прокси'}${proxyLabel}
+                        </span>
+                        <span class="tag">${a.success_count || 0} успешно</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${trust}%;"></div></div>
+                    <div class="flex" style="justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">
+                        <span>Доверие: ${trust}%</span>
+                        <span>
+                            <i class="fas fa-trash" style="color:var(--danger);cursor:pointer;margin-right:8px;" onclick="showDelete('${a.phone}')" title="Удалить"></i>
+                            <i class="fas fa-globe" style="color:var(--primary);cursor:pointer;" onclick="showEditProxy('${a.phone}')" title="Сменить прокси"></i>
+                        </span>
+                    </div>
+                </div>
+            `;
+            list.appendChild(row);
+        });
+    } catch (e) {
+        document.getElementById('accounts-loading').style.display = 'none';
+        document.getElementById('accounts-empty').style.display = 'block';
+        document.getElementById('accounts-empty').querySelector('div:nth-child(2)').textContent = 'Ошибка загрузки';
+        toast('error', 'Не удалось загрузить аккаунты');
+    }
+}
+
+async function showAddModal() {
+    const select = document.getElementById('add-proxy');
+    select.innerHTML = '<option value="">— Без прокси —</option>';
+    try {
+        const res = await api.get('/accounts/available-proxies');
+        const proxs = (res.data || res).proxies || [];
+        proxs.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = `${p.type || 'SOCKS5'} ${p.host || p.url}${p.ping_ms ? ' (' + p.ping_ms + 'ms)' : ''}`;
+            select.appendChild(opt);
+        });
+    } catch (e) {}
+    document.getElementById('add-modal').style.display = 'flex';
+}
+
+async function addAccount() {
+    const phone = document.getElementById('add-phone').value.trim();
+    const session = document.getElementById('add-session').value.trim();
+    const proxyId = document.getElementById('add-proxy').value;
+
+    if (!phone) return toast('error', 'Введите номер телефона');
+
+    try {
+        const body = { phone, session_path: session };
+        if (proxyId) body.proxy_id = parseInt(proxyId);
+        await api.post('/accounts/add', body);
+        toast('success', 'Аккаунт добавлен');
+        modalClose('add-modal');
+        document.getElementById('add-phone').value = '';
+        load();
+    } catch (e) {
+        toast('error', e.data?.detail || e.message || 'Ошибка добавления');
+    }
+}
+
+async function showEditProxy(phone) {
+    editPhone = phone;
+    document.getElementById('proxy-phone-label').textContent = phone;
+    const select = document.getElementById('edit-proxy-select');
+    select.innerHTML = '<option value="">— Без прокси —</option>';
+
+    try {
+        const res = await api.get('/accounts/available-proxies');
+        const proxs = (res.data || res).proxies || [];
+        proxs.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = `${p.type || 'SOCKS5'} ${p.host || p.url}${p.ping_ms ? ' (' + p.ping_ms + 'ms)' : ''}`;
+            select.appendChild(opt);
+        });
+    } catch (e) {}
+    document.getElementById('proxy-modal').style.display = 'flex';
+}
+
+async function confirmProxyChange() {
+    const proxyId = document.getElementById('edit-proxy-select').value;
+    if (!editPhone) return;
+    try {
+        await api.patch('/accounts/' + encodeURIComponent(editPhone) + '/proxy', { proxy_id: proxyId ? parseInt(proxyId) : null });
+        toast('success', 'Прокси изменён');
+        modalClose('proxy-modal');
+        editPhone = null;
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка смены прокси');
+    }
+}
+
+function showDelete(phone) {
+    deletePhone = phone;
+    document.getElementById('delete-phone-label').textContent = phone;
+    document.getElementById('delete-modal').style.display = 'flex';
+}
+
+async function confirmDelete() {
+    if (!deletePhone) return;
+    try {
+        await api.del('/accounts/' + encodeURIComponent(deletePhone));
+        toast('success', 'Аккаунт удалён');
+        modalClose('delete-modal');
+        deletePhone = null;
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка удаления');
+    }
+}
+
+function modalClose(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', load);
+</script>
 </body>
 </html>

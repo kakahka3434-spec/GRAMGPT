@@ -35,7 +35,7 @@
     </div>
 
     <!-- Invite -->
-    <button class="btn animate-in" style="animation-delay: 0.05s; margin-bottom: 16px;" onclick="alert('Ссылка скопирована: gramgpt.io/invite/team_abc123')">
+    <button class="btn animate-in" style="animation-delay: 0.05s; margin-bottom: 16px;" onclick="inviteMember()">
         <i class="fas fa-user-plus"></i> Пригласить участника
     </button>
 
@@ -202,5 +202,23 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 <script src='main.js'></script>
+<script>
+    async function inviteMember() {
+        try {
+            const r = await api.post('/team/invite', { role: 'manager' });
+            toast('success', 'Приглашение отправлено', r.link || 'Ссылка скопирована');
+        } catch (e) { toast('error', 'Ошибка', e.message); }
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const data = await api.get('/team/members');
+            if (data && data.members && data.members.length) {
+                const m = document.querySelectorAll('.metric-card .metric-value');
+                if (m[0]) m[0].textContent = data.members.length;
+                if (m[1]) m[1].textContent = data.members.filter(m => m.online).length;
+            }
+        } catch (e) { console.warn('Team API error:', e); }
+    });
+</script>
 </body>
 </html>

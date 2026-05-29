@@ -165,7 +165,7 @@ class WorkModeController:
         """Apply current mode settings to rate limiter."""
         # Update base delays
         min_delay, max_delay = self.config.delay_between_comments
-        rate_limiter.base_delays["comment"] = (min_delay, max_delay)
+        rate_limiter.BASE_DELAYS["comment"] = (min_delay, max_delay)
         
         # Update flood multiplier
         rate_limiter.flood_multiplier = self.config.flood_multiplier

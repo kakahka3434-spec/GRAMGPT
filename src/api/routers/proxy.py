@@ -72,6 +72,8 @@ async def list_proxies(page: int = 1, limit: int = 50):
     rows = conn.execute("SELECT * FROM proxies ORDER BY id DESC LIMIT ? OFFSET ?", (limit, offset)).fetchall()
     total = conn.execute("SELECT COUNT(*) as c FROM proxies").fetchone()["c"]
     active = conn.execute("SELECT COUNT(*) as c FROM proxies WHERE is_active=1").fetchone()["c"]
+    uptime = _calc_uptime(conn)
+    avg_ping = _calc_avg_ping(conn)
     conn.close()
 
     proxies = []
@@ -97,8 +99,8 @@ async def list_proxies(page: int = 1, limit: int = 50):
     return {
         "total": total,
         "active": active,
-        "uptime": _calc_uptime(conn),
-        "avg_ping": _calc_avg_ping(conn),
+        "uptime": uptime,
+        "avg_ping": avg_ping,
         "proxies": proxies,
         "page": page,
         "pages": max(1, (total + limit - 1) // limit),

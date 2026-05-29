@@ -57,7 +57,7 @@ class AIClient:
                 kwargs = {"api_key": self.api_key}
                 if self.base_url:
                     kwargs["base_url"] = self.base_url
-                self.client = AsyncOpenAI(**kwargs)
+                self.client = _AsyncOpenAI(**kwargs)
             except Exception as e:
                 logger.error(f"Failed to initialize AI client: {e}")
         else:

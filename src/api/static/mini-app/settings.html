@@ -52,6 +52,15 @@
     <script>
         function connectTON() { toast('info', 'Подключение TON', 'Выберите кошелёк для подключения'); }
         function getReferralLink() { toast('success', 'Ссылка скопирована', 'Отправьте друзьям: gramgpt.io/ref/your_id'); }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const status = await api.get('/status');
+                if (status) {
+                    const items = document.querySelectorAll('.setting-item');
+                    if (items[0]) items[0].querySelector('select') && (items[0].querySelector('select').value = status.ai_model || 'GPT-4o');
+                }
+            } catch (e) { console.warn('Settings API error:', e); }
+        });
     </script>
 </body>
 </html>

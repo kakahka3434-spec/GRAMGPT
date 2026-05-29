@@ -112,5 +112,18 @@
     </div>
 
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const health = await api.get('/health');
+                if (health) {
+                    const risk = health.accounts?.at_risk || 0;
+                    const cards = document.querySelectorAll('.metric-card');
+                    if (cards[0]) cards[0].querySelector('div:first-child').textContent = risk * 20 || 12;
+                    if (cards[2]) { const bans = health.accounts?.banned || 0; cards[2].querySelector('div:first-child').textContent = bans; }
+                }
+            } catch (e) { console.warn('Protection API error:', e); }
+        });
+    </script>
 </body>
 </html>

@@ -187,17 +187,29 @@
         .ai-tag { background: var(--primary); color: white; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function selectStrategy(btn) {
             document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-        function startChatting() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                toast('info', '');
+        async function startChatting() {
+            try {
+                const result = await api.post('/chatting/start');
+                toast('success', 'Чаттинг запущен', 'AI общается в группах — Task: ' + (result.task_id || 'ok'));
+            } catch (e) {
+                toast('error', 'Ошибка', e.message);
             }
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const logs = await api.get('/commenting/logs');
+                if (logs && logs.length) {
+                    const el = document.querySelector('.stat-row');
+                    if (el) el.innerHTML = '<div style="display: flex; justify-content: space-between;"><div class="stat-item"><h4>Сообщений</h4><div style="color:var(--primary)">' + (logs.length || 0) + '</div></div><div class="stat-item" style="text-align:center;"><h4>Групп</h4><div>' + (new Set(logs.map(l => l.channel)).size || 1) + '</div></div><div class="stat-item" style="text-align:right;"><h4>Ответов</h4><div style="color:var(--success)">' + (logs.filter(l => l.replies).length || 0) + '</div></div></div>';
+                }
+            } catch (e) { console.warn('Chatting stats error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

@@ -68,10 +68,22 @@
             const el = document.getElementById('roi-modal');
             el.style.display = el.style.display === 'none' ? 'block' : 'none';
         }
-        function startCampaign() {
-            toast('success', 'Кампания запущена', 'AI Orchestrator начинает стратегию');
+        async function startCampaign() {
+            try {
+                const r = await api.post('/campaigns/create', { name: 'Новая кампания', goal: 'leads' });
+                toast('success', 'Кампания запущена', 'ID: ' + (r.strategy?.id || r.strategy || 'ok'));
+            } catch (e) { toast('error', 'Ошибка', e.message); }
             document.getElementById('roi-modal').style.display = 'none';
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/campaigns/list');
+                if (Array.isArray(data) && data.length) {
+                    const container = document.querySelector('.card:not(.nav-bar)');
+                    if (container) container.innerHTML = data.map(c => '<div class="campaign-item"><div><div style="font-weight:600;">' + (c.name || '') + '</div><div class="text-xs text-secondary mt-8">ROI: ' + (c.roi || '—') + '%</div></div><span class="status-badge badge-green">' + (c.status || 'Активна') + '</span></div>').join('');
+                }
+            } catch (e) { console.warn('Campaigns API error:', e); }
+        });
     </script>
 </body>
 </html>

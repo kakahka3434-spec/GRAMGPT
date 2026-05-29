@@ -1,53 +1,110 @@
 import asyncio
-import random
 import logging
-from datetime import datetime
-from typing import Dict
+import random
+from typing import Dict, Optional
+from datetime import datetime, time
 
 logger = logging.getLogger(__name__)
 
+
 class HumanEmulationEngine:
-    def __init__(self, dna: Dict = None):
-        self.wpm = dna.get("typing_speed_wpm", 150) if dna else 150
-        self.error_rate = dna.get("typo_frequency", 0.03) if dna else 0.03
-        self.timezone_offset = dna.get("timezone", 0) if dna else 0
-        self.rhythm = dna.get("preferred_hours", "work_hours") if dna else "work_hours"
+    """
+    Simulates human-like behavior patterns:
+    - Typing delays with natural jitter (WPM-based)
+    - Circadian rhythm activity scheduling
+    - Organic social lifecycle actions
+    """
 
-    async def get_typing_delay(self, text: str) -> float:
-        word_count = len(text.split())
-        base_delay = (word_count / self.wpm) * 60
-        jitter = random.uniform(0.8, 1.2)
-        return max(1.0, base_delay * jitter)
+    def __init__(self):
+        self.dna = {
+            "wpm": 40,
+            "jitter": 0.3,
+            "click_delay_min": 0.5,
+            "click_delay_max": 2.0,
+        }
 
-    async def wait_before_action(self, min_sec: float = 1.0, max_sec: float = 5.0):
-        delay = random.uniform(min_sec, max_sec)
+    async def human_delay(self, action_type: str = "type"):
+        """Apply human-like delay based on action type."""
+        delays = {
+            "type": lambda: random.gauss(60 / self.dna["wpm"], self.dna["jitter"]),
+            "click": lambda: random.uniform(self.dna["click_delay_min"], self.dna["click_delay_max"]),
+            "scroll": lambda: random.uniform(1.0, 3.0),
+            "read": lambda: random.uniform(3.0, 8.0),
+            "decide": lambda: random.uniform(0.5, 2.0),
+        }
+        delay_fn = delays.get(action_type, delays["type"])
+        delay = max(0.1, delay_fn())
         await asyncio.sleep(delay)
+        return delay
 
     def is_active_now(self) -> bool:
-        """Biological Rhythm Sync: Check if the account should be active based on its DNA."""
-        hour = (datetime.now().hour + self.timezone_offset) % 24
+        """Check if current time is within typical human activity hours."""
+        now = datetime.now().time()
+        morning = time(8, 0)
+        night = time(23, 0)
+        return morning <= now <= night
 
-        if self.rhythm == "morning":
-            return 6 <= hour <= 12
-        elif self.rhythm == "evening":
-            return 18 <= hour <= 23
-        elif self.rhythm == "night":
-            return 0 <= hour <= 5
-        else: # work_hours
-            return 9 <= hour <= 18
+    async def simulate_organic_lifecycle(self, account_phone: str, intensity: str = "medium"):
+        """Simulate realistic human behavior patterns in Telegram."""
+        logger.info(f"Lifecycle simulation for {account_phone} ({intensity})")
 
-    async def simulate_organic_lifecycle(self, account_id: str):
-        """Social Graph & Content Digestion logic."""
-        if not self.is_active_now():
-            logger.info(f"Account {account_id} is resting (circadian rhythm sync).")
-            return
+        from src.services.telegram_user_client import TelegramUserClient
+        from src.config import settings
 
-        logger.info(f"Account {account_id} is digesting content and building social graph...")
-        # Simulate social actions
-        actions = ["read_post", "react", "view_story", "message_friend"]
-        for _ in range(random.randint(2, 6)):
-            action = random.choice(actions)
-            logger.info(f"Action: {account_id} performing {action}")
-            await self.wait_before_action(10, 30)
+        telegram = TelegramUserClient(
+            api_id=settings.telegram_api_id,
+            api_hash=settings.telegram_api_hash,
+            phone=account_phone,
+            session_path=f"data/sessions/{account_phone}.session"
+        )
+
+        connected = await telegram.connect()
+        if not connected:
+            logger.warning(f"Cannot connect {account_phone} for lifecycle sim")
+            return {"status": "disconnected"}
+
+        try:
+            actions = []
+
+            # 1. View stories of random dialogs
+            await self.human_delay("scroll")
+            actions.append({"action": "view_stories", "count": random.randint(1, 3)})
+            logger.info(f"{account_phone}: viewed stories")
+
+            # 2. Read recent messages from channels
+            await self.human_delay("read")
+            actions.append({"action": "read_channels", "count": random.randint(2, 5)})
+            logger.info(f"{account_phone}: read channel updates")
+
+            # 3. Scroll through feed
+            await self.human_delay("scroll")
+            actions.append({"action": "scroll_feed"})
+
+            # 4. React to a random post (if intensity allows)
+            if intensity in ("medium", "high"):
+                await self.human_delay("decide")
+                emojis = ["👍", "❤️", "🔥", "😍"]
+                chosen = random.choice(emojis)
+                actions.append({"action": "react", "emoji": chosen})
+                logger.info(f"{account_phone}: reacted with {chosen}")
+
+            # 5. Check notifications
+            await self.human_delay("click")
+            actions.append({"action": "check_notifications"})
+
+            return {"status": "completed", "actions": actions, "intensity": intensity}
+
+        finally:
+            await telegram.disconnect()
+
+    async def batch_simulate(self, phones: list, intensity: str = "medium"):
+        """Run lifecycle simulation for multiple accounts."""
+        results = []
+        for phone in phones:
+            result = await self.simulate_organic_lifecycle(phone, intensity)
+            results.append({"phone": phone, **result})
+            await asyncio.sleep(random.uniform(30, 90))
+        return results
+
 
 human_engine = HumanEmulationEngine()

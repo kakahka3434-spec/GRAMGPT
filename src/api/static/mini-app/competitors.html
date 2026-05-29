@@ -159,5 +159,22 @@
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
 <script src='main.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const data = await api.get('/competitors/analysis');
+            if (data) {
+                document.querySelector('.glass-card > div:nth-child(2)').textContent = data.score + '/100';
+                document.querySelector('.glass-card > div:last-child').innerHTML = '<i class="fas fa-arrow-up"></i> +' + (data.change || 0) + ' за месяц';
+                if (data.competitors && data.competitors.length) {
+                    const bars = document.querySelectorAll('.card:not(.glass-card) .progress-fill');
+                    data.competitors.slice(0, 4).forEach((c, i) => {
+                        if (bars[i]) bars[i].style.width = c.score + '%';
+                    });
+                }
+            }
+        } catch (e) { console.warn('Competitors API error:', e); }
+    });
+</script>
 </body>
 </html>

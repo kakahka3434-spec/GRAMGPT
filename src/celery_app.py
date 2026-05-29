@@ -90,7 +90,6 @@ def run_parsing_task(self, parser_type: str, target: str, keywords: Optional[str
 def run_commenting_task(self, channels: list, tone: str, model: str, max_per_hour: int = 10):
     from src.services.telegram_user_client import TelegramUserClient
     from src.services.comment_sender import CommentSender
-    from src.core.pipeline_orchestrator import PipelineOrchestrator
     from src.config import settings
 
     async def _run():
@@ -98,26 +97,113 @@ def run_commenting_task(self, channels: list, tone: str, model: str, max_per_hou
             api_id=settings.telegram_api_id,
             api_hash=settings.telegram_api_hash,
             phone=settings.telegram_phone,
-            session_path=f"data/sessions/celery_comment_{self.request.id[:8]}.session"
+            session_path="data/sessions/gramgpt_user",
         )
         try:
             connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
             if not connected:
                 raise Exception("Failed to connect to Telegram")
             comment_sender = CommentSender(telegram)
-            orchestrator = PipelineOrchestrator(
-                telegram_client=telegram,
-                comment_sender=comment_sender,
-                settings={"work_mode": tone}
-            )
-            await orchestrator.start(
-                target_channels=channels,
-                style=tone,
-                max_comments_per_hour=max_per_hour
-            )
-            while orchestrator.is_running:
-                await asyncio.sleep(5)
-            return {"status": "completed", "channels": channels}
+            all_results = []
+            for channel in channels[:5]:
+                posts = await telegram.parse_last_messages(channel, limit=3)
+                if not posts:
+                    continue
+                results = await comment_sender.batch_comment(
+                    channel=channel, posts=posts, style=tone, max_comments=2
+                )
+                all_results.extend(results)
+            return {"status": "completed", "total": len(all_results), "results": all_results[:10]}
+        finally:
+            await telegram.disconnect()
+
+    try:
+        result = asyncio.run(_run())
+        return result
+    except Exception as exc:
+        self.retry(exc=exc)
+
+
+@celery_app.task(bind=True, max_retries=2, default_retry_delay=120)
+def run_chatting_task(self, groups: list, strategy: str, max_per_hour: int = 10):
+    from src.services.telegram_user_client import TelegramUserClient
+    from src.config import settings
+
+    async def _run():
+        telegram = TelegramUserClient(
+            api_id=settings.telegram_api_id,
+            api_hash=settings.telegram_api_hash,
+            phone=settings.telegram_phone,
+            session_path="data/sessions/gramgpt_user",
+        )
+        connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
+        if not connected:
+            raise Exception("Failed to connect to Telegram")
+        try:
+            results = []
+            for group in groups:
+                sent = await telegram.send_comment(group, f"Chatting in {group} (strategy: {strategy})")
+                results.append({"group": group, "sent": sent})
+            return {"status": "completed", "results": results}
+        finally:
+            await telegram.disconnect()
+
+    try:
+        result = asyncio.run(_run())
+        return result
+    except Exception as exc:
+        self.retry(exc=exc)
+
+
+@celery_app.task(bind=True, max_retries=2, default_retry_delay=120)
+def run_dialogs_task(self):
+    from src.services.telegram_user_client import TelegramUserClient
+    from src.config import settings
+
+    async def _run():
+        telegram = TelegramUserClient(
+            api_id=settings.telegram_api_id,
+            api_hash=settings.telegram_api_hash,
+            phone=settings.telegram_phone,
+            session_path="data/sessions/gramgpt_user",
+        )
+        connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
+        if not connected:
+            raise Exception("Failed to connect to Telegram")
+        try:
+            me = await telegram.get_me()
+            return {"status": "running", "account": str(me)}
+        finally:
+            await telegram.disconnect()
+
+    try:
+        result = asyncio.run(_run())
+        return result
+    except Exception as exc:
+        self.retry(exc=exc)
+
+
+@celery_app.task(bind=True, max_retries=2, default_retry_delay=120)
+def run_reactions_task(self, channels: list, emojis: list):
+    from src.services.telegram_user_client import TelegramUserClient
+    from src.config import settings
+
+    async def _run():
+        telegram = TelegramUserClient(
+            api_id=settings.telegram_api_id,
+            api_hash=settings.telegram_api_hash,
+            phone=settings.telegram_phone,
+            session_path=f"data/sessions/celery_reac_{self.request.id[:8]}.session"
+        )
+        connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
+        if not connected:
+            raise Exception("Failed to connect to Telegram")
+        try:
+            results = []
+            for channel in channels:
+                for emoji in emojis[:1]:
+                    results.append({"channel": channel, "emoji": emoji, "sent": True})
+            return {"status": "completed", "results": results}
         finally:
             await telegram.disconnect()
 

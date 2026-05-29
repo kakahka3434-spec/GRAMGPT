@@ -228,15 +228,28 @@
         .filter-chip.active { background: rgba(0,136,204,0.1); border-color: var(--primary); color: var(--primary); }
     </style>
 
+    <script src='main.js'></script>
     <script>
-        function openContact(name) { alert('Открываю карточку контакта: ' + name); }
-        function sendMessage() { alert('Отправка сообщения...'); }
-        function addNote() { alert('Добавление заметки...'); }
+        function sendMessage() { toast('info', 'Чат', 'Открывается чат для отправки...'); }
+        function addNote() { toast('info', 'Заметка', 'Функция добавления заметки'); }
         function toggleFilter(btn) {
             document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/crm/contacts');
+                if (data && data.contacts) {
+                    const cols = document.querySelectorAll('.pipeline-col');
+                    const stages = { new: 0, in_progress: 0, hot: 0 };
+                    data.contacts.forEach(c => { if (stages[c.stage] !== undefined) stages[c.stage]++; });
+                    if (cols[0]) cols[0].querySelector('.pipeline-count').textContent = stages.new || 0;
+                    if (cols[1]) cols[1].querySelector('.pipeline-count').textContent = stages.in_progress || 0;
+                    if (cols[2]) cols[2].querySelector('.pipeline-count').textContent = stages.hot || 0;
+                    document.querySelector('.metric-card:first-child .metric-value').textContent = data.total || data.contacts.length || 0;
+                }
+            } catch (e) { console.warn('CRM API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

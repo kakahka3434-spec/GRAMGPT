@@ -137,7 +137,8 @@
                     parser_type: parserType,
                     target: target,
                     keywords: document.getElementById('keywords-input').value || null,
-                    limit: parseInt(document.getElementById('limit-select').value) || 1000
+                    limit: parseInt(document.getElementById('limit-select').value) || 1000,
+                    period: document.getElementById('period-select').value || '7d'
                 });
                 toast('success', 'Парсинг запущен', `Task ID: ${result.task_id}. Результаты появятся через несколько минут.`);
             } catch (err) {

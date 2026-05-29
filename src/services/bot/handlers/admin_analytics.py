@@ -1,6 +1,6 @@
 """
 Analytics & Account Admin Handlers - Multi-account management and reporting.
-Commands: /add_account, /list_accounts, /export_stats, /risk_report
+Commands: /add_account, /remove_account, /list_accounts, /list_proxies, /export_stats, /risk_report, /analytics, /mark_cooldown
 """
 
 import logging
@@ -55,8 +55,8 @@ async def cmd_add_account(message: types.Message):
     """
     Add new account to pool.
     
-    Usage: /add_account <phone> <session_file> [proxy_url]
-    Example: /add_account +79158443612 data/sessions/account2.session http://proxy:8080
+    Usage: /add_account <phone> <session_file> [proxy_id]
+    Example: /add_account +79158443612 data/sessions/account2.session 1
     """
     if not is_admin(message.from_user.id):
         await message.answer("❌ Access denied")
@@ -66,19 +66,19 @@ async def cmd_add_account(message: types.Message):
     
     if len(args) < 2:
         await message.answer(
-            "❌ <b>Usage:</b> /add_account &lt;phone&gt; &lt;session_file&gt; [proxy]\n\n"
-            "<b>Example:</b>\n"
+            "❌ <b>Usage:</b> /add_account &lt;phone&gt; &lt;session_file&gt; [proxy_id]\n\n"
+            "<b>Examples:</b>\n"
             "/add_account +79158443612 data/sessions/account2.session\n"
-            "/add_account +79158443612 data/sessions/account2.session socks5://proxy:1080",
+            "/add_account +79158443612 data/sessions/account2.session 1\n\n"
+            "Use /list_proxies to see available proxy IDs.",
             parse_mode="HTML"
         )
         return
     
     phone = args[0]
     session_file = args[1]
-    proxy = args[2] if len(args) > 2 else None
+    proxy_id = int(args[2]) if len(args) > 2 and args[2].isdigit() else None
     
-    # Check if session file exists
     if not os.path.exists(session_file):
         await message.answer(
             f"❌ Session file not found: <code>{session_file}</code>\n"
@@ -94,17 +94,16 @@ async def cmd_add_account(message: types.Message):
         success = pool.add_account(
             phone=phone,
             session_path=session_file,
-            proxy=proxy,
-            validate_proxy=True
+            proxy_id=proxy_id,
         )
         
         if success:
-            proxy_info = f"\n🔌 Proxy: <code>{proxy}</code>" if proxy else "\n🔌 No proxy (direct)"
+            proxy_label = f"\n🆔 Proxy ID: <code>{proxy_id}</code>" if proxy_id else "\n🔌 No proxy (direct)"
             await message.answer(
                 f"✅ <b>Account added successfully!</b>\n\n"
                 f"📱 Phone: <code>{phone}</code>\n"
                 f"📁 Session: <code>{session_file}</code>"
-                f"{proxy_info}",
+                f"{proxy_label}",
                 parse_mode="HTML"
             )
         else:
@@ -315,4 +314,50 @@ async def cmd_mark_cooldown(message: types.Message):
             await message.answer(f"⚠️ Account <code>{phone}</code> not found", parse_mode="HTML")
             
     except Exception as e:
+        await message.answer(f"❌ Error: {e}")
+
+
+@router.message(Command("list_proxies"))
+async def cmd_list_proxies(message: types.Message):
+    """List available proxies from the pool."""
+    if not is_admin(message.from_user.id):
+        await message.answer("❌ Access denied")
+        return
+
+    try:
+        import sqlite3
+        conn = sqlite3.connect("gramgpt.db")
+        rows = conn.execute(
+            "SELECT id, type, host, port, is_active, ping_ms, country, url "
+            "FROM proxies ORDER BY id"
+        ).fetchall()
+        conn.close()
+
+        if not rows:
+            await message.answer(
+                "📭 <b>No proxies in pool</b>\n\n"
+                "Add proxies via the Proxy Manager page or use /add_account without proxy.",
+                parse_mode="HTML"
+            )
+            return
+
+        lines = ["<b>📡 Proxy Pool:</b>\n"]
+        for r in rows:
+            status = "🟢" if r[4] else "🔴"
+            ping = f"{r[5]}ms" if r[5] else "—"
+            country = f" ({r[6]})" if r[6] else ""
+            url_short = r[7] if r[7] else f"{r[1]}://{r[2]}:{r[3]}"
+            lines.append(
+                f"{status} <b>ID {r[0]}</b>: <code>{url_short}</code>"
+                f"{country} | Ping: {ping}"
+            )
+
+        msg = "\n".join(lines)
+        if len(msg) > 4000:
+            msg = msg[:4000] + "\n\n... (truncated)"
+
+        await message.answer(msg, parse_mode="HTML")
+
+    except Exception as e:
+        logger.error(f"List proxies error: {e}")
         await message.answer(f"❌ Error: {e}")

@@ -154,14 +154,23 @@
         .tmpl-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
     </style>
 
+    <script src='main.js'></script>
     <script>
         function selectCat(btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-        function useTemplate(name) { alert('Устанавливаю шаблон: ' + name); }
-        function previewTemplate(name) { alert('Предпросмотр шаблона: ' + name); }
+        function useTemplate(name) { toast('success', 'Шаблон', 'Установка: ' + name); }
+        function previewTemplate(name) { toast('info', 'Предпросмотр', name); }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/templates');
+                if (data && data.templates && data.templates.length) {
+                    const grid = document.querySelector('.tmpl-list');
+                    if (grid) grid.innerHTML = data.templates.map(t => '<div class="tmpl-card" onclick="useTemplate(\'' + t.id + '\')"><div class="tmpl-icon" style="background:rgba(0,136,204,0.1);"><i class="fas fa-file"></i></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;">' + (t.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (t.description || '') + '</div></div></div>').join('');
+                }
+            } catch (e) { console.warn('Templates API error:', e); }
+        });
     </script>
-<script src='main.js'></script>
 </body>
 </html>

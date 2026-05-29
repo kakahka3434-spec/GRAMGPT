@@ -137,6 +137,38 @@
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await api.get('/dashboard');
+                if (data.metrics) {
+                    document.getElementById('mc-leads').textContent = data.metrics.leads?.toLocaleString() || '0';
+                    document.getElementById('mc-conv').textContent = (data.metrics.conversion || 0) + '%';
+                    document.getElementById('mc-roi').textContent = (data.metrics.roi || 0) + '%';
+                    document.getElementById('mc-acc').textContent = data.metrics.accounts || 0;
+                }
+                if (data.revenue) {
+                    const bars = document.querySelectorAll('.chart-bar-item');
+                    const chart = data.revenue.chart || [];
+                    bars.forEach((bar, i) => {
+                        const val = chart[i] || 0;
+                        bar.style.height = Math.min(val, 95) + '%';
+                    });
+                    document.querySelector('.flex .text-muted strong') && (document.querySelector('.flex .text-muted strong').textContent = '$' + (data.revenue.total || 0).toLocaleString());
+                    document.querySelector('.flex span:last-child') && (document.querySelector('.flex span:last-child').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.revenue.change || '+0%') + ' vs пред. период');
+                }
+                if (data.funnel && data.funnel.length === 5) {
+                    const bars = document.querySelectorAll('.funnel-step-viz .funnel-num');
+                    data.funnel.forEach((f, i) => { if (bars[i]) bars[i].textContent = (f.count || 0).toLocaleString(); });
+                }
+                if (data.security) {
+                    document.querySelector('.metric-card:nth-child(1) .metric-value') && (document.querySelector('.card:last-of-type .metric-grid .metric-card:first-child div:first-child').textContent = data.security.risk_score || 0);
+                    document.querySelector('.card:last-of-type .metric-grid .metric-card:nth-child(2) div:first-child').textContent = (data.security.human_like || 97) + '%';
+                    document.querySelector('.card:last-of-type .metric-grid .metric-card:nth-child(3) div:first-child').textContent = data.security.bans || 0;
+                }
+            } catch (e) {
+                console.warn('Dashboard API error, keeping static data:', e);
+            }
+        });
     </script>
 </body>
 </html>

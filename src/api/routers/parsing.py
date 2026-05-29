@@ -51,20 +51,30 @@ async def start_parsing(req: ParseRequest):
         )
 
     task_id = f"parse_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
-    _create_task(task_id, req.parser_type, req.dict())
+    _create_task(task_id, req.parser_type, req.model_dump())
 
     dispatched = False
 
-    # Try Celery path
+    # Try Celery path (only if Redis is available)
+    redis_available = False
     try:
-        celery_app.send_task(
-            "run_parsing_task",
-            args=[req.parser_type, req.target, req.keywords, req.limit],
-            task_id=task_id,
-        )
-        dispatched = True
+        import socket
+        s = socket.create_connection(("localhost", 6379), timeout=0.5)
+        s.close()
+        redis_available = True
     except Exception:
         pass
+
+    if redis_available:
+        try:
+            celery_app.send_task(
+                "run_parsing_task",
+                args=[req.parser_type, req.target, req.keywords, req.limit],
+                task_id=task_id,
+            )
+            dispatched = True
+        except Exception:
+            pass
 
     # Fallback: run inline in background
     if not dispatched:
