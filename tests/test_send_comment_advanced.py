@@ -7,6 +7,7 @@ import asyncio
 import logging
 import sys
 import time
+import pytest
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,6 +20,7 @@ from src.services.comment_sender import CommentSender
 from src.config import settings
 
 
+@pytest.mark.asyncio
 async def test_all_styles():
     """Test all 3 comment styles on one post."""
     
@@ -116,7 +118,7 @@ async def test_all_styles():
     else:
         print(f"   ⚠ Will skip (already commented)")
     
-    # Test 3: Full cycle (optional - asks user)
+    # Test 3: Full cycle (optional - asks user, but skip in pytest)
     print(f"\n" + "="*70)
     print("🚀 TEST 3: Full Cycle with Behavioral Patterns")
     print("="*70)
@@ -125,7 +127,14 @@ async def test_all_styles():
     print(f"   Post: #{TEST_MESSAGE_ID}")
     print(f"   Generated comments above ☝️")
     
-    choice = input(f"\n   Which style to send? (expert/engaging/casual/skip): ").strip().lower()
+    # Check if running in pytest (non-interactive)
+    import sys
+    if sys.stdin.isatty():
+        choice = input(f"\n   Which style to send? (expert/engaging/casual/skip): ").strip().lower()
+    else:
+        # Auto-skip in pytest mode
+        print(f"   (Running in pytest - auto-skipping interactive prompt)")
+        choice = "skip"
     
     if choice in styles:
         print(f"\n🚀 Running full cycle with style: {choice}")
@@ -199,3 +208,5 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         sys.exit(1)
+
+

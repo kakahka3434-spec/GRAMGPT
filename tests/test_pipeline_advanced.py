@@ -6,6 +6,7 @@ Tests full automation cycle with orchestrator.
 import asyncio
 import logging
 import sys
+import pytest
 
 logging.basicConfig(
     level=logging.INFO,
@@ -20,6 +21,7 @@ from src.core.pipeline_orchestrator import PipelineOrchestrator
 from src.config import settings
 
 
+@pytest.mark.asyncio
 async def test_pipeline_cycle():
     """Test one full pipeline cycle."""
     
@@ -125,7 +127,15 @@ async def test_pipeline_cycle():
             print(f"   \n⚠️  About to send REAL comment:")
             print(f"   Post: {target_post['text'][:80]}...")
             
-            confirm = input(f"\n   Send comment with style '{TEST_STYLE}'? (yes/skip): ").strip().lower()
+            # In test mode, skip the interactive input
+            import sys
+            if sys.stdin.isatty():
+                # Running in terminal - ask for confirmation
+                confirm = input(f"\n   Send comment with style '{TEST_STYLE}'? (yes/skip): ").strip().lower()
+            else:
+                # Running in CI/pytest - skip interactive input
+                print(f"   (Skipping interactive prompt in test mode)")
+                confirm = "skip"
             
             if confirm == "yes":
                 result = await comment_sender.comment_with_full_cycle(
@@ -196,3 +206,5 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         sys.exit(1)
+
+

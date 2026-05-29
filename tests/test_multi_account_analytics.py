@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 import tempfile
+import pytest
 
 logging.basicConfig(
     level=logging.INFO,
@@ -20,6 +21,8 @@ from src.core.proxy_manager import ProxyManager
 from src.services.analytics_exporter import AnalyticsExporter
 
 
+@pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_proxy_validation():
     """Test proxy validation."""
     print("\n" + "="*70)
@@ -40,6 +43,8 @@ async def test_proxy_validation():
     return True
 
 
+@pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_account_pool():
     """Test account pool management."""
     print("\n" + "="*70)
@@ -109,6 +114,8 @@ async def test_account_pool():
             os.remove(temp_file)
 
 
+@pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_analytics_exporter():
     """Test analytics export functionality."""
     print("\n" + "="*70)
@@ -164,6 +171,7 @@ async def test_analytics_exporter():
             os.remove(temp_file)
 
 
+@pytest.mark.asyncio
 async def test_account_rotation_simulation():
     """Simulate account rotation with errors."""
     print("\n" + "="*70)
@@ -213,6 +221,7 @@ async def test_account_rotation_simulation():
             os.remove(temp_file)
 
 
+@pytest.mark.asyncio
 async def test_full_pipeline():
     """Test full multi-account pipeline."""
     print("\n" + "="*70)
@@ -260,3 +269,4 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         sys.exit(1)
+

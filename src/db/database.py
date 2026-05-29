@@ -159,4 +159,20 @@ class Database:
             conn.execute("INSERT OR REPLACE INTO user_settings (chat_id, model_name) VALUES (?, ?)", (chat_id, model_name))
             conn.commit()
 
-db = Database()
+class _DatabaseProxy:
+    """Lazy Database singleton — init deferred until first use."""
+    _instance = None
+
+    def _ensure(self):
+        if self._instance is None:
+            try:
+                self._instance = Database()
+            except Exception as e:
+                logger.warning(f"Database init failed: {e}, will retry")
+                self._instance = Database()
+
+    def __getattr__(self, name):
+        self._ensure()
+        return getattr(self._instance, name)
+
+db = _DatabaseProxy()

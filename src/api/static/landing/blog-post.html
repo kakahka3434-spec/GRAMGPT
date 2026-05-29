@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Статья — GRAMGPT</title>
+<meta name="description" content="База знаний GRAMGPT — статьи, гайды и кейсы.">
+<meta property="og:title" content="Статья — GRAMGPT">
+<meta property="og:description" content="База знаний GRAMGPT.">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/static/css/landing.css">
+<script type="application/ld+json" id="ldJson">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Статья GRAMGPT",
+    "description": "База знаний GRAMGPT",
+    "publisher": { "@type": "Organization", "name": "GRAMGPT" }
+}
+</script>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+<div class="container nav-container">
+<a href="/" class="logo">GRAM<span>GPT</span></a>
+<div class="nav-links" id="navLinks">
+<a href="/#features">Возможности</a>
+<a href="/#how-it-works">Как работает</a>
+<a href="/#pricing">Цены</a>
+<a href="/#reviews">Отзывы</a>
+<a href="/#faq">FAQ</a>
+<a href="/blog">Блог</a>
+</div>
+<a href="/#pricing" class="btn btn-primary btn-sm" data-track="header_cta">Начать</a>
+<button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
+<span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+</button>
+</div>
+</nav>
+
+<main id="postContainer">
+<div class="post-hero">
+<div class="post-hero-bg"></div>
+<div class="container">
+<div class="post-breadcrumbs" id="breadcrumbs"></div>
+<h1 id="postTitle"></h1>
+<div class="post-meta" id="postMeta"></div>
+</div>
+</div>
+
+<section class="section section-dark" style="padding-top:40px">
+<div class="container">
+<div class="post-layout">
+<article class="post-content" id="postContent"></article>
+<aside class="post-toc" id="postToc">
+<h4>Содержание</h4>
+<ul class="post-toc-list" id="tocList"></ul>
+</aside>
+</div>
+<div class="container">
+<div class="post-share" id="postShare"></div>
+</div>
+</div>
+</section>
+
+<section class="post-related" id="postRelated">
+<div class="container">
+<h3>Похожие <span class="gradient-text">статьи</span></h3>
+<div class="post-related-grid" id="relatedGrid"></div>
+</div>
+</section>
+</main>
+
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<a href="/" class="logo">GRAM<span>GPT</span></a>
+<p>ИИ-комбайн для Telegram нового поколения.</p>
+<div class="footer-social">
+<a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+<a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+<a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+</div>
+</div>
+<div class="footer-links">
+<h4>Продукт</h4>
+<a href="/#features">Возможности</a>
+<a href="/#pricing">Цены</a>
+<a href="/blog">Блог</a>
+</div>
+<div class="footer-links">
+<h4>Ресурсы</h4>
+<a href="/api/v1/status">API Status</a>
+<a href="/docs">API Docs</a>
+</div>
+<div class="footer-links">
+<h4>Правовая</h4>
+<a href="#">Политика конфиденциальности</a>
+<a href="#">Условия использования</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2024-2026 GRAMGPT. All rights reserved.</p>
+<div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+</div>
+</div>
+</footer>
+
+<script src="/static/js/landing.js"></script>
+<script>
+const POSTS = {
+"warmup-guide": {
+title: "Warmup аккаунтов Telegram: пошаговый гайд 2024",
+category: "guide",
+categoryLabel: "Гайд",
+date: "15 мая 2026",
+author: "Admin",
+readTime: "8 мин",
+content: `
+<h2>Что такое warmup аккаунтов?</h2>
+<p>Warmup (прогрев) аккаунтов Telegram — это процесс постепенного повышения доверия аккаунта к платформе. Без качественного прогрева аккаунты Telegram почти гарантированно попадают под ограничения или блокировку при попытке выполнять массовые действия.</p>
+<p>GRAMGPT использует <strong>Human Emulation Engine</strong> — систему, которая имитирует поведение реального пользователя с учётом биологических ритмов, паттернов активности и типичных сценариев использования.</p>
+
+<h2>Biological Rhythm Sync</h2>
+<p>Ключевая технология прогрева — синхронизация с биологическими ритмами. Алгоритм анализирует:</p>
+<ul>
+<li>Время суток (активность утром/днём/вечером)</li>
+<li>Дни недели (в будни и выходные паттерны разные)</li>
+<li>Геолокацию (часовой пояс прокси)</li>
+<li>Типичные паузы между действиями</li>
+</ul>
+<p>Благодаря этому каждый аккаунт выглядит как живой человек, а не бот. Активность плавно нарастает с первых дней: от 5-10 действий в день до 100+ к концу второй недели.</p>
+
+<h2>Пошаговая настройка прогрева</h2>
+<h3>Шаг 1: Подготовка аккаунта</h3>
+<p>Перед запуском прогрева аккаунт должен быть зарегистрирован не менее 7 дней назад. Рекомендуется использовать качественные мобильные прокси — они дают наибольший уровень доверия со стороны Telegram.</p>
+
+<h3>Шаг 2: Базовый прогрев (дни 1-3)</h3>
+<p>В первые дни аккаунт выполняет минимальные действия: чтение каналов, просмотр stories, редкие реакции. Никаких массовых действий. Система автоматически подбирает целевые каналы на основе вашей ниши.</p>
+
+<h3>Шаг 3: Умеренная активность (дни 4-7)</h3>
+<p>Добавляются комментарии (1-3 в день), подписки на релевантные каналы, участие в опросах. Trust score плавно растёт до 60-70%.</p>
+
+<h3>Шаг 4: Полная активность (день 8+)</h3>
+<p>Аккаунт выходит на рабочий режим: нейрокомментинг, массовые реакции, участие в чатах. Trust score достигает 85-95%. Система продолжает мониторить риски и при необходимости снижает активность.</p>
+
+<h2>Device Fingerprinting</h2>
+<p>Дополнительный уровень защиты — эмуляция уникального цифрового отпечатка устройства. Каждый аккаунт получает:</p>
+<ul>
+<li>Уникальную строку User-Agent</li>
+<li>Эмулированные WebGL и Canvas fingerprint</li>
+<li>Стабильные часовой пояс и язык интерфейса</li>
+<li>Реалистичный список установленных шрифтов</li>
+</ul>
+
+<h2>Anti-Ban Shield</h2>
+<p>Предиктивная система защиты анализирует более 50 факторов риска в реальном времени. При обнаружении аномалий (например, нехарактерно высокая частота действий) система автоматически снижает темп или ставит аккаунт на паузу.</p>
+<blockquote>За всё время работы платформы — 0 банов у клиентов тарифов Pro и Agency при соблюдении базовых рекомендаций по прокси.</blockquote>
+
+<h2>Советы по максимальной эффективности</h2>
+<ul>
+<li>Используйте отдельные мобильные прокси для каждого аккаунта</li>
+<li>Не запускайте более 5 аккаунтов в прогреве одновременно</li>
+<li>Дайте системе минимум 7 дней на базовый прогрев</li>
+<li>Регулярно проверяйте Trust score в панели управления</li>
+</ul>
+`
+},
+"proxy-comparison": {
+title: "Сравнение прокси для Telegram: IPv4 vs IPv6 vs Мобильные",
+category: "guide",
+categoryLabel: "Гайд",
+date: "10 мая 2026",
+author: "Admin",
+readTime: "6 мин",
+content: `
+<h2>Зачем нужны прокси для Telegram?</h2>
+<p>Telegram активно борется с мультиаккаунтингом и накруткой. Без качественных прокси аккаунты быстро попадают под ограничения. Правильный выбор прокси — основа безопасной работы.</p>
+
+<h2>IPv4 прокси</h2>
+<p><strong>Плюсы:</strong> Высокая скорость, широкая доступность, совместимость со всеми сервисами.</p>
+<p><strong>Минусы:</strong> Высокая цена ($1-3 за штуку), легко вычисляются Telegram, пулы IP быстро попадают в базы.</p>
+<p>IPv4 подходят для тестирования и небольшого количества аккаунтов (до 5). Для массовой работы — не лучший выбор из-за высокой вероятности банов.</p>
+
+<h2>IPv6 прокси</h2>
+<p><strong>Плюсы:</strong> Низкая цена ($0.05-0.2 за штуку), огромные пулы IP, хорошая скорость.</p>
+<p><strong>Минусы:</strong> Не все серверы поддерживают IPv6, некоторые операторы блокируют IPv6-трафик.</p>
+<p>IPv6 — оптимальный баланс цены и качества для работы с 10-50 аккаунтами. Главное — выбирать прокси с поддержкой IPv6 на стороне Telegram.</p>
+
+<h2>Мобильные прокси</h2>
+<p><strong>Плюсы:</strong> Максимальный уровень доверия Telegram, динамическая смена IP, высокая анонимность.</p>
+<p><strong>Минусы:</strong> Самая высокая цена ($2-5 за МБ трафика), нестабильная скорость, привязаны к конкретному оператору.</p>
+<p>Мобильные прокси — золотой стандарт для серьёзной работы. Аккаунты на мобильных IP живут дольше всего, а риск бана минимален.</p>
+
+<h2>Сравнительная таблица</h2>
+<p>Основные характеристики типов прокси для Telegram:</p>
+<ul>
+<li><strong>IPv4:</strong> Цена — высокая | Trust — средний | Скорость — высокая | Риск бана — средний</li>
+<li><strong>IPv6:</strong> Цена — низкая | Trust — средний | Скорость — высокая | Риск бана — низкий</li>
+<li><strong>Мобильные:</strong> Цена — очень высокая | Trust — высокий | Скорость — средняя | Риск бана — минимальный</li>
+</ul>
+
+<h2>Рекомендации GRAMGPT</h2>
+<p>Для большинства задач мы рекомендуем комбинированный подход:</p>
+<ul>
+<li>Базовые аккаунты (парсинг, фолловинг) — на IPv6</li>
+<li>Рабочие аккаунты (комментинг, чаттинг) — на мобильных прокси</li>
+<li>Тестовые аккаунты — на IPv4</li>
+</ul>
+<blockquote>GRAMGPT автоматически распределяет аккаунты по пулам прокси и ротирует их для максимальной безопасности.</blockquote>
+`
+},
+"ai-orchestrator": {
+title: "AI Orchestrator 2.0: как ИИ управляет кампаниями",
+category: "product",
+categoryLabel: "Продукт",
+date: "5 мая 2026",
+author: "Admin",
+readTime: "5 мин",
+content: `
+<h2>Что такое AI Orchestrator?</h2>
+<p>AI Orchestrator 2.0 — это интеллектуальное ядро GRAMGPT, которое координирует работу всех модулей системы. В отличие от обычных инструментов, где каждое действие настраивается вручную, Orchestrator самостоятельно принимает решения на основе тысяч анализируемых параметров.</p>
+
+<h2>Как это работает</h2>
+<p>Orchestrator получает данные от всех модулей системы в реальном времени и на основе предиктивных моделей принимает решения:</p>
+<ul>
+<li>Каким аккаунтам поручить комментирование</li>
+<li>В каких каналах активность наиболее эффективна</li>
+<li>Когда нужно снизить темп для избежания банов</li>
+<li>Какие стратегии показывают лучший ROI</li>
+</ul>
+
+<h2>Predictive ROI</h2>
+<p>Одна из ключевых функций — прогнозирование возврата инвестиций. На основе базы из 10,000+ кейсов AI оценивает потенциальную эффективность каждой кампании до её запуска и рекомендует оптимальные настройки.</p>
+
+<h2>Автоматическая оптимизация</h2>
+<p>Orchestrator постоянно анализирует результаты и корректирует стратегию:</p>
+<ul>
+<li>Перераспределяет нагрузку между аккаунтами</li>
+<li>Меняет тональность комментариев под аудиторию</li>
+<li>Оптимизирует время публикации</li>
+<li>A/B тестирует разные подходы</li>
+</ul>
+<blockquote>Пользователи AI Orchestrator 2.0 в среднем получают на 40% больше конверсий при тех же затратах.</blockquote>
+`
+},
+"crypto-case": {
+title: "Как крипто-проект увеличил базу на 340% за 2 месяца",
+category: "case",
+categoryLabel: "Кейс",
+date: "28 апреля 2026",
+author: "Admin",
+readTime: "7 мин",
+content: `
+<h2>О проекте</h2>
+<p>Крипто-стартап, разрабатывающий DeFi-платформу на TON, столкнулся с типичной проблемой: качественная аудитория в Telegram растёт медленно, а реклама даёт дорогих и «холодных» подписчиков. Бюджет на продвижение был ограничен — $3000 в месяц.</p>
+
+<h2>Задача</h2>
+<p>Увеличить базу активных подписчиков в 3 раза за 2 месяца с фокусом на крипто-энтузиастов, которые реально интересуются DeFi.</p>
+
+<h2>Решение с GRAMGPT</h2>
+<p>Мы настроили комплексную кампанию из трёх модулей:</p>
+<ul>
+<li><strong>Парсинг:</strong> Сбор аудитории из 50+ крипто-каналов и чатов по ключевым словам (DeFi, TON, стейкинг, фарминг)</li>
+<li><strong>Нейрокомментинг:</strong> Ежедневные осмысленные комментарии от лица 10 аккаунтов в целевых каналах</li>
+<li><strong>Массовые реакции:</strong> Автоматические реакции на посты для повышения вовлечения</li>
+</ul>
+
+<h2>Результаты</h2>
+<p>Через 2 месяца кампании:</p>
+<ul>
+<li>База подписчиков выросла с 2,500 до 11,000 (+340%)</li>
+<li>ER (Engagement Rate) вырос с 3.2% до 8.7%</li>
+<li>Стоимость привлечения подписчика — $0.27 (в 4 раза дешевле рекламы)</li>
+<li>0 банов за всё время кампании</li>
+</ul>
+
+<h2>Выводы</h2>
+<p>Ключевой фактор успеха — комбинация парсинга для поиска ЦА и нейрокомментинга для органического привлечения. В крипто-сообществе особенно важна экспертность комментариев, и GPT-4o с этим справляется отлично.</p>
+`
+},
+"anti-ban-shield": {
+title: "Anti-Ban Shield: как мы защищаем аккаунты от банов",
+category: "product",
+categoryLabel: "Продукт",
+date: "20 апреля 2026",
+author: "Admin",
+readTime: "6 мин",
+content: `
+<h2>Проблема банов в Telegram</h2>
+<p>Telegram использует сложную систему антиспам-фильтрации, которая анализирует поведение, паттерны активности и цифровые отпечатки. Массовые действия без защиты почти гарантированно приводят к ограничениям.</p>
+
+<h2>Anti-Ban Shield: архитектура</h2>
+<p>Наша система защиты работает на трёх уровнях:</p>
+<ul>
+<li><strong>Предиктивный анализ</strong> — оценка риска каждого действия до его выполнения</li>
+<li><strong>Мониторинг в реальном времени</strong> — отслеживание 50+ факторов риска</li>
+<li><strong>AI Crisis Manager</strong> — автоматическая нейтрализация угроз</li>
+</ul>
+
+<h2>Predictive Ban Analysis</h2>
+<p>Перед каждым действием система оценивает сотню параметров: частота действий, время с последней активности, количество ошибок, скорость набора текста, уникальность контента и многое другое. Если риск превышает порог — действие блокируется автоматически.</p>
+
+<h2>AI Crisis Manager</h2>
+<p>Если аккаунт всё же получает ограничение, AI Crisis Manager автоматически:</p>
+<ul>
+<li>Анализирует причину блокировки по косвенным признакам</li>
+<li>Генерирует текст апелляции на основе контекста</li>
+<li>Отправляет жалобу через официальные каналы</li>
+<li>Переводит аккаунт в режим пониженной активности</li>
+</ul>
+
+<h2>Auto-Appeal Generator</h2>
+<p>Уникальная функция, которая создаёт персонализированные тексты апелляций. В отличие от шаблонных жалоб, AI учитывает историю аккаунта, его типичные действия и контекст ограничения. Эффективность авто-апелляций — 73% успешных разблокировок.</p>
+
+<h2>Статистика защиты</h2>
+<p>За 2024-2026 годы:</p>
+<ul>
+<li>99.7% аккаунтов Pro и Agency не получили ни одного бана</li>
+<li>Среднее время реакции Crisis Manager — 12 секунд</li>
+<li>Успешность AI-апелляций — 73%</li>
+</ul>
+<blockquote>Anti-Ban Shield доступен на тарифах Pro и Agency. За всё время работы — 0 банов у клиентов, соблюдающих базовые рекомендации.</blockquote>
+`
+}
+};
+
+function getPostId() {
+const path = window.location.pathname;
+const match = path.match(/\/blog\/(.+)/);
+return match ? match[1] : null;
+}
+
+function renderPost() {
+const id = getPostId();
+const post = POSTS[id];
+
+if (!post) {
+document.getElementById('postContainer').innerHTML = '<div class="section"><div class="container" style="text-align:center;padding:120px 0"><h2>Статья не найдена</h2><p style="color:var(--text-secondary);margin-top:12px">Вернитесь в <a href="/blog" style="color:var(--primary)">блог</a></p></div></div>';
+return;
+}
+
+document.title = post.title + ' — GRAMGPT';
+
+// Update JSON-LD
+const ld = document.getElementById('ldJson');
+if (ld) {
+    ld.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.content.replace(/<[^>]+>/g, '').slice(0, 200),
+        "datePublished": post.date,
+        "author": { "@type": "Person", "name": post.author },
+        "publisher": { "@type": "Organization", "name": "GRAMGPT" }
+    });
+}
+
+const breadcrumbs = document.getElementById('breadcrumbs');
+breadcrumbs.innerHTML = '<a href="/blog">Блог</a> <span>›</span> <span style="color:var(--text-muted)">' + post.categoryLabel + '</span> <span>›</span> <span style="color:var(--text)">' + post.title + '</span>';
+
+document.getElementById('postTitle').textContent = post.title;
+
+const meta = document.getElementById('postMeta');
+meta.innerHTML = '<span>' + post.date + '</span><span class="post-meta-divider"></span><span>' + post.readTime + ' чтения</span><span class="post-meta-divider"></span><span>' + post.author + '</span>';
+
+document.getElementById('postContent').innerHTML = post.content;
+
+// TOC
+const tocList = document.getElementById('tocList');
+const headings = document.getElementById('postContent').querySelectorAll('h2');
+if (headings.length) {
+headings.forEach(h2 => {
+const id = h2.textContent.toLowerCase().replace(/[^a-zа-яё0-9]+/g, '-').replace(/(^-|-$)/g, '');
+h2.id = id;
+const li = document.createElement('li');
+const a = document.createElement('a');
+a.href = '#' + id;
+a.textContent = h2.textContent;
+li.appendChild(a);
+tocList.appendChild(li);
+});
+} else {
+document.getElementById('postToc').style.display = 'none';
+}
+
+// Share
+const share = document.getElementById('postShare');
+const url = encodeURIComponent(window.location.href);
+const text = encodeURIComponent(post.title);
+share.innerHTML =
+'<a href="https://t.me/share/url?url=' + url + '&text=' + text + '" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>' +
+'<a href="https://twitter.com/intent/tweet?url=' + url + '&text=' + text + '" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>' +
+'<a href="https://vk.com/share.php?url=' + url + '" target="_blank" aria-label="VK"><i class="fab fa-vk"></i></a>';
+
+// Related posts
+const related = document.getElementById('relatedGrid');
+const currentId = id;
+const others = Object.keys(POSTS).filter(k => k !== currentId).slice(0, 3);
+others.forEach(k => {
+const p = POSTS[k];
+const card = document.createElement('article');
+card.className = 'blog-card';
+card.style.cssText = 'background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px;';
+card.innerHTML =
+'<div class="blog-card-meta"><span class="blog-card-category ' + p.category + '">' + p.categoryLabel + '</span><span>' + p.date + '</span></div>' +
+'<h3 style="font-size:15px;font-weight:700;margin-bottom:8px">' + p.title + '</h3>' +
+'<div style="margin-top:16px"><a href="/blog/' + k + '" style="color:var(--text-muted);font-size:11px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">Читать <i class="fas fa-arrow-right"></i></a></div>';
+related.appendChild(card);
+});
+}
+
+renderPost();
+
+// Navbar
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
+document.getElementById('mobileToggle').addEventListener('click', function() {
+document.getElementById('navLinks').classList.toggle('open');
+this.classList.toggle('active');
+});
+
+// Smooth scroll for TOC links
+document.addEventListener('click', function(e) {
+const a = e.target.closest('a[href^="#"]');
+if (a && a.closest('.post-toc')) {
+e.preventDefault();
+const target = document.querySelector(a.getAttribute('href'));
+if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+});
+</script>
+
+<!-- Yandex.Metrica -->
+<script>
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();
+for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym(109236208,"init",{clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/109236208" style="position:absolute;left:-9999px" alt=""></div></noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHYLMNL0HX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VHYLMNL0HX');</script>
+
+</body>
+</html>

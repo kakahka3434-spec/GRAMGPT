@@ -7,6 +7,7 @@ import asyncio
 import logging
 import sys
 import tempfile
+import pytest
 
 logging.basicConfig(
     level=logging.INFO,
@@ -18,6 +19,7 @@ from src.core.work_modes import WorkModeController, MODES, MODE_ORDER
 from src.services.promo_engine import PromoEngine
 
 
+@pytest.mark.asyncio
 async def test_work_modes():
     """Test work mode controller."""
     print("\n" + "="*70)
@@ -63,6 +65,7 @@ async def test_work_modes():
     return True
 
 
+@pytest.mark.asyncio
 async def test_promo_engine():
     """Test promo engine with anti-spam."""
     print("\n" + "="*70)
@@ -110,6 +113,7 @@ async def test_promo_engine():
     return True
 
 
+@pytest.mark.asyncio
 async def test_channel_discovery_mock():
     """Test channel discovery (mock)."""
     print("\n" + "="*70)
@@ -125,6 +129,7 @@ async def test_channel_discovery_mock():
     return True
 
 
+@pytest.mark.asyncio
 async def test_sniper_mock():
     """Test sniper structure (mock)."""
     print("\n" + "="*70)
@@ -152,6 +157,7 @@ async def test_sniper_mock():
     return True
 
 
+@pytest.mark.asyncio
 async def test_full_workflow_mock():
     """Test full promo workflow integration."""
     print("\n" + "="*70)
@@ -227,3 +233,5 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         sys.exit(1)
+
+

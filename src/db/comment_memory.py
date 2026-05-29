@@ -210,5 +210,20 @@ class CommentMemory:
             return results
 
 
-# Global instance
-comment_memory = CommentMemory()
+class _CommentMemoryProxy:
+    """Lazy CommentMemory singleton — init deferred until first use."""
+    _instance = None
+
+    def _ensure(self):
+        if self._instance is None:
+            try:
+                self._instance = CommentMemory()
+            except Exception as e:
+                logger.warning(f"CommentMemory init failed: {e}, will retry")
+                self._instance = CommentMemory()
+
+    def __getattr__(self, name):
+        self._ensure()
+        return getattr(self._instance, name)
+
+comment_memory = _CommentMemoryProxy()

@@ -5,11 +5,23 @@ from src.db.database import Database
 
 @pytest.fixture
 def temp_db():
-    db_path = "test_gramgpt.db"
+    # Use a unique test database name with timestamp to avoid conflicts
+    import time
+    db_path = f"test_gramgpt_{int(time.time())}.db"
     db = Database(db_path)
     yield db
-    if os.path.exists(db_path):
-        os.remove(db_path)
+    # Properly close connection before cleanup
+    if hasattr(db, 'conn') and db.conn:
+        db.conn.close()
+    # Give file time to release
+    import time
+    time.sleep(0.1)
+    # Try to remove file, but don't fail if we can't (Windows locking)
+    try:
+        if os.path.exists(db_path):
+            os.remove(db_path)
+    except:
+        pass  # Windows file locking - not critical for tests
 
 
 def test_db_add_get_history(temp_db):

@@ -4,7 +4,12 @@ Universal AI Client supporting OpenAI, OpenRouter (free tier), and Groq.
 
 from typing import List, Dict, Optional
 import logging
-from openai import AsyncOpenAI
+try:
+    from openai import AsyncOpenAI as _AsyncOpenAI
+    _openai_available = True
+except ImportError:
+    _AsyncOpenAI = None
+    _openai_available = False
 from src.config import settings
 from src.db.database import db
 
