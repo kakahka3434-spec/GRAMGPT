@@ -43,6 +43,12 @@ class AIClient:
             self._init_client()
             logger.info("AI Client initialized with Groq")
             
+        elif self.provider == "cerebras":
+            self.api_key = settings.cerebras_api_key
+            self.base_url = settings.cerebras_base_url
+            self._init_client()
+            logger.info("AI Client initialized with Cerebras")
+
         elif self.provider == "openai":
             self.api_key = settings.openai_api_key
             self._init_client()

@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     openai_api_key: Optional[str] = None
     openrouter_api_key: Optional[str] = None
     groq_api_key: Optional[str] = None
+    cerebras_api_key: Optional[str] = None
+    cerebras_base_url: str = "https://api.cerebras.ai/v1"
 
     # Telegram User API credentials (Telethon)
     telegram_api_id: Optional[int] = None
