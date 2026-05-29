@@ -176,6 +176,10 @@ class CommentSender:
         try:
             response = await self.ai.get_chat_response(0, messages)
             
+            # If AI returned an error message, fall back to template
+            if response.startswith("❌"):
+                raise Exception(response)
+            
             # Clean up response
             comment = response.strip().strip('"').strip("'")
             
