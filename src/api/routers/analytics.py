@@ -12,8 +12,35 @@ INCIDENTS_DB = os.path.join(BASE_DIR, "..", "..", "..", "data", "incidents.db")
 
 
 def _get_db():
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tg_id INTEGER UNIQUE, username TEXT,
+            engagement_score INTEGER DEFAULT 0,
+            ltv_estimate REAL DEFAULT 0,
+            status TEXT DEFAULT 'new', last_contact DATETIME
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS campaigns (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT, goal TEXT, strategy_json TEXT,
+            roi_predicted TEXT, status TEXT DEFAULT 'planned',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS analytics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER, event_type TEXT,
+            cost REAL DEFAULT 0, revenue REAL DEFAULT 0,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.commit()
     return conn
 
 
