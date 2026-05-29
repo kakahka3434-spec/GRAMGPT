@@ -1,6 +1,5 @@
-# Render API Credentials - DO NOT COMMIT
 RENDER_API_KEY=rnd_8rG1RpiKe0CxaWJpwmFumLODCXXa
-RENDER_SERVICE_ID=srv-d82rb0navr4c73e5l0q0
-RENDER_SERVICE_URL=https://gramgpt-backend.onrender.com
 SERVICE_ID=srv-d8cnck9nrd2s73dp3fv0
 SERVICE_URL=https://gramgpt-backend-v2.onrender.com
+DASHBOARD_URL=https://dashboard.render.com/web/srv-d8cnck9nrd2s73dp3fv0
+REPO=kakahka3434-spec/GRAMGPT

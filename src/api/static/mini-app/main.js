@@ -49,6 +49,7 @@
 
         get(path) { return this.request('GET', path); },
         post(path, body) { return this.request('POST', path, body); },
+        del(path) { return this.request('DELETE', path); },
 
         async fetchWithLoading(path, targetEl, renderFn) {
             const el = typeof targetEl === 'string' ? document.getElementById(targetEl) : targetEl;
@@ -123,6 +124,7 @@
         document.body.appendChild(overlay);
 
         overlay.querySelector('.modal-cancel').addEventListener('click', () => overlay.remove());
+        overlay.querySelector('.modal-close')?.addEventListener('click', () => overlay.remove());
         overlay.querySelector('.modal-confirm').addEventListener('click', () => {
             overlay.remove();
             if (onConfirm) onConfirm();

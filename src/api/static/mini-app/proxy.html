@@ -14,131 +14,34 @@
         <a href="index.html" style="color: var(--text-secondary); text-decoration: none; font-size: 13px;"><i class="fas fa-arrow-left"></i> Назад</a>
     </div>
 
-    <!-- Stats -->
-    <div class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;">
-        <div class="metric-card">
-            <div class="metric-value">24</div>
-            <div class="metric-label">Всего прокси</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-value green">21</div>
-            <div class="metric-label">Активных</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-value orange">99.2%</div>
-            <div class="metric-label">Uptime</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-value purple">142ms</div>
-            <div class="metric-label">Avg Ping</div>
-        </div>
+    <div id="stats" class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;"></div>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <button class="btn animate-in" style="animation-delay: 0.05s; flex: 1;" onclick="showAddModal()">
+            <i class="fas fa-plus"></i> Добавить
+        </button>
+        <button class="btn btn-outline animate-in" style="animation-delay: 0.06s; flex: 1;" onclick="showBulkModal()">
+            <i class="fas fa-upload"></i> Массово
+        </button>
+        <button class="btn btn-outline animate-in" style="animation-delay: 0.07s; flex: 1;" onclick="checkAll()">
+            <i class="fas fa-sync"></i> Проверить
+        </button>
     </div>
 
-    <!-- Add Proxy -->
-    <button class="btn animate-in" style="animation-delay: 0.05s; margin-bottom: 16px;" onclick="alert('Добавление прокси: SOCKS5 / HTTP / HTTPS')">
-        <i class="fas fa-plus"></i> Добавить прокси
-    </button>
+    <div id="proxy-list"></div>
 
-    <!-- Proxy Pool -->
-    <div class="section-title animate-in" style="animation-delay: 0.07s">Пул прокси</div>
-
-    <!-- Proxy Item 1 -->
-    <div class="card animate-in" style="animation-delay: 0.09s; padding: 14px 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 18px;">🇺🇸</span>
-                </div>
-                <div>
-                    <div style="font-size: 13px; font-weight: 600;">US — New York</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">SOCKS5 • 185.xx.xx.12:1080</div>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success); font-size: 10px;">Online</span>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">98ms</div>
-            </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 10px;">
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">4 аккаунта</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">IPv4</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">99.8% uptime</span>
-        </div>
+    <div id="empty-state" class="card animate-in" style="display:none; text-align:center; padding: 40px 20px;">
+        <i class="fas fa-globe" style="font-size: 48px; color: var(--text-secondary); opacity: 0.3; margin-bottom: 12px;"></i>
+        <div style="font-size: 15px; font-weight: 600; margin-bottom: 6px;">Нет прокси</div>
+        <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;">Добавьте первый прокси для работы аккаунтов</div>
+        <button class="btn" onclick="showAddModal()"><i class="fas fa-plus"></i> Добавить прокси</button>
     </div>
 
-    <!-- Proxy Item 2 -->
-    <div class="card animate-in" style="animation-delay: 0.11s; padding: 14px 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 18px;">🇩🇪</span>
-                </div>
-                <div>
-                    <div style="font-size: 13px; font-weight: 600;">DE — Frankfurt</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">HTTPS • 91.xx.xx.45:443</div>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success); font-size: 10px;">Online</span>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">67ms</div>
-            </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 10px;">
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">2 аккаунта</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">IPv4</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">100% uptime</span>
-        </div>
+    <div id="loading-spinner" class="card" style="display:none; text-align:center; padding: 40px;">
+        <div class="spinner"></div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">Загрузка...</div>
     </div>
 
-    <!-- Proxy Item 3 -->
-    <div class="card animate-in" style="animation-delay: 0.13s; padding: 14px 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 18px;">🇳🇱</span>
-                </div>
-                <div>
-                    <div style="font-size: 13px; font-weight: 600;">NL — Amsterdam</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">SOCKS5 • 77.xx.xx.89:9050</div>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success); font-size: 10px;">Online</span>
-                <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">112ms</div>
-            </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 10px;">
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">3 аккаунта</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">IPv6</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">98.5% uptime</span>
-        </div>
-    </div>
-
-    <!-- Proxy Item 4 - Warning -->
-    <div class="card animate-in" style="animation-delay: 0.15s; padding: 14px 16px; border-color: rgba(243,156,18,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(243,156,18,0.15); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 18px;">🇬🇧</span>
-                </div>
-                <div>
-                    <div style="font-size: 13px; font-weight: 600;">UK — London</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">HTTP • 45.xx.xx.23:8080</div>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning); font-size: 10px;">Slow</span>
-                <div style="font-size: 10px; color: var(--warning); margin-top: 4px;">340ms</div>
-            </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 10px;">
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">1 аккаунт</span>
-            <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">IPv4</span>
-            <span style="background: rgba(243,156,18,0.15); color: var(--warning); padding: 3px 8px; border-radius: 6px;">92.1% uptime</span>
-        </div>
-    </div>
-
-    <!-- Auto-rotation Settings -->
     <div class="section-title animate-in" style="animation-delay: 0.17s">Настройки ротации</div>
     <div class="card animate-in" style="animation-delay: 0.19s;">
         <div class="setting-item">
@@ -146,27 +49,21 @@
                 <div style="font-size: 13px; font-weight: 600;">Авто-ротация</div>
                 <div style="font-size: 11px; color: var(--text-secondary);">Менять прокси каждые 24 часа</div>
             </div>
-            <div style="width: 42px; height: 24px; background: var(--success); border-radius: 12px; position: relative; cursor: pointer;">
-                <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; transition: 0.2s;"></div>
-            </div>
+            <div class="toggle toggle-on" onclick="this.classList.toggle('toggle-on')"><div class="toggle-knob"></div></div>
         </div>
         <div class="setting-item">
             <div>
                 <div style="font-size: 13px; font-weight: 600;">Авто-замена при бане</div>
                 <div style="font-size: 11px; color: var(--text-secondary);">Мгновенная замена заблокированного IP</div>
             </div>
-            <div style="width: 42px; height: 24px; background: var(--success); border-radius: 12px; position: relative; cursor: pointer;">
-                <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; transition: 0.2s;"></div>
-            </div>
+            <div class="toggle toggle-on" onclick="this.classList.toggle('toggle-on')"><div class="toggle-knob"></div></div>
         </div>
         <div class="setting-item">
             <div>
                 <div style="font-size: 13px; font-weight: 600;">Геораспределение</div>
                 <div style="font-size: 11px; color: var(--text-secondary);">Распределять аккаунты по разным странам</div>
             </div>
-            <div style="width: 42px; height: 24px; background: var(--success); border-radius: 12px; position: relative; cursor: pointer;">
-                <div style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; transition: 0.2s;"></div>
-            </div>
+            <div class="toggle toggle-on" onclick="this.classList.toggle('toggle-on')"><div class="toggle-knob"></div></div>
         </div>
     </div>
 
@@ -177,6 +74,237 @@
         <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i></a>
         <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i></a>
     </div>
+
+    <div class="modal-overlay" id="add-modal" onclick="if(event.target===this)modalClose('add-modal')">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">Добавить прокси</div>
+            <div class="modal-close" onclick="modalClose('add-modal')"><i class="fas fa-times"></i></div>
+        </div>
+        <div style="padding: 16px;">
+            <label style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;display:block;">Адрес прокси</label>
+            <input class="input" id="proxy-url" placeholder="socks5://user:pass@host:1080 или host:1080">
+            <div style="font-size:11px;color:var(--text-secondary);margin-top:8px;">
+                Поддерживается: SOCKS5, HTTP, HTTPS<br>
+                Формат: тип://логин:пароль@хост:порт или хост:порт
+            </div>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="addProxy()">
+                <i class="fas fa-plus"></i> Добавить
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div class="modal-overlay" id="bulk-modal" onclick="if(event.target===this)modalClose('bulk-modal')">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">Массовая загрузка</div>
+            <div class="modal-close" onclick="modalClose('bulk-modal')"><i class="fas fa-times"></i></div>
+        </div>
+        <div style="padding: 16px;">
+            <label style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;display:block;">Список прокси (по одному на строку)</label>
+            <textarea class="input" id="bulk-urls" rows="8" placeholder="socks5://user:pass@1.2.3.4:1080&#10;http://5.6.7.8:3128&#10;1.2.3.4:1080&#10;user:pass@4.5.6.7:1080" style="resize:vertical;min-height:120px;font-family:monospace;font-size:12px;"></textarea>
+            <button class="btn" style="width:100%;margin-top:12px;" onclick="addBulk()">
+                <i class="fas fa-upload"></i> Загрузить
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div class="modal-overlay" id="delete-modal" onclick="if(event.target===this)modalClose('delete-modal')">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">Удалить прокси</div>
+            <div class="modal-close" onclick="modalClose('delete-modal')"><i class="fas fa-times"></i></div>
+        </div>
+        <div style="padding: 16px; text-align:center;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 36px; color: var(--danger); margin-bottom: 12px;"></i>
+            <div style="font-size: 14px; margin-bottom: 6px;">Вы уверены?</div>
+            <div id="delete-info" style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;"></div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-outline" style="flex:1;" onclick="closeModal('delete-modal')">Отмена</button>
+                <button class="btn" style="flex:1;background:var(--danger);color:white;" onclick="confirmDelete()">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.toggle { width: 42px; height: 24px; border-radius: 12px; position: relative; cursor: pointer; transition: 0.2s; flex-shrink: 0; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); }
+.toggle.toggle-on { background: var(--success); border-color: var(--success); }
+.toggle .toggle-knob { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 1px; left: 1px; transition: 0.2s; }
+.toggle.toggle-on .toggle-knob { left: 19px; }
+.spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--bg-card); color: var(--text); font-size: 13px; outline: none; box-sizing: border-box; }
+.input:focus { border-color: var(--primary); }
+.proxy-host { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
 <script src='main.js'></script>
+<script>
+let deleteId = null;
+
+async function load() {
+    document.getElementById('loading-spinner').style.display = 'block';
+    document.getElementById('proxy-list').innerHTML = '';
+    document.getElementById('empty-state').style.display = 'none';
+
+    try {
+        const res = await api.get('/proxy/list?limit=200');
+        const data = res.data || res;
+
+        document.getElementById('stats').innerHTML = `
+            <div class="metric-card"><div class="metric-value">${data.total || 0}</div><div class="metric-label">Всего</div></div>
+            <div class="metric-card"><div class="metric-value green">${data.active || 0}</div><div class="metric-label">Активных</div></div>
+            <div class="metric-card"><div class="metric-value orange">${data.uptime || 100}%</div><div class="metric-label">Uptime</div></div>
+            <div class="metric-card"><div class="metric-value purple">${data.avg_ping || 0}ms</div><div class="metric-label">Avg Ping</div></div>
+        `;
+
+        const list = document.getElementById('proxy-list');
+        list.innerHTML = '';
+
+        if (!data.proxies || data.proxies.length === 0) {
+            document.getElementById('loading-spinner').style.display = 'none';
+            document.getElementById('empty-state').style.display = 'block';
+            return;
+        }
+
+        const section = document.createElement('div');
+        section.className = 'section-title animate-in';
+        section.style.cssText = 'animation-delay:0.07s';
+        section.textContent = 'Пул прокси (' + data.proxies.length + ')';
+        list.appendChild(section);
+
+        data.proxies.forEach((p, i) => {
+            const host = p.host || p.url;
+            const pingText = p.ping_ms ? p.ping_ms + 'ms' : '—';
+            const statusClass = p.is_active ? (p.ping_ms > 300 ? 'orange' : 'green') : 'red';
+            const statusText = p.is_active ? (p.ping_ms > 300 ? 'Slow' : 'Online') : 'Offline';
+
+            const card = document.createElement('div');
+            card.className = 'card animate-in';
+            card.style.cssText = 'animation-delay:' + (0.09 + i * 0.02) + 's; padding: 14px 16px;' + (!p.is_active ? ' border-color: rgba(231,76,60,0.3);' : '');
+
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex:1; min-width:0;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(46,204,113,0.15); display: flex; align-items: center; justify-content: center; flex-shrink:0;">
+                            <span style="font-size: 18px;">${getFlag(p.country)}</span>
+                        </div>
+                        <div style="min-width:0;">
+                            <div class="proxy-host" style="font-size: 13px; font-weight: 600;" title="${p.url || host}">${host}</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">${p.type || 'SOCKS5'}${p.port ? ' • :' + p.port : ''}</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right; flex-shrink:0;">
+                        <span class="status-badge" style="background: rgba(${statusClass === 'green' ? '46,204,113' : statusClass === 'orange' ? '243,156,18' : '231,76,60'},0.15); color: var(--${statusClass === 'green' ? 'success' : statusClass === 'orange' ? 'warning' : 'danger'}); font-size: 10px;">${statusText}</span>
+                        <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">${pingText}</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 10px; font-size: 10px; justify-content: space-between;">
+                    <div style="display:flex;gap:6px;">
+                        <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">${p.accounts_count || 0} акк.</span>
+                        <span style="background: rgba(48,54,61,0.6); padding: 3px 8px; border-radius: 6px;">${p.uptime || 100}% uptime</span>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        <button class="btn-icon" onclick="checkOne(${p.id})" title="Проверить"><i class="fas fa-sync" style="font-size:11px;"></i></button>
+                        <button class="btn-icon" onclick="showDelete(${p.id}, '${host.replace(/'/g, "\\'")}')" title="Удалить"><i class="fas fa-trash" style="font-size:11px;color:var(--danger);"></i></button>
+                    </div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+
+        document.getElementById('loading-spinner').style.display = 'none';
+    } catch (e) {
+        document.getElementById('loading-spinner').style.display = 'none';
+        toast('error', 'Ошибка загрузки прокси');
+    }
+}
+
+function getFlag(country) {
+    const flags = { 'US': '🇺🇸', 'DE': '🇩🇪', 'NL': '🇳🇱', 'GB': '🇬🇧', 'RU': '🇷🇺', 'FR': '🇫🇷', 'CA': '🇨🇦', 'SG': '🇸🇬' };
+    return flags[country] || '🌐';
+}
+
+function showAddModal() { document.getElementById('add-modal').style.display = 'flex'; }
+function showBulkModal() { document.getElementById('bulk-modal').style.display = 'flex'; }
+
+async function addProxy() {
+    const url = document.getElementById('proxy-url').value.trim();
+    if (!url) return toast('error', 'Введите адрес прокси');
+    try {
+        await api.post('/proxy/add', { url });
+        toast('success', 'Прокси добавлен');
+        modalClose('add-modal');
+        document.getElementById('proxy-url').value = '';
+        load();
+    } catch (e) {
+        toast('error', e.data?.detail || 'Ошибка добавления');
+    }
+}
+
+async function addBulk() {
+    const text = document.getElementById('bulk-urls').value.trim();
+    if (!text) return toast('error', 'Вставьте список прокси');
+    try {
+        const res = await api.post('/proxy/add-bulk', { urls: text });
+        toast('success', `Добавлено ${res.data?.added || res.added} прокси` + (res.data?.errors?.length ? `. Ошибок: ${res.data.errors.length}` : ''));
+        modalClose('bulk-modal');
+        document.getElementById('bulk-urls').value = '';
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка загрузки');
+    }
+}
+
+function showDelete(id, host) {
+    deleteId = id;
+    document.getElementById('delete-info').textContent = host;
+    openModal('delete-modal');
+}
+
+async function confirmDelete() {
+    if (!deleteId) return;
+    try {
+        await api.del('/proxy/' + deleteId);
+        toast('success', 'Прокси удалён');
+        modalClose('delete-modal');
+        deleteId = null;
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка удаления');
+    }
+}
+
+async function checkOne(id) {
+    toast('info', 'Проверка...');
+    try {
+        const res = await api.post('/proxy/' + id + '/check');
+        toast(res.data?.is_active ? 'success' : 'warning', res.data?.is_active ? 'Работает (' + res.data.ping_ms + 'ms)' : 'Не отвечает');
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка проверки');
+    }
+}
+
+async function checkAll() {
+    toast('info', 'Проверка всех прокси...');
+    try {
+        const res = await api.post('/proxy/check-all');
+        toast('success', `Проверено ${res.data?.total || 0}: ${res.data?.active || 0} активных`);
+        load();
+    } catch (e) {
+        toast('error', 'Ошибка проверки');
+    }
+}
+
+function modalClose(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', load);
+</script>
 </body>
 </html>
