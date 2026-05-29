@@ -150,35 +150,7 @@ async def get_referral_stats():
                 "commission_rate": 30, "link": "", "rank": 0, "leaderboard": []}
 
 
-@router.get("/proxy/pool")
-async def get_proxy_pool():
-    try:
-        from src.core.proxy_manager import ProxyManager
-        pm = ProxyManager()
-        proxies = [{"url": p} for p in pm.proxy_list]
-        stats = pm.get_proxy_stats()
-        return {
-            "total": len(proxies),
-            "active": len(proxies),
-            "uptime": stats.get("working_ratio", 1.0) * 100,
-            "avg_ping": 0,
-            "proxies": proxies[:10],
-            "settings": {"auto_rotation": True, "auto_replace_banned": True, "geo_distribution": True},
-        }
-    except Exception:
-        return {"total": 0, "active": 0, "uptime": 0, "avg_ping": 0, "proxies": [],
-                "settings": {"auto_rotation": True, "auto_replace_banned": True, "geo_distribution": True}}
 
-
-@router.post("/proxy/add")
-async def add_proxy(proxy_type: str = "SOCKS5", host: str = "", port: int = 1080):
-    try:
-        from src.core.proxy_manager import ProxyManager
-        pm = ProxyManager()
-        pm.proxy_list.append(f"{proxy_type}://{host}:{port}")
-        return {"status": "added", "proxy_id": len(pm.proxy_list), "type": proxy_type, "host": host, "port": port}
-    except Exception:
-        return {"status": "added", "proxy_id": 0, "type": proxy_type, "host": host, "port": port}
 
 
 @router.get("/team/members")
