@@ -512,45 +512,8 @@
     <!-- Recent Generations (always visible) -->
     <div class="section-title animate-in" style="animation-delay: 0.19s; margin-top: 16px;">Недавнее</div>
     <div class="card animate-in" style="animation-delay: 0.21s;">
-        <div style="padding: 10px 0; border-bottom: 1px solid var(--border);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-image" style="color: var(--primary); font-size: 12px;"></i>
-                    <div style="font-size: 12px; font-weight: 600;">Крипто баннер для канала</div>
-                </div>
-                <span style="font-size: 10px; color: var(--text-secondary);">30 мин назад</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">DALL-E 3 • 1024×1024 • Реализм</div>
-        </div>
-        <div style="padding: 10px 0; border-bottom: 1px solid var(--border);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-pen-fancy" style="color: var(--success); font-size: 12px;"></i>
-                    <div style="font-size: 12px; font-weight: 600;">Пост: Обзор ETH 2.0</div>
-                </div>
-                <span style="font-size: 10px; color: var(--text-secondary);">2 часа назад</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">GPT-4o • Экспертный • 892 просмотра</div>
-        </div>
-        <div style="padding: 10px 0; border-bottom: 1px solid var(--border);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-poll" style="color: var(--warning); font-size: 12px;"></i>
-                    <div style="font-size: 12px; font-weight: 600;">Опрос: Лучший L2 2026</div>
-                </div>
-                <span style="font-size: 10px; color: var(--text-secondary);">5 часов назад</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">4 варианта • 312 голосов</div>
-        </div>
-        <div style="padding: 10px 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-circle" style="color: #9b59b6; font-size: 12px;"></i>
-                    <div style="font-size: 12px; font-weight: 600;">Кружочек: Утренний обзор</div>
-                </div>
-                <span style="font-size: 10px; color: var(--text-secondary);">Вчера</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; padding-left: 20px;">AI сценарий • 15 сек • 1,247 просмотров</div>
+        <div id="content-history">
+            <div class="empty-state"><i class="fas fa-clock-rotate-left"></i><h4>Нет истории</h4><p>Сгенерируйте контент, чтобы увидеть историю</p></div>
         </div>
     </div>
 
@@ -626,12 +589,17 @@
     document.addEventListener('DOMContentLoaded', async () => {
         try {
             const hist = await api.get('/content/history');
+            const container = document.getElementById('content-history');
             if (hist && hist.length) {
-                const container = document.querySelector('.card:last-of-type');
-                if (container) container.innerHTML = hist.slice(0, 4).map(h => '<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-' + (h.type === 'image' ? 'image' : h.type === 'poll' ? 'poll' : 'pen-fancy') + '" style="color:var(--primary);font-size:12px;"></i><div style="font-size:12px;font-weight:600;">' + (h.title || h.topic || '') + '</div></div><span style="font-size:10px;color:var(--text-secondary);">' + (h.created_at || '') + '</span></div></div>').join('');
+                container.innerHTML = hist.slice(0, 10).map(h => '<div style="padding:10px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-' + (h.type === 'image' ? 'image' : h.type === 'poll' ? 'poll' : h.type === 'video' ? 'circle' : 'pen-fancy') + '" style="color:var(--primary);font-size:12px;"></i><div style="font-size:12px;font-weight:600;">' + escapeHtml(h.title || h.topic || '') + '</div></div><span style="font-size:10px;color:var(--text-secondary);">' + (h.created_at || '') + '</span></div>' + (h.meta ? '<div style="font-size:11px;color:var(--text-secondary);margin-top:4px;padding-left:20px;">' + escapeHtml(h.meta) + '</div>' : '') + '</div>').join('');
             }
         } catch (e) { console.warn('Content API error:', e); }
     });
+    function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
 </script>
 </body>
 </html>
