@@ -29,6 +29,7 @@ class AIClient:
         self.provider = settings.ai_provider.lower()
         self.base_url = None
         self.api_key = None
+        self.default_model = settings.model_name
         
         # Configure based on provider
         if self.provider == "openrouter":
@@ -46,8 +47,9 @@ class AIClient:
         elif self.provider == "cerebras":
             self.api_key = settings.cerebras_api_key
             self.base_url = settings.cerebras_base_url
+            self.default_model = "gpt-oss-120b"
             self._init_client()
-            logger.info("AI Client initialized with Cerebras")
+            logger.info("AI Client initialized with Cerebras ($MODEL_NAME env var: %s)", settings.model_name)
 
         elif self.provider == "openai":
             self.api_key = settings.openai_api_key
@@ -83,11 +85,11 @@ class AIClient:
         if not self.client:
             return f"❌ API ключ не настроен ({self.provider}). Добавьте ключ в .env.local"
         
-        # Get user's preferred model or use default
+        # Get user's preferred model or use provider-specific default
         try:
-            user_model = db.get_user_model(chat_id) if hasattr(db, 'get_user_model') else settings.model_name
+            user_model = db.get_user_model(chat_id) if hasattr(db, 'get_user_model') else self.default_model
         except:
-            user_model = settings.model_name
+            user_model = self.default_model
         
         try:
             full_messages = [{"role": "system", "content": settings.system_prompt}] + messages
