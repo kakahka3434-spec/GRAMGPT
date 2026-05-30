@@ -36,24 +36,24 @@
     <!-- Key Metrics -->
     <div class="metric-grid animate-in" style="animation-delay: 0.05s" id="dashboard-metrics">
         <div class="metric-card">
-            <div class="metric-value" id="mc-leads">1,247</div>
+            <div class="metric-value" id="mc-leads">--</div>
             <div class="metric-label">Лидов</div>
-            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +12.4%</div>
+            <div class="metric-trend up" id="mc-leads-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value green" id="mc-conv">89%</div>
+            <div class="metric-value green" id="mc-conv">--</div>
             <div class="metric-label">Конверсия</div>
-            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +5.2%</div>
+            <div class="metric-trend up" id="mc-conv-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value orange" id="mc-roi">340%</div>
+            <div class="metric-value orange" id="mc-roi">--</div>
             <div class="metric-label">ROI</div>
-            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +18%</div>
+            <div class="metric-trend up" id="mc-roi-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value purple" id="mc-acc">8</div>
+            <div class="metric-value purple" id="mc-acc">--</div>
             <div class="metric-label">Аккаунтов</div>
-            <div class="metric-trend up"><i class="fas fa-arrow-up"></i> +2</div>
+            <div class="metric-trend up" id="mc-acc-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
     </div>
 
@@ -78,20 +78,20 @@
             <div class="chart-bar-item" style="height:95%;opacity:1;box-shadow:0 0 6px rgba(0,229,255,0.2)"></div>
         </div>
         <div class="flex" style="justify-content: space-between; margin-top: 10px; font-size: 10px;">
-            <span class="text-muted">Всего: <strong style="color: var(--primary)">$2,135</strong></span>
-            <span style="color: var(--success);"><i class="fas fa-arrow-up"></i> +23% vs пред. период</span>
+            <span class="text-muted">Всего: <strong style="color: var(--primary)" id="revenue-total">$--</strong></span>
+            <span style="color: var(--success);" id="revenue-change"><i class="fas fa-arrow-up"></i> --</span>
         </div>
     </div>
 
     <!-- Funnel -->
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h4 class="mb-12"><i class="fas fa-filter" style="color: var(--primary);"></i> Воронка продаж</h4>
-        <div class="funnel-viz">
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:100%"><span class="funnel-icon-v"><i class="fas fa-crosshairs"></i></span><span>Парсинг</span><span class="funnel-num">2,450</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:85%;background:linear-gradient(90deg,rgba(0,136,204,0.3),rgba(0,210,255,0.2))"><span class="funnel-icon-v"><i class="fas fa-comments"></i></span><span>Комментинг</span><span class="funnel-num">2,080</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:65%;background:linear-gradient(90deg,rgba(243,156,18,0.3),rgba(230,126,34,0.2))"><span class="funnel-icon-v"><i class="fas fa-message"></i></span><span>Чаттинг</span><span class="funnel-num">1,590</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:40%;background:linear-gradient(90deg,rgba(155,89,182,0.3),rgba(142,68,173,0.2))"><span class="funnel-icon-v"><i class="fas fa-robot"></i></span><span>Диалоги</span><span class="funnel-num">980</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:20%;background:linear-gradient(90deg,rgba(46,204,113,0.3),rgba(39,174,96,0.2))"><span class="funnel-icon-v"><i class="fas fa-check-circle"></i></span><span>Лиды</span><span class="funnel-num">490</span></div></div>
+        <div class="funnel-viz" id="funnel-viz">
+            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:100%"><span class="funnel-icon-v"><i class="fas fa-crosshairs"></i></span><span>Парсинг</span><span class="funnel-num">--</span></div></div>
+            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:85%;background:linear-gradient(90deg,rgba(0,136,204,0.3),rgba(0,210,255,0.2))"><span class="funnel-icon-v"><i class="fas fa-comments"></i></span><span>Комментинг</span><span class="funnel-num">--</span></div></div>
+            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:65%;background:linear-gradient(90deg,rgba(243,156,18,0.3),rgba(230,126,34,0.2))"><span class="funnel-icon-v"><i class="fas fa-message"></i></span><span>Чаттинг</span><span class="funnel-num">--</span></div></div>
+            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:40%;background:linear-gradient(90deg,rgba(155,89,182,0.3),rgba(142,68,173,0.2))"><span class="funnel-icon-v"><i class="fas fa-robot"></i></span><span>Диалоги</span><span class="funnel-num">--</span></div></div>
+            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:20%;background:linear-gradient(90deg,rgba(46,204,113,0.3),rgba(39,174,96,0.2))"><span class="funnel-icon-v"><i class="fas fa-check-circle"></i></span><span>Лиды</span><span class="funnel-num">--</span></div></div>
         </div>
     </div>
 
@@ -101,11 +101,8 @@
             <h4><i class="fas fa-bolt" style="color: var(--warning);"></i> Активность</h4>
             <span class="text-xs text-secondary">Обновлено только что</span>
         </div>
-        <div class="activity-feed">
-            <div class="activity-item"><div class="activity-icon" style="background:rgba(46,204,113,0.1)"><i class="fas fa-user-plus" style="color:var(--success)"></i></div><div class="flex-1"><div class="text-sm"><strong>Новый лид</strong> — Иван Петров</div><div class="text-xs text-secondary">Из группы Крипто Обсуждения</div></div><span class="text-xs text-secondary">2 мин</span></div>
-            <div class="activity-item"><div class="activity-icon" style="background:rgba(0,136,204,0.1)"><i class="fas fa-comment" style="color:var(--primary)"></i></div><div class="flex-1"><div class="text-sm"><strong>AI комментарий</strong> получил 21 лайк</div><div class="text-xs text-secondary">NFT Новости</div></div><span class="text-xs text-secondary">5 мин</span></div>
-            <div class="activity-item"><div class="activity-icon" style="background:rgba(243,156,18,0.1)"><i class="fas fa-fire" style="color:var(--warning)"></i></div><div class="flex-1"><div class="text-sm"><strong>Прогрев завершён</strong> — Account #2</div><div class="text-xs text-secondary">Trust score: 78% → 82%</div></div><span class="text-xs text-secondary">12 мин</span></div>
-            <div class="activity-item" style="border-bottom:none"><div class="activity-icon" style="background:rgba(46,204,113,0.1)"><i class="fas fa-paper-plane" style="color:var(--success)"></i></div><div class="flex-1"><div class="text-sm"><strong>Пост опубликован</strong> в канале</div><div class="text-xs text-secondary">@gramgpt_channel — 892 просмотра</div></div><span class="text-xs text-secondary">25 мин</span></div>
+        <div class="activity-feed" id="activity-feed">
+            <div class="empty-state"><i class="fas fa-bolt"></i><h4>Нет активности</h4><p>Данные появятся после начала работы модулей</p></div>
         </div>
     </div>
 
@@ -115,10 +112,10 @@
             <h4><i class="fas fa-shield-halved" style="color: var(--success);"></i> Anti-Ban Shield</h4>
             <span class="status-badge badge-green"><span class="live-dot"></span> Активен</span>
         </div>
-        <div class="metric-grid">
-            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)">12</div><div class="metric-label">Risk Score</div></div>
-            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)">97%</div><div class="metric-label">Human-like</div></div>
-            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)">0</div><div class="metric-label">Банов</div></div>
+        <div class="metric-grid" id="security-metrics">
+            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)" id="sec-risk">--</div><div class="metric-label">Risk Score</div></div>
+            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)" id="sec-human">--</div><div class="metric-label">Human-like</div></div>
+            <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--success)" id="sec-bans">--</div><div class="metric-label">Банов</div></div>
             <div class="metric-card"><div style="font-size:20px;font-weight:800;color:var(--primary)">24/7</div><div class="metric-label">Мониторинг</div></div>
         </div>
     </div>
@@ -142,9 +139,13 @@
                 const data = await api.get('/dashboard');
                 if (data.metrics) {
                     document.getElementById('mc-leads').textContent = data.metrics.leads?.toLocaleString() || '0';
+                    document.getElementById('mc-leads-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.leads_trend || '--');
                     document.getElementById('mc-conv').textContent = (data.metrics.conversion || 0) + '%';
+                    document.getElementById('mc-conv-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.conv_trend || '--');
                     document.getElementById('mc-roi').textContent = (data.metrics.roi || 0) + '%';
-                    document.getElementById('mc-acc').textContent = data.metrics.accounts || 0;
+                    document.getElementById('mc-roi-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.roi_trend || '--');
+                    document.getElementById('mc-acc').textContent = data.metrics.accounts || '0';
+                    document.getElementById('mc-acc-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.acc_trend || '--');
                 }
                 if (data.revenue) {
                     const bars = document.querySelectorAll('.chart-bar-item');
@@ -153,20 +154,24 @@
                         const val = chart[i] || 0;
                         bar.style.height = Math.min(val, 95) + '%';
                     });
-                    document.querySelector('.flex .text-muted strong') && (document.querySelector('.flex .text-muted strong').textContent = '$' + (data.revenue.total || 0).toLocaleString());
-                    document.querySelector('.flex span:last-child') && (document.querySelector('.flex span:last-child').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.revenue.change || '+0%') + ' vs пред. период');
+                    document.getElementById('revenue-total').textContent = '$' + (data.revenue.total || 0).toLocaleString();
+                    document.getElementById('revenue-change').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.revenue.change || '--');
                 }
                 if (data.funnel && data.funnel.length === 5) {
                     const bars = document.querySelectorAll('.funnel-step-viz .funnel-num');
                     data.funnel.forEach((f, i) => { if (bars[i]) bars[i].textContent = (f.count || 0).toLocaleString(); });
                 }
                 if (data.security) {
-                    document.querySelector('.metric-card:nth-child(1) .metric-value') && (document.querySelector('.card:last-of-type .metric-grid .metric-card:first-child div:first-child').textContent = data.security.risk_score || 0);
-                    document.querySelector('.card:last-of-type .metric-grid .metric-card:nth-child(2) div:first-child').textContent = (data.security.human_like || 97) + '%';
-                    document.querySelector('.card:last-of-type .metric-grid .metric-card:nth-child(3) div:first-child').textContent = data.security.bans || 0;
+                    document.getElementById('sec-risk').textContent = data.security.risk_score || 0;
+                    document.getElementById('sec-human').textContent = (data.security.human_like || 0) + '%';
+                    document.getElementById('sec-bans').textContent = data.security.bans || 0;
+                }
+                if (data.activity && data.activity.length) {
+                    const feed = document.getElementById('activity-feed');
+                    feed.innerHTML = data.activity.map(a => '<div class="activity-item"><div class="activity-icon" style="background:' + (a.icon_bg || 'rgba(0,136,204,0.1)') + '"><i class="fas ' + (a.icon || 'fa-circle') + '" style="color:' + (a.icon_color || 'var(--primary)') + '"></i></div><div class="flex-1"><div class="text-sm"><strong>' + (a.title || '') + '</strong> — ' + (a.subtitle || '') + '</div><div class="text-xs text-secondary">' + (a.source || '') + '</div></div><span class="text-xs text-secondary">' + (a.time || '') + '</span></div>').join('');
                 }
             } catch (e) {
-                console.warn('Dashboard API error, keeping static data:', e);
+                console.warn('Dashboard API error:', e);
             }
         });
     </script>

@@ -72,33 +72,10 @@
     <div class="card animate-in" style="animation-delay: 0.15s" id="results-card">
         <div class="card-header">
             <h4>Результаты</h4>
-            <span class="status-badge badge-blue" id="results-count">1,247 найдено</span>
+            <span class="status-badge badge-blue" id="results-count">Нет данных</span>
         </div>
         <div id="results-list">
-            <div class="parsed-user">
-                <div class="avatar avatar-md avatar-gradient">ИП</div>
-                <div class="flex-1">
-                    <div class="text-sm" style="font-weight: 600;">Иван Петров</div>
-                    <div class="text-xs text-secondary">@ivanpetrov &bull; Crypto Канал</div>
-                </div>
-                <span class="status-badge badge-blue">Спарсен</span>
-            </div>
-            <div class="parsed-user">
-                <div class="avatar avatar-md avatar-red">МИ</div>
-                <div class="flex-1">
-                    <div class="text-sm" style="font-weight: 600;">Мария Иванова</div>
-                    <div class="text-xs text-secondary">@mivanova &bull; DeFi Группа</div>
-                </div>
-                <span class="status-badge badge-blue">Спарсен</span>
-            </div>
-            <div class="parsed-user">
-                <div class="avatar avatar-md avatar-purple">ОС</div>
-                <div class="flex-1">
-                    <div class="text-sm" style="font-weight: 600;">Олег Сидоров</div>
-                    <div class="text-xs text-secondary">@olegsidorov &bull; NFT Новости</div>
-                </div>
-                <span class="status-badge badge-green">Новый</span>
-            </div>
+            <div class="empty-state"><i class="fas fa-crosshairs"></i><h4>Нет результатов</h4><p>Запустите парсинг, чтобы увидеть данные</p></div>
         </div>
     </div>
 
@@ -116,6 +93,7 @@
 
     <script src="main.js"></script>
     <script>
+        let currentTaskId = null;
         window.selectOption = function(btn) {
             document.querySelectorAll('.btn-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -140,10 +118,49 @@
                     limit: parseInt(document.getElementById('limit-select').value) || 1000,
                     period: document.getElementById('period-select').value || '7d'
                 });
-                toast('success', 'Парсинг запущен', `Task ID: ${result.task_id}. Результаты появятся через несколько минут.`);
+                currentTaskId = result.task_id;
+                toast('success', 'Парсинг запущен', 'Task ID: ' + currentTaskId);
+                document.getElementById('results-count').textContent = 'Обработка...';
+                document.getElementById('results-count').className = 'status-badge badge-yellow';
+                pollResults(currentTaskId);
             } catch (err) {
                 toast('error', 'Ошибка', err.message);
             }
+        }
+        async function pollResults(taskId) {
+            const list = document.getElementById('results-list');
+            const count = document.getElementById('results-count');
+            for (let i = 0; i < 60; i++) {
+                try {
+                    const data = await api.get('/parsing/results/' + taskId);
+                    if (data.status === 'completed') {
+                        count.textContent = data.total_found + ' найдено';
+                        count.className = 'status-badge badge-green';
+                        if (data.results && data.results.length) {
+                            list.innerHTML = data.results.map(r => {
+                                const initials = (r.first_name || r.username || '??').substring(0, 2).toUpperCase();
+                                return '<div class="parsed-user"><div class="avatar avatar-md avatar-gradient">' + initials + '</div><div class="flex-1"><div class="text-sm" style="font-weight:600;">' + escapeHtml(r.first_name || r.username || 'Unknown') + '</div><div class="text-xs text-secondary">@' + escapeHtml(r.username || '—') + ' &bull; ' + escapeHtml(r.source || '') + '</div></div><span class="status-badge badge-blue">Спарсен</span></div>';
+                            }).join('');
+                        } else {
+                            list.innerHTML = '<div class="empty-state"><i class="fas fa-crosshairs"></i><h4>Ничего не найдено</h4><p>Попробуйте изменить параметры поиска</p></div>';
+                        }
+                        return;
+                    } else if (data.status === 'failed') {
+                        count.textContent = 'Ошибка';
+                        count.className = 'status-badge badge-red';
+                        list.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Ошибка парсинга</h4><p>' + escapeHtml(data.error || 'Неизвестная ошибка') + '</p></div>';
+                        return;
+                    }
+                } catch (e) {}
+                await new Promise(r => setTimeout(r, 3000));
+            }
+            count.textContent = 'Таймаут';
+            count.className = 'status-badge badge-red';
+        }
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
         }
     </script>
 </body>

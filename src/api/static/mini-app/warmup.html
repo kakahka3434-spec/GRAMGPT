@@ -20,10 +20,10 @@
 
     <!-- Metric Grid -->
     <div class="metric-grid animate-in" style="animation-delay: 0.05s">
-        <div class="metric-card"><div class="metric-value" style="color: var(--primary);">79%</div><div class="metric-label">Средний прогресс</div></div>
-        <div class="metric-card"><div class="metric-value" style="color: var(--success);">3</div><div class="metric-label">Аккаунта активны</div></div>
-        <div class="metric-card"><div class="metric-value" style="color: var(--warning);">12.4k</div><div class="metric-label">Диалогов</div></div>
-        <div class="metric-card"><div class="metric-value" style="color: var(--danger);">0</div><div class="metric-label">Банов</div></div>
+        <div class="metric-card"><div class="metric-value" style="color: var(--primary);" id="warmup-progress">0%</div><div class="metric-label">Средний прогресс</div></div>
+        <div class="metric-card"><div class="metric-value" style="color: var(--success);" id="warmup-active">0</div><div class="metric-label">Аккаунта активны</div></div>
+        <div class="metric-card"><div class="metric-value" style="color: var(--warning);" id="warmup-dialogs">0</div><div class="metric-label">Диалогов</div></div>
+        <div class="metric-card"><div class="metric-value" style="color: var(--danger);" id="warmup-bans">0</div><div class="metric-label">Банов</div></div>
     </div>
 
     <!-- AI Warmup Guide -->
@@ -50,50 +50,9 @@
     </div>
 
     <!-- Account Cards -->
-    <div class="animate-in" style="animation-delay: 0.15s">
+    <div class="animate-in" style="animation-delay: 0.15s" id="warmup-accounts">
         <h4 style="font-size: 14px; margin: 16px 0 10px;"><i class="fas fa-user-circle" style="color: var(--primary);"></i> Аккаунты</h4>
-
-        <div class="card" style="padding: 14px; margin-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;">A1</div>
-                <div style="flex: 1; min-width: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 13px; font-weight: 600;">+7 (999) 123-45-67</span>
-                        <span style="font-size: 18px; font-weight: 800; color: var(--success);">94%</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--success); margin: 2px 0 6px;"><i class="fas fa-circle" style="font-size: 5px;"></i> Активен &bull; 24 диалога</div>
-                    <div class="progress-bar" style="height: 4px;"><div class="progress-fill" style="width: 94%;"></div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" style="padding: 14px; margin-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--warning), #F97316); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;">A2</div>
-                <div style="flex: 1; min-width: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 13px; font-weight: 600;">+7 (999) 234-56-78</span>
-                        <span style="font-size: 18px; font-weight: 800; color: var(--warning);">78%</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--warning); margin: 2px 0 6px;"><i class="fas fa-circle" style="font-size: 5px;"></i> Прогрев &bull; 18 диалогов</div>
-                    <div class="progress-bar" style="height: 4px;"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, var(--warning), #F97316);"></div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" style="padding: 14px; margin-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--danger), #DC2626); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;">A3</div>
-                <div style="flex: 1; min-width: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 13px; font-weight: 600;">+7 (999) 345-67-89</span>
-                        <span style="font-size: 18px; font-weight: 800; color: var(--danger);">65%</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--danger); margin: 2px 0 6px;"><i class="fas fa-circle" style="font-size: 5px;"></i> Прогрев &bull; 12 диалогов</div>
-                    <div class="progress-bar" style="height: 4px;"><div class="progress-fill" style="width: 65%; background: linear-gradient(90deg, var(--danger), #DC2626);"></div></div>
-                </div>
-            </div>
-        </div>
+        <div class="empty-state"><i class="fas fa-fire"></i><h4>Нет аккаунтов</h4><p>Добавьте аккаунты для прогрева</p></div>
     </div>
 
     <!-- Anti-Ban Shield -->
@@ -178,26 +137,33 @@
         }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const accounts = await api.get('/warmup/accounts');
-                const container = document.querySelector('.animate-in:has(.card)') || document.querySelectorAll('.animate-in')[2];
-                if (!container || !accounts || !accounts.length) return;
+                const data = await api.get('/warmup/accounts');
+                if (data && data.stats) {
+                    document.getElementById('warmup-progress').textContent = (data.stats.avg_progress || 0) + '%';
+                    document.getElementById('warmup-active').textContent = data.stats.active || 0;
+                    document.getElementById('warmup-dialogs').textContent = (data.stats.total_dialogs || 0).toLocaleString();
+                    document.getElementById('warmup-bans').textContent = data.stats.bans || 0;
+                }
+                const accounts = data && data.accounts ? data.accounts : (Array.isArray(data) ? data : []);
+                const container = document.getElementById('warmup-accounts');
+                if (!accounts || !accounts.length) return;
                 const colors = ['var(--primary),var(--accent)', 'var(--warning),#F97316', 'var(--danger),#DC2626'];
-                container.querySelectorAll('.card:not(:first-child)').forEach(el => el.remove());
-                const header = container.querySelector('h4') || container.querySelector('div:first-child h4');
-                accounts.slice(0, 5).forEach((a, i) => {
+                container.innerHTML = '<h4 style="font-size:14px;margin:16px 0 10px;"><i class="fas fa-user-circle" style="color:var(--primary);"></i> Аккаунты</h4>';
+                accounts.slice(0, 10).forEach((a, i) => {
                     const pct = a.trust_score || a.progress || 50;
                     const status = a.status || 'active';
                     const done = a.total_dialogs || a.dialogs || 0;
                     const statusColor = status === 'active' ? 'var(--success)' : status === 'warmup' ? 'var(--warning)' : 'var(--danger)';
                     const statusText = status === 'active' ? 'Активен' : status === 'warmup' ? 'Прогрев' : 'Не активен';
-                    const div = document.createElement('div');
-                    div.className = 'card';
-                    div.style.cssText = 'padding: 14px; margin-bottom: 8px;';
-                    div.innerHTML = '<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,' + colors[i % 3] + ');display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;">A' + (i + 1) + '</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:600;">' + (a.phone || 'Account #' + (i + 1)) + '</span><span style="font-size:18px;font-weight:800;color:' + (pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--danger)') + ';">' + pct + '%</span></div><div style="font-size:10px;color:' + statusColor + ';margin:2px 0 6px;"><i class="fas fa-circle" style="font-size:5px;"></i> ' + statusText + ' &bull; ' + done + ' диалогов</div><div class="progress-bar" style="height:4px;"><div class="progress-fill" style="width:' + pct + '%;' + (pct < 80 ? 'background: linear-gradient(90deg, ' + (pct < 60 ? 'var(--danger),#DC2626' : 'var(--warning),#F97316') + ');' : '') + '"></div></div></div></div>';
-                    container.appendChild(div);
+                    container.innerHTML += '<div class="card" style="padding:14px;margin-bottom:8px;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,' + colors[i % 3] + ');display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0;">A' + (i + 1) + '</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:600;">' + escapeHtml(a.phone || 'Account #' + (i + 1)) + '</span><span style="font-size:18px;font-weight:800;color:' + (pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--danger)') + ';">' + pct + '%</span></div><div style="font-size:10px;color:' + statusColor + ';margin:2px 0 6px;"><i class="fas fa-circle" style="font-size:5px;"></i> ' + statusText + ' &bull; ' + done + ' диалогов</div><div class="progress-bar" style="height:4px;"><div class="progress-fill" style="width:' + pct + '%;' + (pct < 80 ? 'background: linear-gradient(90deg, ' + (pct < 60 ? 'var(--danger),#DC2626' : 'var(--warning),#F97316') + ');' : '') + '"></div></div></div></div></div>';
                 });
             } catch (e) { console.warn('Warmup API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

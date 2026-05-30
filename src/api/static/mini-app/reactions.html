@@ -21,15 +21,15 @@
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Реакций</h4>
-                <div style="color: var(--primary)">12,847</div>
+                <div style="color: var(--primary)" id="react-total">0</div>
             </div>
             <div class="stat-item" style="text-align: center;">
                 <h4>Каналов</h4>
-                <div>24</div>
+                <div id="react-channels">0</div>
             </div>
             <div class="stat-item" style="text-align: right;">
                 <h4>Сегодня</h4>
-                <div style="color: var(--success)">1,456</div>
+                <div style="color: var(--success)" id="react-today">0</div>
             </div>
         </div>
     </div>
@@ -41,42 +41,7 @@
             <input type="text" placeholder="@channel_name" class="input-field">
         </div>
 
-        <div class="post-item">
-            <div class="post-avatar">N</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">NFT Новости</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">Только что &bull; 1.2K просмотров</div>
-                <div class="post-reactions">
-                    <span class="reaction">👍 234</span>
-                    <span class="reaction">❤️ 189</span>
-                    <span class="reaction">🔥 156</span>
-                    <span class="reaction">🚀 98</span>
-                </div>
-            </div>
-        </div>
-        <div class="post-item">
-            <div class="post-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">C</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Crypto Daily</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">5 мин назад &bull; 3.4K просмотров</div>
-                <div class="post-reactions">
-                    <span class="reaction">👍 567</span>
-                    <span class="reaction">🔥 345</span>
-                    <span class="reaction">😍 123</span>
-                </div>
-            </div>
-        </div>
-        <div class="post-item" style="border-bottom: none;">
-            <div class="post-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">D</div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">DeFi Research</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">12 мин назад &bull; 890 просмотров</div>
-                <div class="post-reactions">
-                    <span class="reaction">👍 89</span>
-                    <span class="reaction">❤️ 45</span>
-                </div>
-            </div>
-        </div>
+        <div id="react-posts"><div class="empty-state"><i class="fas fa-heart"></i><h4>Нет каналов</h4><p>Добавьте каналы для масс-реакций</p></div></div>
     </div>
 
     <!-- Reaction Settings -->
@@ -211,11 +176,22 @@
             try {
                 const stats = await api.get('/reactions/stats');
                 if (stats) {
-                    const el = document.querySelector('.stat-row > div');
-                    if (el) el.innerHTML = '<div class="stat-item"><h4>Реакций</h4><div style="color:var(--primary)">' + (stats.total || 0).toLocaleString() + '</div></div><div class="stat-item" style="text-align:center;"><h4>Каналов</h4><div>' + (stats.channels || 0) + '</div></div><div class="stat-item" style="text-align:right;"><h4>Сегодня</h4><div style="color:var(--success)">' + (stats.today || 0).toLocaleString() + '</div></div>';
+                    document.getElementById('react-total').textContent = (stats.total || 0).toLocaleString();
+                    document.getElementById('react-channels').textContent = stats.channels || 0;
+                    document.getElementById('react-today').textContent = (stats.today || 0).toLocaleString();
                 }
-            } catch (e) { console.warn('Reactions stats error:', e); }
+                const posts = await api.get('/reactions/posts');
+                const container = document.getElementById('react-posts');
+                if (posts && posts.length) {
+                    container.innerHTML = posts.map(p => '<div class="post-item"><div class="post-avatar">' + (p.name ? p.name.charAt(0) : '?') + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;">' + escapeHtml(p.name || '') + '</div><div style="font-size:11px;color:var(--text-secondary);">' + (p.time || '') + ' &bull; ' + (p.views || 0).toLocaleString() + ' просмотров</div><div class="post-reactions">' + (p.reactions || []).map(r => '<span class="reaction">' + r.emoji + ' ' + r.count + '</span>').join('') + '</div></div></div>').join('');
+                }
+            } catch (e) { console.warn('Reactions API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

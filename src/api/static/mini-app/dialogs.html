@@ -21,15 +21,15 @@
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Активных</h4>
-                <div style="color: var(--primary)">12</div>
+                <div style="color: var(--primary)" id="dialogs-active">0</div>
             </div>
             <div class="stat-item" style="text-align: center;">
                 <h4>Конверсия</h4>
-                <div style="color: var(--success)">89%</div>
+                <div style="color: var(--success)" id="dialogs-conv">0%</div>
             </div>
             <div class="stat-item" style="text-align: right;">
                 <h4>Лидов</h4>
-                <div style="color: var(--warning)">23</div>
+                <div style="color: var(--warning)" id="dialogs-leads">0</div>
             </div>
         </div>
     </div>
@@ -77,52 +77,11 @@
     <div class="card animate-in" style="animation-delay: 0.15s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <h4 style="margin: 0;">Активные диалоги</h4>
-            <span style="font-size: 11px; color: var(--success);"><i class="fas fa-circle" style="font-size: 6px;"></i> 12 активных</span>
+            <span style="font-size: 11px; color: var(--success);" id="dialogs-count"><i class="fas fa-circle" style="font-size: 6px;"></i> 0 активных</span>
         </div>
 
-        <div class="dialog-item" onclick="showDialog('ivan')">
-            <div class="dialog-avatar">ИП</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-size: 13px; font-weight: 600;">Иван Петров</span>
-                    <span style="font-size: 10px; color: var(--text-secondary);">2 мин</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Спасибо за информацию! Хочу узнать...</div>
-            </div>
-            <div class="dialog-stage stage-hot">Горячий</div>
-        </div>
-        <div class="dialog-item" onclick="showDialog('maria')">
-            <div class="dialog-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">МИ</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-size: 13px; font-weight: 600;">Мария Иванова</span>
-                    <span style="font-size: 10px; color: var(--text-secondary);">15 мин</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Да, рынок сейчас интересный...</div>
-            </div>
-            <div class="dialog-stage stage-warm">Тёплый</div>
-        </div>
-        <div class="dialog-item" onclick="showDialog('oleg')">
-            <div class="dialog-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">ОС</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-size: 13px; font-weight: 600;">Олег Сидоров</span>
-                    <span style="font-size: 10px; color: var(--text-secondary);">1 час</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Первый контакт установлен</div>
-            </div>
-            <div class="dialog-stage stage-cold">Новый</div>
-        </div>
-        <div class="dialog-item" onclick="showDialog('anna')">
-            <div class="dialog-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">АК</div>
-            <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-size: 13px; font-weight: 600;">Анна Козлова</span>
-                    <span style="font-size: 10px; color: var(--text-secondary);">3 час</span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Готова к предложению</div>
-            </div>
-            <div class="dialog-stage stage-hot">Горячий</div>
+        <div id="dialogs-list">
+            <div class="empty-state"><i class="fas fa-robot"></i><h4>Нет диалогов</h4><p>Запустите НейроДиалоги, чтобы начать работу с лидами</p></div>
         </div>
     </div>
 
@@ -205,16 +164,25 @@
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/dialogs/active');
-                const el = document.querySelector('.stat-row');
-                if (el && data) el.innerHTML = '<div style="display: flex; justify-content: space-between;"><div class="stat-item"><h4>Активных</h4><div style="color:var(--primary)">' + (data.total_active || 0) + '</div></div><div class="stat-item" style="text-align:center;"><h4>Конверсия</h4><div style="color:var(--success)">' + (data.conversion_rate || 0) + '%</div></div><div class="stat-item" style="text-align:right;"><h4>Лидов</h4><div style="color:var(--warning)">' + (data.leads || 0) + '</div></div></div>';
-                const container = document.querySelector('.card:has(.dialog-item)') || document.querySelectorAll('.card')[1];
-                if (container && data.dialogs && data.dialogs.length) {
+                if (data) {
+                    document.getElementById('dialogs-active').textContent = data.total_active || 0;
+                    document.getElementById('dialogs-conv').textContent = (data.conversion_rate || 0) + '%';
+                    document.getElementById('dialogs-leads').textContent = data.leads || 0;
+                    document.getElementById('dialogs-count').innerHTML = '<i class="fas fa-circle" style="font-size: 6px;"></i> ' + (data.total_active || 0) + ' активных';
+                }
+                const list = document.getElementById('dialogs-list');
+                if (data && data.dialogs && data.dialogs.length) {
                     const stageClass = { hot: 'stage-hot', warm: 'stage-warm', cold: 'stage-cold' };
                     const stageLabel = { hot: 'Горячий', warm: 'Тёплый', cold: 'Новый' };
-                    container.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"><h4 style="margin: 0;">Активные диалоги</h4><span style="font-size: 11px; color: var(--success);"><i class="fas fa-circle" style="font-size: 6px;"></i> ' + (data.total_active || 0) + ' активных</span></div>' + data.dialogs.map(d => '<div class="dialog-item" onclick="showDialog(\'' + d.name + '\')"><div class="dialog-avatar">' + (d.name ? d.name.substring(0, 2).toUpperCase() : '??') + '</div><div style="flex:1;"><div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:600;">' + (d.name || '') + '</span></div><div style="font-size:11px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">' + (d.last_msg || '') + '</div></div><div class="dialog-stage ' + (stageClass[d.stage] || 'stage-cold') + '">' + (stageLabel[d.stage] || d.stage) + '</div></div>').join('');
+                    list.innerHTML = data.dialogs.map(d => '<div class="dialog-item" onclick="showDialog(\'' + escapeHtml(d.name || '') + '\')"><div class="dialog-avatar">' + (d.name ? d.name.substring(0, 2).toUpperCase() : '??') + '</div><div style="flex:1;"><div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:600;">' + escapeHtml(d.name || '') + '</span><span style="font-size:10px;color:var(--text-secondary);">' + (d.last_time || '') + '</span></div><div style="font-size:11px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">' + escapeHtml(d.last_msg || '') + '</div></div><div class="dialog-stage ' + (stageClass[d.stage] || 'stage-cold') + '">' + (stageLabel[d.stage] || d.stage) + '</div></div>').join('');
                 }
             } catch (e) { console.warn('Dialogs API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

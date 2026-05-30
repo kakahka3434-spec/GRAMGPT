@@ -19,19 +19,19 @@
     <!-- Pipeline Stats -->
     <div class="metric-grid animate-in" style="animation-delay: 0.05s">
         <div class="metric-card">
-            <div class="metric-value">234</div>
+            <div class="metric-value" id="crm-contacts">0</div>
             <div class="metric-label">Контактов</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value green">45</div>
+            <div class="metric-value green" id="crm-hot">0</div>
             <div class="metric-label">Горячих</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value orange">$12.4K</div>
+            <div class="metric-value orange" id="crm-pipeline">$0</div>
             <div class="metric-label">Pipeline</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value purple">89%</div>
+            <div class="metric-value purple" id="crm-winrate">0%</div>
             <div class="metric-label">Win Rate</div>
         </div>
     </div>
@@ -39,142 +39,16 @@
     <!-- Pipeline Board -->
     <div class="card animate-in" style="animation-delay: 0.1s">
         <h4 style="margin-bottom: 14px;"><i class="fas fa-columns" style="color: var(--primary);"></i> Pipeline</h4>
-        <div class="pipeline-scroll">
-            <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--primary);">
-                    <span>Новые</span>
-                    <span class="pipeline-count">12</span>
-                </div>
-                <div class="pipeline-card" onclick="openContact('alex')">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <div class="pip-avatar">АК</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 600;">Алексей К.</div>
-                            <div style="font-size: 10px; color: var(--text-secondary);">@alexk_crypto</div>
-                        </div>
-                    </div>
-                    <div class="pip-tags">
-                        <span class="pip-tag">Крипто</span>
-                        <span class="pip-tag">Парсинг</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-clock"></i> 2 часа назад</div>
-                </div>
-                <div class="pipeline-card" onclick="openContact('svetlana')">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <div class="pip-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">СМ</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 600;">Светлана М.</div>
-                            <div style="font-size: 10px; color: var(--text-secondary);">@svet_marketing</div>
-                        </div>
-                    </div>
-                    <div class="pip-tags">
-                        <span class="pip-tag">SMM</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-clock"></i> 5 часов назад</div>
-                </div>
-            </div>
-
-            <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--warning);">
-                    <span>В работе</span>
-                    <span class="pipeline-count">8</span>
-                </div>
-                <div class="pipeline-card" onclick="openContact('ivan')">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <div class="pip-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">ИП</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 600;">Иван П.</div>
-                            <div style="font-size: 10px; color: var(--text-secondary);">@ivan_trader</div>
-                        </div>
-                    </div>
-                    <div class="pip-tags">
-                        <span class="pip-tag">Трейдинг</span>
-                        <span class="pip-tag hot">$500</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 6px;"><i class="fas fa-comment"></i> 3 сообщения</div>
-                </div>
-            </div>
-
-            <div class="pipeline-col">
-                <div class="pipeline-header" style="border-color: var(--success);">
-                    <span>Горячие</span>
-                    <span class="pipeline-count">5</span>
-                </div>
-                <div class="pipeline-card" onclick="openContact('maria')">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <div class="pip-avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">МИ</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 600;">Мария И.</div>
-                            <div style="font-size: 10px; color: var(--text-secondary);">@maria_inv</div>
-                        </div>
-                    </div>
-                    <div class="pip-tags">
-                        <span class="pip-tag">DeFi</span>
-                        <span class="pip-tag hot">$1,200</span>
-                    </div>
-                    <div style="font-size: 10px; color: var(--success); margin-top: 6px;"><i class="fas fa-fire"></i> Готова к закрытию</div>
-                </div>
-            </div>
+        <div class="pipeline-scroll" id="pipeline-scroll">
+            <div class="pipeline-col"><div class="pipeline-header" style="border-color: var(--primary);"><span>Новые</span><span class="pipeline-count" id="pipe-new">0</span></div></div>
+            <div class="pipeline-col"><div class="pipeline-header" style="border-color: var(--warning);"><span>В работе</span><span class="pipeline-count" id="pipe-progress">0</span></div></div>
+            <div class="pipeline-col"><div class="pipeline-header" style="border-color: var(--success);"><span>Горячие</span><span class="pipeline-count" id="pipe-hot">0</span></div></div>
         </div>
     </div>
 
     <!-- Contact Card Detail -->
-    <div class="glass-card animate-in" style="animation-delay: 0.15s">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h4 style="margin: 0;"><i class="fas fa-user" style="color: var(--primary);"></i> Мария Иванова</h4>
-            <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Горячий</span>
-        </div>
-        <div class="contact-info">
-            <div class="info-row"><i class="fas fa-at"></i><span>@maria_inv</span></div>
-            <div class="info-row"><i class="fas fa-phone"></i><span>+7 (999) 456-78-90</span></div>
-            <div class="info-row"><i class="fas fa-map-marker-alt"></i><span>Москва, Россия</span></div>
-            <div class="info-row"><i class="fas fa-tag"></i>
-                <div class="pip-tags" style="gap: 4px;">
-                    <span class="pip-tag">DeFi</span>
-                    <span class="pip-tag">Инвестор</span>
-                    <span class="pip-tag">Pro</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">История взаимодействий</div>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="tl-dot green"></div>
-                <div class="tl-content">
-                    <div style="font-size: 11px; font-weight: 600;">Ответила на предложение</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Сегодня, 14:30</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="tl-dot blue"></div>
-                <div class="tl-content">
-                    <div style="font-size: 11px; font-weight: 600;">AI отправил оффер (Этап 3)</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Сегодня, 12:15</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="tl-dot blue"></div>
-                <div class="tl-content">
-                    <div style="font-size: 11px; font-weight: 600;">AI провёл прогрев (5 сообщений)</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">Вчера, 18:00</div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="tl-dot gray"></div>
-                <div class="tl-content">
-                    <div style="font-size: 11px; font-weight: 600;">Спарсена из группы "DeFi Трейдеры"</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">3 дня назад</div>
-                </div>
-            </div>
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 14px;">
-            <button class="btn" style="flex: 1; font-size: 12px; padding: 10px;" onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Написать</button>
-            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="addNote()"><i class="fas fa-sticky-note"></i> Заметка</button>
-        </div>
+    <div class="glass-card animate-in" style="animation-delay: 0.15s" id="contact-detail">
+        <div class="empty-state"><i class="fas fa-user"></i><h4>Выберите контакт</h4><p>Нажмите на контакт в pipeline, чтобы увидеть детали</p></div>
     </div>
 
     <!-- Search / Filter -->
@@ -236,20 +110,40 @@
             document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        function renderPipelineCard(c) {
+            const initials = (c.name || '??').substring(0, 2).toUpperCase();
+            const colors = ['var(--primary),var(--primary)', '#e74c3c,#c0392b', '#f39c12,#e67e22', '#2ecc71,#27ae60'];
+            const stageColors = { new: 'var(--primary)', in_progress: 'var(--warning)', hot: 'var(--success)' };
+            return '<div class="pipeline-card" onclick="openContact(\'' + escapeHtml(c.id || '') + '\')"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div class="pip-avatar" style="background:linear-gradient(135deg,' + colors[Math.floor(Math.random() * 4)] + ')">' + initials + '</div><div><div style="font-size:12px;font-weight:600;">' + escapeHtml(c.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">@' + escapeHtml(c.username || '—') + '</div></div></div>' + (c.tags ? '<div class="pip-tags">' + c.tags.slice(0, 3).map(t => '<span class="pip-tag' + (t.hot ? ' hot' : '') + '">' + escapeHtml(t.label || t) + '</span>').join('') + '</div>' : '') + '<div style="font-size:10px;color:var(--text-secondary);margin-top:6px;"><i class="fas fa-clock"></i> ' + (c.last_contact || '—') + '</div></div>';
+        }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/crm/contacts');
-                if (data && data.contacts) {
-                    const cols = document.querySelectorAll('.pipeline-col');
-                    const stages = { new: 0, in_progress: 0, hot: 0 };
-                    data.contacts.forEach(c => { if (stages[c.stage] !== undefined) stages[c.stage]++; });
-                    if (cols[0]) cols[0].querySelector('.pipeline-count').textContent = stages.new || 0;
-                    if (cols[1]) cols[1].querySelector('.pipeline-count').textContent = stages.in_progress || 0;
-                    if (cols[2]) cols[2].querySelector('.pipeline-count').textContent = stages.hot || 0;
-                    document.querySelector('.metric-card:first-child .metric-value').textContent = data.total || data.contacts.length || 0;
+                if (data) {
+                    document.getElementById('crm-contacts').textContent = data.total || data.contacts?.length || 0;
+                    document.getElementById('crm-hot').textContent = data.hot_count || 0;
+                    document.getElementById('crm-pipeline').textContent = '$' + ((data.pipeline_value || 0) / 1000).toFixed(1) + 'K';
+                    document.getElementById('crm-winrate').textContent = (data.win_rate || 0) + '%';
+                }
+                if (data && data.contacts && data.contacts.length) {
+                    const stages = { new: [], in_progress: [], hot: [] };
+                    data.contacts.forEach(c => { if (stages[c.stage]) stages[c.stage].push(c); });
+                    document.getElementById('pipe-new').textContent = stages.new.length;
+                    document.getElementById('pipe-progress').textContent = stages.in_progress.length;
+                    document.getElementById('pipe-hot').textContent = stages.hot.length;
+                    const scroll = document.getElementById('pipeline-scroll');
+                    const cols = scroll.querySelectorAll('.pipeline-col');
+                    if (cols[0]) cols[0].innerHTML = '<div class="pipeline-header" style="border-color:var(--primary);"><span>Новые</span><span class="pipeline-count">' + stages.new.length + '</span></div>' + stages.new.map(renderPipelineCard).join('');
+                    if (cols[1]) cols[1].innerHTML = '<div class="pipeline-header" style="border-color:var(--warning);"><span>В работе</span><span class="pipeline-count">' + stages.in_progress.length + '</span></div>' + stages.in_progress.map(renderPipelineCard).join('');
+                    if (cols[2]) cols[2].innerHTML = '<div class="pipeline-header" style="border-color:var(--success);"><span>Горячие</span><span class="pipeline-count">' + stages.hot.length + '</span></div>' + stages.hot.map(renderPipelineCard).join('');
                 }
             } catch (e) { console.warn('CRM API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

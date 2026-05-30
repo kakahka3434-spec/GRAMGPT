@@ -44,19 +44,19 @@
             <div class="report-title">Ключевые метрики</div>
             <div class="report-metrics">
                 <div class="rpt-metric">
-                    <div class="rpt-val">1,247</div>
+                    <div class="rpt-val" id="rpt-leads">0</div>
                     <div class="rpt-lbl">Лидов</div>
-                    <div class="rpt-change up">+12.4%</div>
+                    <div class="rpt-change up" id="rpt-leads-chg">--</div>
                 </div>
                 <div class="rpt-metric">
-                    <div class="rpt-val">$2,135</div>
+                    <div class="rpt-val" id="rpt-revenue">$0</div>
                     <div class="rpt-lbl">Доход</div>
-                    <div class="rpt-change up">+23%</div>
+                    <div class="rpt-change up" id="rpt-revenue-chg">--</div>
                 </div>
                 <div class="rpt-metric">
-                    <div class="rpt-val">89%</div>
+                    <div class="rpt-val" id="rpt-conv">0%</div>
                     <div class="rpt-lbl">Конверсия</div>
-                    <div class="rpt-change up">+5.2%</div>
+                    <div class="rpt-change up" id="rpt-conv-chg">--</div>
                 </div>
             </div>
         </div>
@@ -68,28 +68,28 @@
             <div class="module-perf">
                 <div class="perf-row">
                     <span style="font-size: 12px;"><i class="fas fa-crosshairs" style="color: var(--primary); width: 18px;"></i> Парсинг</span>
-                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 95%;"></div></div>
-                    <span style="font-size: 11px; font-weight: 600;">2,450</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;" id="mod-parsing">0</span>
                 </div>
                 <div class="perf-row">
                     <span style="font-size: 12px;"><i class="fas fa-comments" style="color: var(--primary); width: 18px;"></i> Комментинг</span>
-                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 82%;"></div></div>
-                    <span style="font-size: 11px; font-weight: 600;">1,890</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;" id="mod-commenting">0</span>
                 </div>
                 <div class="perf-row">
                     <span style="font-size: 12px;"><i class="fas fa-message" style="color: var(--primary); width: 18px;"></i> Чаттинг</span>
-                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 68%;"></div></div>
-                    <span style="font-size: 11px; font-weight: 600;">1,120</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;" id="mod-chatting">0</span>
                 </div>
                 <div class="perf-row">
                     <span style="font-size: 12px;"><i class="fas fa-robot" style="color: var(--primary); width: 18px;"></i> Диалоги</span>
-                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 55%;"></div></div>
-                    <span style="font-size: 11px; font-weight: 600;">847</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;" id="mod-dialogs">0</span>
                 </div>
                 <div class="perf-row">
                     <span style="font-size: 12px;"><i class="fas fa-heart" style="color: var(--primary); width: 18px;"></i> Реакции</span>
-                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 78%;"></div></div>
-                    <span style="font-size: 11px; font-weight: 600;">3,456</span>
+                    <div class="progress-bar" style="flex: 1; margin: 0 10px;"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <span style="font-size: 11px; font-weight: 600;" id="mod-reactions">0</span>
                 </div>
             </div>
         </div>
@@ -101,17 +101,17 @@
             <div style="display: flex; gap: 12px;">
                 <div class="safety-box green">
                     <i class="fas fa-shield-halved"></i>
-                    <div style="font-size: 14px; font-weight: 800;">0</div>
+                    <div style="font-size: 14px; font-weight: 800;" id="sec-bans">0</div>
                     <div style="font-size: 9px;">Банов</div>
                 </div>
                 <div class="safety-box blue">
                     <i class="fas fa-clock"></i>
-                    <div style="font-size: 14px; font-weight: 800;">3</div>
+                    <div style="font-size: 14px; font-weight: 800;" id="sec-flood">0</div>
                     <div style="font-size: 9px;">Flood Wait</div>
                 </div>
                 <div class="safety-box green">
                     <i class="fas fa-fingerprint"></i>
-                    <div style="font-size: 14px; font-weight: 800;">97%</div>
+                    <div style="font-size: 14px; font-weight: 800;" id="sec-human">0%</div>
                     <div style="font-size: 9px;">Human-Like</div>
                 </div>
             </div>
@@ -194,10 +194,21 @@
             try {
                 const data = await api.get('/dashboard');
                 if (data && data.metrics) {
-                    const vals = document.querySelectorAll('.rpt-metric .rpt-val');
-                    if (vals[0]) vals[0].textContent = (data.metrics.leads || 0).toLocaleString();
-                    if (vals[1]) vals[1].textContent = '$' + ((data.revenue && data.revenue.total) || 0).toLocaleString();
-                    if (vals[2]) vals[2].textContent = (data.metrics.conversion || 0) + '%';
+                    document.getElementById('rpt-leads').textContent = (data.metrics.leads || 0).toLocaleString();
+                    document.getElementById('rpt-revenue').textContent = '$' + ((data.revenue && data.revenue.total) || 0).toLocaleString();
+                    document.getElementById('rpt-conv').textContent = (data.metrics.conversion || 0) + '%';
+                }
+                if (data && data.modules) {
+                    const mods = { parsing: 'mod-parsing', commenting: 'mod-commenting', chatting: 'mod-chatting', dialogs: 'mod-dialogs', reactions: 'mod-reactions' };
+                    Object.entries(data.modules).forEach(([k, v]) => {
+                        const el = document.getElementById(mods[k]);
+                        if (el) el.textContent = (v || 0).toLocaleString();
+                    });
+                }
+                if (data && data.security) {
+                    document.getElementById('sec-bans').textContent = data.security.bans || 0;
+                    document.getElementById('sec-flood').textContent = data.security.flood_waits || 0;
+                    document.getElementById('sec-human').textContent = (data.security.human_like || 0) + '%';
                 }
             } catch (e) { console.warn('Reports API error:', e); }
         });

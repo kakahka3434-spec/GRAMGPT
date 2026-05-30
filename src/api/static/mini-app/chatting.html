@@ -21,15 +21,15 @@
         <div style="display: flex; justify-content: space-between;">
             <div class="stat-item">
                 <h4>Сообщений</h4>
-                <div style="color: var(--primary)">2,341</div>
+                <div style="color: var(--primary)" id="chat-msgs">0</div>
             </div>
             <div class="stat-item" style="text-align: center;">
                 <h4>Групп</h4>
-                <div>18</div>
+                <div id="chat-groups">0</div>
             </div>
             <div class="stat-item" style="text-align: right;">
                 <h4>Ответов</h4>
-                <div style="color: var(--success)">456</div>
+                <div style="color: var(--success)" id="chat-replies">0</div>
             </div>
         </div>
     </div>
@@ -40,31 +40,8 @@
         <div style="margin-bottom: 12px;">
             <input type="text" placeholder="@group_name или t.me/link" class="input-field">
         </div>
-        <div class="group-list">
-            <div class="group-item">
-                <div class="group-avatar">КО</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 13px; font-weight: 600;">Крипто Обсуждения</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">158 участников &bull; 12 сообщ/час</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Активно</span>
-            </div>
-            <div class="group-item">
-                <div class="group-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">DF</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 13px; font-weight: 600;">DeFi Трейдеры</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">342 участника &bull; 8 сообщ/час</div>
-                </div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);">Активно</span>
-            </div>
-            <div class="group-item">
-                <div class="group-avatar" style="background: linear-gradient(135deg, #e67e22, #d35400);">NF</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 13px; font-weight: 600;">NFT Коллекционеры</div>
-                    <div style="font-size: 11px; color: var(--text-secondary);">95 участников &bull; 5 сообщ/час</div>
-                </div>
-                <span class="status-badge" style="background: rgba(243,156,18,0.15); color: var(--warning);">Пауза</span>
-            </div>
+        <div class="group-list" id="chat-groups-list">
+            <div class="empty-state"><i class="fas fa-message"></i><h4>Нет групп</h4><p>Добавьте целевые группы для нейрочаттинга</p></div>
         </div>
     </div>
 
@@ -110,45 +87,11 @@
     <!-- Live Chat Preview -->
     <div class="card animate-in" style="animation-delay: 0.2s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h4 style="margin: 0;">Крипто Обсуждения</h4>
-            <span style="font-size: 11px; color: var(--text-secondary);">158 участников</span>
+            <h4 style="margin: 0;" id="chat-preview-title"><i class="fas fa-message" style="color: var(--primary);"></i> Чат</h4>
+            <span style="font-size: 11px; color: var(--text-secondary);" id="chat-preview-meta"></span>
         </div>
-        <div class="chat-preview">
-            <div class="chat-msg">
-                <div class="chat-msg-avatar">А</div>
-                <div class="chat-msg-content">
-                    <div class="chat-msg-name">Андрей</div>
-                    <div class="chat-msg-text">Что думаете о новом обновлении ETH?</div>
-                </div>
-            </div>
-            <div class="chat-msg">
-                <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">М</div>
-                <div class="chat-msg-content">
-                    <div class="chat-msg-name">Мария</div>
-                    <div class="chat-msg-text">Жду рост, техничка хорошая</div>
-                </div>
-            </div>
-            <div class="chat-msg chat-msg-ai">
-                <div class="chat-msg-avatar">G</div>
-                <div class="chat-msg-content">
-                    <div class="chat-msg-name">GramGPT <span class="ai-tag">AI</span></div>
-                    <div class="chat-msg-text">Согласен! По графику видим +15% за месяц. Кстати, кто пользуется DeFi протоколами на ETH — есть интересная стратегия по фармингу.</div>
-                </div>
-            </div>
-            <div class="chat-msg">
-                <div class="chat-msg-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">Д</div>
-                <div class="chat-msg-content">
-                    <div class="chat-msg-name">Дмитрий</div>
-                    <div class="chat-msg-text">@GramGPT расскажи подробнее!</div>
-                </div>
-            </div>
-            <div class="chat-msg chat-msg-ai">
-                <div class="chat-msg-avatar">G</div>
-                <div class="chat-msg-content">
-                    <div class="chat-msg-name">GramGPT <span class="ai-tag">AI</span></div>
-                    <div class="chat-msg-text">Конечно! Напишу в ЛС, там удобнее обсудить детали 🚀</div>
-                </div>
-            </div>
+        <div class="chat-preview" id="chat-preview-content">
+            <div class="empty-state"><i class="fas fa-comments"></i><h4>Нет сообщений</h4><p>Запустите нейрочаттинг для начала общения</p></div>
         </div>
     </div>
 
@@ -203,13 +146,24 @@
         }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const logs = await api.get('/commenting/logs');
-                if (logs && logs.length) {
-                    const el = document.querySelector('.stat-row');
-                    if (el) el.innerHTML = '<div style="display: flex; justify-content: space-between;"><div class="stat-item"><h4>Сообщений</h4><div style="color:var(--primary)">' + (logs.length || 0) + '</div></div><div class="stat-item" style="text-align:center;"><h4>Групп</h4><div>' + (new Set(logs.map(l => l.channel)).size || 1) + '</div></div><div class="stat-item" style="text-align:right;"><h4>Ответов</h4><div style="color:var(--success)">' + (logs.filter(l => l.replies).length || 0) + '</div></div></div>';
+                const data = await api.get('/chatting/stats');
+                if (data) {
+                    document.getElementById('chat-msgs').textContent = (data.messages || 0).toLocaleString();
+                    document.getElementById('chat-groups').textContent = data.groups || 0;
+                    document.getElementById('chat-replies').textContent = (data.replies || 0).toLocaleString();
                 }
-            } catch (e) { console.warn('Chatting stats error:', e); }
+                const groups = await api.get('/chatting/groups');
+                const container = document.getElementById('chat-groups-list');
+                if (groups && groups.length) {
+                    container.innerHTML = groups.map(g => '<div class="group-item"><div class="group-avatar">' + (g.name ? g.name.substring(0, 2).toUpperCase() : '??') + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;">' + escapeHtml(g.name || '') + '</div><div style="font-size:11px;color:var(--text-secondary);">' + (g.members || 0) + ' участников &bull; ' + (g.msgs_per_hour || 0) + ' сообщ/час</div></div><span class="status-badge" style="background:' + (g.status === 'active' ? 'rgba(46,204,113,0.15);color:var(--success)' : 'rgba(243,156,18,0.15);color:var(--warning)') + ';">' + (g.status === 'active' ? 'Активно' : 'Пауза') + '</span></div>').join('');
+                }
+            } catch (e) { console.warn('Chatting API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

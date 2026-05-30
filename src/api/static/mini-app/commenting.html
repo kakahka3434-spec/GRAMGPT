@@ -21,15 +21,15 @@
         <div class="flex" style="justify-content: space-between;">
             <div class="stat-item">
                 <h4>Комментариев</h4>
-                <div style="color: var(--primary); font-size: 22px; font-weight: 800;" id="comment-stats-total">847</div>
+                <div style="color: var(--primary); font-size: 22px; font-weight: 800;" id="comment-stats-total">0</div>
             </div>
             <div class="stat-item text-center">
                 <h4>Каналов</h4>
-                <div style="font-size: 22px; font-weight: 800;" id="comment-stats-channels">12</div>
+                <div style="font-size: 22px; font-weight: 800;" id="comment-stats-channels">0</div>
             </div>
             <div class="stat-item" style="text-align: right">
                 <h4>Вовлечённость</h4>
-                <div style="color: var(--success); font-size: 22px; font-weight: 800;" id="comment-stats-engage">89%</div>
+                <div style="color: var(--success); font-size: 22px; font-weight: 800;" id="comment-stats-engage">0%</div>
             </div>
         </div>
     </div>
@@ -72,60 +72,10 @@
     <div class="card animate-in" style="animation-delay: 0.15s">
         <div class="card-header">
             <h4>Последние комментарии</h4>
-            <span class="indicator indicator-green"><i class="fas fa-circle"></i> Активно</span>
+            <span class="indicator indicator-green" id="comment-indicator"><i class="fas fa-circle"></i> Загрузка...</span>
         </div>
         <div id="comment-log">
-            <div class="comment-item">
-                <div class="comment-channel">
-                    <span class="avatar avatar-sm avatar-gradient">C</span>
-                    <div>
-                        <div class="text-sm" style="font-weight: 600;">Крипто Новости</div>
-                        <div class="text-xs text-secondary">2 мин назад</div>
-                    </div>
-                </div>
-                <div class="comment-text">
-                    Отличный анализ рынка! Особенно согласен с прогнозом по ETH.
-                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
-                </div>
-                <div class="comment-metrics">
-                    <span><i class="fas fa-thumbs-up"></i> 12</span>
-                    <span><i class="fas fa-reply"></i> 3</span>
-                </div>
-            </div>
-            <div class="comment-item">
-                <div class="comment-channel">
-                    <span class="avatar avatar-sm avatar-red">D</span>
-                    <div>
-                        <div class="text-sm" style="font-weight: 600;">DeFi Обзоры</div>
-                        <div class="text-xs text-secondary">15 мин назад</div>
-                    </div>
-                </div>
-                <div class="comment-text">
-                    Интересная стратегия! Кто уже пробовал yield farming на этом протоколе?
-                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
-                </div>
-                <div class="comment-metrics">
-                    <span><i class="fas fa-thumbs-up"></i> 8</span>
-                    <span><i class="fas fa-reply"></i> 5</span>
-                </div>
-            </div>
-            <div class="comment-item">
-                <div class="comment-channel">
-                    <span class="avatar avatar-sm avatar-purple">N</span>
-                    <div>
-                        <div class="text-sm" style="font-weight: 600;">NFT Новости</div>
-                        <div class="text-xs text-secondary">32 мин назад</div>
-                    </div>
-                </div>
-                <div class="comment-text">
-                    Этот NFT проект выглядит перспективно. Команда сильная.
-                    <span class="status-badge badge-ai" style="color: #05050A;">AI</span>
-                </div>
-                <div class="comment-metrics">
-                    <span><i class="fas fa-thumbs-up"></i> 21</span>
-                    <span><i class="fas fa-reply"></i> 7</span>
-                </div>
-            </div>
+            <div class="empty-state"><i class="fas fa-comments"></i><h4>Нет комментариев</h4><p>Запустите нейрокомментинг, чтобы увидеть результат</p></div>
         </div>
     </div>
 
@@ -166,10 +116,72 @@
                     frequency: document.getElementById('comment-frequency').value || 'every_2nd'
                 });
                 toast('success', 'Нейрокомментинг запущен', 'AI генерирует и публикует комментарии');
+                setTimeout(loadCommentLog, 5000);
             } catch (err) {
                 toast('error', 'Ошибка', err.message);
             }
         }
+
+        async function loadCommentLog() {
+            const container = document.getElementById('comment-log');
+            const indicator = document.getElementById('comment-indicator');
+            try {
+                const data = await api.get('/commenting/logs');
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-comments"></i><h4>Нет комментариев</h4><p>Запустите нейрокомментинг, чтобы увидеть результат</p></div>';
+                    indicator.innerHTML = '<i class="fas fa-circle"></i> Ожидание';
+                    return;
+                }
+                indicator.innerHTML = '<i class="fas fa-circle"></i> ' + data.length + ' комментариев';
+                document.getElementById('comment-stats-total').textContent = data.length;
+                const channels = [...new Set(data.map(c => c.channel))];
+                document.getElementById('comment-stats-channels').textContent = channels.length;
+                document.getElementById('comment-stats-engage').textContent = '100%';
+
+                container.innerHTML = data.map(c => {
+                    const initials = (c.channel || '??').substring(0, 2).toUpperCase();
+                    const time = c.time ? timeAgo(c.time) : 'только что';
+                    const comment = c.comment || '...';
+                    return '<div class="comment-item">' +
+                        '<div class="comment-channel">' +
+                            '<span class="avatar avatar-sm avatar-gradient">' + initials + '</span>' +
+                            '<div>' +
+                                '<div class="text-sm" style="font-weight: 600;">@' + c.channel + '</div>' +
+                                '<div class="text-xs text-secondary">' + time + '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="comment-text">' + escapeHtml(comment) +
+                            '<span class="status-badge badge-ai" style="color: #05050A;">AI</span>' +
+                        '</div>' +
+                        '<div class="comment-metrics">' +
+                            '<span><i class="fas fa-thumbs-up"></i> ' + (c.likes || 0) + '</span>' +
+                            '<span><i class="fas fa-reply"></i> ' + (c.replies || 0) + '</span>' +
+                        '</div>' +
+                    '</div>';
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Ошибка</h4><p>' + escapeHtml(err.message) + '</p></div>';
+            }
+        }
+
+        function timeAgo(ts) {
+            const sec = Math.floor((Date.now() / 1000) - ts);
+            if (sec < 60) return 'только что';
+            if (sec < 3600) return Math.floor(sec / 60) + ' мин назад';
+            if (sec < 86400) return Math.floor(sec / 3600) + ' ч назад';
+            return Math.floor(sec / 86400) + ' дн назад';
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCommentLog();
+            setInterval(loadCommentLog, 30000);
+        });
     </script>
 </body>
 </html>

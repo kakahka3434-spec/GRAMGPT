@@ -29,28 +29,8 @@
         </div>
     </div>
 
-    <div class="card animate-in" style="animation-delay: 0.05s">
-        <div class="campaign-item">
-            <div>
-                <div style="font-weight: 600;">Продажа курсов Дизайн</div>
-                <div class="text-xs text-secondary mt-8">ROI: 1240% | Лидов: 450</div>
-            </div>
-            <span class="status-badge badge-green">Активна</span>
-        </div>
-        <div class="campaign-item">
-            <div>
-                <div style="font-weight: 600;">Крипто-консалтинг</div>
-                <div class="text-xs text-secondary mt-8">ROI: 890% | Лидов: 320</div>
-            </div>
-            <span class="status-badge badge-green">Активна</span>
-        </div>
-        <div class="campaign-item">
-            <div>
-                <div style="font-weight: 600;">SaaS B2B Outreach</div>
-                <div class="text-xs text-secondary mt-8">ROI: — | Лидов: 0</div>
-            </div>
-            <span class="status-badge badge-yellow">Прогрев</span>
-        </div>
+    <div class="card animate-in" style="animation-delay: 0.05s" id="campaigns-list">
+        <div class="empty-state"><i class="fas fa-rocket"></i><h4>Нет кампаний</h4><p>Создайте первую кампанию для запуска авто-воронки</p></div>
     </div>
 
     <div class="nav-bar animate-in" style="animation-delay: 0.15s">
@@ -78,12 +58,21 @@
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/campaigns/list');
+                const container = document.getElementById('campaigns-list');
                 if (Array.isArray(data) && data.length) {
-                    const container = document.querySelector('.card:not(.nav-bar)');
-                    if (container) container.innerHTML = data.map(c => '<div class="campaign-item"><div><div style="font-weight:600;">' + (c.name || '') + '</div><div class="text-xs text-secondary mt-8">ROI: ' + (c.roi || '—') + '%</div></div><span class="status-badge badge-green">' + (c.status || 'Активна') + '</span></div>').join('');
+                    container.innerHTML = data.map(c => '<div class="campaign-item"><div><div style="font-weight:600;">' + escapeHtml(c.name || '') + '</div><div class="text-xs text-secondary mt-8">ROI: ' + (c.roi || '—') + '% | Лидов: ' + (c.leads || 0) + '</div></div><span class="status-badge badge-green">' + escapeHtml(c.status || 'Активна') + '</span></div>').join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-rocket"></i><h4>Нет кампаний</h4><p>Создайте первую кампанию для запуска авто-воронки</p></div>';
                 }
-            } catch (e) { console.warn('Campaigns API error:', e); }
+            } catch (e) {
+                document.getElementById('campaigns-list').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Ошибка загрузки</h4><p>' + escapeHtml(e.message) + '</p></div>';
+            }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

@@ -33,19 +33,19 @@
     <!-- Quick Stats -->
     <div class="metric-grid animate-in" style="animation-delay: 0.03s; margin-bottom: 16px;">
         <div class="metric-card">
-            <div class="metric-value">14:00</div>
+            <div class="metric-value" id="heat-peak">--</div>
             <div class="metric-label">Пиковый час</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value green">Ср</div>
+            <div class="metric-value green" id="heat-bestday">--</div>
             <div class="metric-label">Лучший день</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value orange">3,847</div>
+            <div class="metric-value orange" id="heat-today">0</div>
             <div class="metric-label">Действий сегодня</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value purple">23.4</div>
+            <div class="metric-value purple" id="heat-avg">0</div>
             <div class="metric-label">Действий/час</div>
         </div>
     </div>
@@ -64,76 +64,8 @@
             <div class="hour-label">18</div><div class="hour-label">19</div><div class="hour-label">20</div>
             <div class="hour-label">21</div><div class="hour-label">22</div><div class="hour-label">23</div>
         </div>
-        <div class="heatmap-grid">
-            <div class="day-label">Пн</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Вт</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-4"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Ср</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
-            <div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
-            <div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-5"></div><div class="heatmap-cell heat-4"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Чт</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-5"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Пт</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div><div class="heatmap-cell heat-4"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Сб</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div><div class="heatmap-cell heat-3"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-
-            <div class="day-label">Вс</div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-2"></div>
-            <div class="heatmap-cell heat-2"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div><div class="heatmap-cell heat-1"></div>
-            <div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div><div class="heatmap-cell heat-0"></div>
+        <div class="heatmap-grid" id="heatmap-grid">
+            <!-- generated by JS from API data -->
         </div>
         <div class="legend">
             <span>Меньше</span>
@@ -153,37 +85,37 @@
         <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
                 <span><i class="fas fa-crosshairs" style="color: var(--primary); margin-right: 6px;"></i>Парсинг</span>
-                <span style="font-weight: 600;">2,450 действий</span>
+                <span style="font-weight: 600;" id="mod-parsing">0 действий</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-parsing" style="width: 0%;"></div></div>
         </div>
         <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
                 <span><i class="fas fa-comments" style="color: var(--primary); margin-right: 6px;"></i>Комментинг</span>
-                <span style="font-weight: 600;">1,890 действий</span>
+                <span style="font-weight: 600;" id="mod-commenting">0 действий</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-commenting" style="width: 0%;"></div></div>
         </div>
         <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
                 <span><i class="fas fa-heart" style="color: var(--primary); margin-right: 6px;"></i>Реакции</span>
-                <span style="font-weight: 600;">3,456 действий</span>
+                <span style="font-weight: 600;" id="mod-reactions">0 действий</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-reactions" style="width: 0%;"></div></div>
         </div>
         <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
                 <span><i class="fas fa-message" style="color: var(--primary); margin-right: 6px;"></i>Чаттинг</span>
-                <span style="font-weight: 600;">1,120 действий</span>
+                <span style="font-weight: 600;" id="mod-chatting">0 действий</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-chatting" style="width: 0%;"></div></div>
         </div>
         <div>
             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
                 <span><i class="fas fa-robot" style="color: var(--primary); margin-right: 6px;"></i>Диалоги</span>
-                <span style="font-weight: 600;">847 действий</span>
+                <span style="font-weight: 600;" id="mod-dialogs">0 действий</span>
             </div>
-            <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-dialogs" style="width: 0%;"></div></div>
         </div>
     </div>
 
@@ -213,24 +145,36 @@
     </div>
 <script src='main.js'></script>
 <script>
+    function buildHeatmapGrid(data) {
+        const grid = document.getElementById('heatmap-grid');
+        const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        const hours = data && data.grid ? data.grid : days.map(() => Array(24).fill(0));
+        grid.innerHTML = days.map((day, di) => {
+            const cells = (hours[di] || Array(24).fill(0)).map(h => {
+                const level = Math.min(Math.floor((h || 0) / 20), 5);
+                return '<div class="heatmap-cell heat-' + level + '"></div>';
+            }).join('');
+            return '<div class="day-label">' + day + '</div>' + cells;
+        }).join('');
+    }
     document.addEventListener('DOMContentLoaded', async () => {
         try {
             const data = await api.get('/heatmap/data');
             if (data) {
-                const m = document.querySelectorAll('.metric-card .metric-value');
-                if (m[0]) m[0].textContent = data.peak_hour || '—';
-                if (m[1]) m[1].textContent = data.best_day ? data.best_day.substring(0,2) : '—';
-                if (m[2]) m[2].textContent = (data.actions_today || 0).toLocaleString();
-                if (m[3]) m[3].textContent = data.avg_per_hour || 0;
+                document.getElementById('heat-peak').textContent = data.peak_hour || '—';
+                document.getElementById('heat-bestday').textContent = data.best_day ? data.best_day.substring(0, 2) : '—';
+                document.getElementById('heat-today').textContent = (data.actions_today || 0).toLocaleString();
+                document.getElementById('heat-avg').textContent = data.avg_per_hour || 0;
+                buildHeatmapGrid(data);
                 const mods = data.by_module || {};
-                const bars = document.querySelectorAll('.card:not(.glass-card) .progress-bar .progress-fill');
-                const labels = document.querySelectorAll('.card:not(.glass-card) .flex span:last-child');
-                const modules = ['parsing', 'commenting', 'reactions', 'chatting', 'dialogs'];
+                const barIds = { parsing: 'bar-parsing', commenting: 'bar-commenting', reactions: 'bar-reactions', chatting: 'bar-chatting', dialogs: 'bar-dialogs' };
+                const labelIds = { parsing: 'mod-parsing', commenting: 'mod-commenting', reactions: 'mod-reactions', chatting: 'mod-chatting', dialogs: 'mod-dialogs' };
                 const maxVal = Math.max(...Object.values(mods), 1);
-                modules.forEach((mod, i) => {
-                    const val = mods[mod] || 0;
-                    if (bars[i]) bars[i].style.width = (val / maxVal * 100) + '%';
-                    if (labels[i]) labels[i].textContent = val.toLocaleString() + ' действий';
+                Object.entries(mods).forEach(([mod, val]) => {
+                    const bar = document.getElementById(barIds[mod]);
+                    if (bar) bar.style.width = (val / maxVal * 100) + '%';
+                    const label = document.getElementById(labelIds[mod]);
+                    if (label) label.textContent = val.toLocaleString() + ' действий';
                 });
                 const recs = data.recommendations || [];
                 const recEl = document.querySelector('.glass-card');

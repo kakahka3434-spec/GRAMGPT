@@ -18,28 +18,28 @@
 
     <!-- Referral Stats -->
     <div class="glass-card animate-in" style="animation-delay: 0.05s; text-align: center;">
-        <div style="font-size: 40px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$342</div>
+        <div style="font-size: 40px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="ref-earned">$0</div>
         <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">Заработано за всё время</div>
         <div class="metric-grid" style="margin-bottom: 16px;">
             <div class="metric-card">
-                <div class="metric-value">23</div>
+                <div class="metric-value" id="ref-invited">0</div>
                 <div class="metric-label">Приглашённых</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value green">17</div>
+                <div class="metric-value green" id="ref-active">0</div>
                 <div class="metric-label">Активных</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value orange">30%</div>
+                <div class="metric-value orange" id="ref-commission">30%</div>
                 <div class="metric-label">Комиссия</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value purple">$87</div>
+                <div class="metric-value purple" id="ref-month">$0</div>
                 <div class="metric-label">Этот месяц</div>
             </div>
         </div>
-        <button class="btn" style="font-size: 12px; padding: 10px;" onclick="withdrawFunds()">
-            <i class="fas fa-wallet"></i> Вывести $342
+        <button class="btn" style="font-size: 12px; padding: 10px;" onclick="withdrawFunds()" id="ref-withdraw-btn">
+            <i class="fas fa-wallet"></i> Вывести $0
         </button>
     </div>
 
@@ -47,7 +47,7 @@
     <div class="card animate-in" style="animation-delay: 0.1s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-link" style="color: var(--primary);"></i> Ваша ссылка</h4>
         <div class="ref-link-box">
-            <span class="ref-link" id="refLink">t.me/gramgpt_bot?start=ref_u847291</span>
+            <span class="ref-link" id="refLink">Загрузка...</span>
             <button class="copy-btn" onclick="copyLink()"><i class="fas fa-copy"></i></button>
         </div>
         <div style="display: flex; gap: 8px; margin-top: 10px;">
@@ -88,51 +88,8 @@
     <!-- Leaderboard -->
     <div class="card animate-in" style="animation-delay: 0.2s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-trophy" style="color: var(--warning);"></i> Топ рефереры</h4>
-        <div class="leader-list">
-            <div class="leader-item">
-                <div class="leader-rank gold">1</div>
-                <div class="leader-avatar">КМ</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Кирилл М.</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">89 рефералов</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--success);">$4,230</div>
-                </div>
-            </div>
-            <div class="leader-item">
-                <div class="leader-rank silver">2</div>
-                <div class="leader-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">АН</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Анна Н.</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">67 рефералов</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--success);">$3,150</div>
-                </div>
-            </div>
-            <div class="leader-item">
-                <div class="leader-rank bronze">3</div>
-                <div class="leader-avatar" style="background: linear-gradient(135deg, #e67e22, #d35400);">ДК</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Дмитрий К.</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">45 рефералов</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--success);">$2,080</div>
-                </div>
-            </div>
-            <div class="leader-item" style="background: rgba(0,136,204,0.05); border-radius: 10px; padding: 10px; margin: 4px -10px; border-bottom: none;">
-                <div class="leader-rank you">14</div>
-                <div class="leader-avatar" style="background: linear-gradient(135deg, var(--primary), var(--accent));">Вы</div>
-                <div style="flex: 1;">
-                    <div style="font-size: 12px; font-weight: 600;">Вы</div>
-                    <div style="font-size: 10px; color: var(--text-secondary);">23 реферала</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--primary);">$342</div>
-                </div>
-            </div>
+        <div class="leader-list" id="leaderboard-list">
+            <div class="empty-state"><i class="fas fa-trophy"></i><h4>Нет рефералов</h4><p>Поделитесь ссылкой, чтобы начать зарабатывать</p></div>
         </div>
     </div>
 
@@ -186,16 +143,32 @@
             try {
                 const data = await api.get('/referral/stats');
                 if (data) {
-                    document.querySelector('.glass-card > div:first-child').textContent = '$' + (data.total_earned || 0);
-                    const metrics = document.querySelectorAll('.glass-card .metric-card .metric-value');
-                    if (metrics[0]) metrics[0].textContent = data.referrals || 0;
-                    if (metrics[1]) metrics[1].textContent = data.active_referrals || 0;
-                    if (metrics[2]) metrics[2].textContent = (data.commission_rate || 30) + '%';
-                    if (metrics[3]) metrics[3].textContent = '$' + (data.this_month || 0);
-                    document.querySelector('.glass-card .btn').innerHTML = '<i class="fas fa-wallet"></i> Вывести $' + (data.total_earned || 0);
+                    document.getElementById('ref-earned').textContent = '$' + (data.total_earned || 0);
+                    document.getElementById('ref-invited').textContent = data.referrals || 0;
+                    document.getElementById('ref-active').textContent = data.active_referrals || 0;
+                    document.getElementById('ref-commission').textContent = (data.commission_rate || 30) + '%';
+                    document.getElementById('ref-month').textContent = '$' + (data.this_month || 0);
+                    document.getElementById('ref-withdraw-btn').innerHTML = '<i class="fas fa-wallet"></i> Вывести $' + (data.total_earned || 0);
+                }
+                if (data && data.ref_link) {
+                    document.getElementById('refLink').textContent = data.ref_link;
+                }
+                const lb = await api.get('/referral/leaderboard');
+                const container = document.getElementById('leaderboard-list');
+                if (lb && lb.length) {
+                    const rankClasses = ['gold', 'silver', 'bronze'];
+                    container.innerHTML = lb.map((r, i) => {
+                        const isYou = r.is_you;
+                        return '<div class="leader-item" ' + (isYou ? 'style="background:rgba(0,136,204,0.05);border-radius:10px;padding:10px;margin:4px -10px;border-bottom:none;"' : '') + '><div class="leader-rank ' + (i < 3 ? rankClasses[i] : (isYou ? 'you' : '')) + '">' + (r.rank || i + 1) + '</div><div class="leader-avatar" ' + (isYou ? 'style="background:linear-gradient(135deg,var(--primary),var(--accent));"' : '') + '>' + (r.name ? r.name.substring(0, 2).toUpperCase() : '??') + '</div><div style="flex:1;"><div style="font-size:12px;font-weight:600;">' + escapeHtml(r.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (r.referrals || 0) + ' рефералов</div></div><div style="text-align:right;"><div style="font-size:12px;font-weight:700;color:var(--success);">$' + (r.earned || 0).toLocaleString() + '</div></div></div>';
+                    }).join('');
                 }
             } catch (e) { console.warn('Referral API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>
