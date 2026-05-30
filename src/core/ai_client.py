@@ -85,11 +85,15 @@ class AIClient:
         if not self.client:
             return f"❌ API ключ не настроен ({self.provider}). Добавьте ключ в .env.local"
         
-        # Get user's preferred model or use provider-specific default
+        # Use provider-specific default first, then check user settings
+        user_model = self.default_model
         try:
-            user_model = db.get_user_model(chat_id) if hasattr(db, 'get_user_model') else self.default_model
+            if hasattr(db, 'get_user_model'):
+                db_model = db.get_user_model(chat_id)
+                if db_model and db_model != "gpt-4o":
+                    user_model = db_model
         except:
-            user_model = self.default_model
+            pass
         
         try:
             full_messages = [{"role": "system", "content": settings.system_prompt}] + messages
