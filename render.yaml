@@ -9,10 +9,12 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
-      - key: PORT
-        value: 8000
       - key: AI_PROVIDER
-        value: openai
+        value: cerebras
+      - key: CEREBRAS_API_KEY
+        sync: false
+      - key: CEREBRAS_BASE_URL
+        value: https://api.cerebras.ai/v1
       - key: SECRET_KEY
         generateValue: true
       - key: TELEGRAM_API_ID
@@ -21,42 +23,3 @@ services:
         sync: false
       - key: TELEGRAM_PHONE
         sync: false
-      - key: OPENAI_API_KEY
-        sync: false
-      - key: CELERY_BROKER_URL
-        fromService:
-          type: redis
-          name: gramgpt-redis
-          property: connectionString
-      - key: CELERY_RESULT_BACKEND
-        fromService:
-          type: redis
-          name: gramgpt-redis
-          property: connectionString
-
-  - type: worker
-    name: gramgpt-celery
-    runtime: python
-    region: frankfurt
-    plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: celery -A src.celery_app worker --loglevel=info --concurrency=1
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.0
-      - key: CELERY_BROKER_URL
-        fromService:
-          type: redis
-          name: gramgpt-redis
-          property: connectionString
-      - key: CELERY_RESULT_BACKEND
-        fromService:
-          type: redis
-          name: gramgpt-redis
-          property: connectionString
-
-  - type: redis
-    name: gramgpt-redis
-    region: frankfurt
-    plan: free
-    maxmemoryPolicy: noeviction
