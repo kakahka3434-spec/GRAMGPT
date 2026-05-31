@@ -22,122 +22,16 @@
             <h4 style="margin: 0;"><i class="fas fa-play-circle" style="color: var(--success);"></i> Активные тесты</h4>
             <button class="add-btn" onclick="createTest()"><i class="fas fa-plus"></i> Новый</button>
         </div>
-
-        <!-- Test 1 -->
-        <div class="test-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div style="font-size: 13px; font-weight: 700;">Тон комментариев</div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);"><span class="live-dot"></span> Активен</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Сравнение экспертного и разговорного тона в нейрокомментинге</div>
-
-            <div class="ab-compare">
-                <div class="ab-variant">
-                    <div class="ab-label">A — Экспертный</div>
-                    <div class="ab-metric-row">
-                        <span>Лайков</span>
-                        <strong style="color: var(--primary);">156</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>Ответов</span>
-                        <strong>43</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>Конверсия</span>
-                        <strong style="color: var(--success);">12.4%</strong>
-                    </div>
-                    <div class="progress-bar" style="margin-top: 8px;"><div class="progress-fill" style="width: 62%;"></div></div>
-                    <div style="text-align: center; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">62% трафика</div>
-                </div>
-                <div class="ab-vs">VS</div>
-                <div class="ab-variant">
-                    <div class="ab-label" style="color: var(--warning);">B — Разговорный</div>
-                    <div class="ab-metric-row">
-                        <span>Лайков</span>
-                        <strong style="color: var(--warning);">98</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>Ответов</span>
-                        <strong>67</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>Конверсия</span>
-                        <strong style="color: var(--success);">15.1%</strong>
-                    </div>
-                    <div class="progress-bar" style="margin-top: 8px;"><div class="progress-fill" style="width: 38%; background: linear-gradient(90deg, var(--warning), #e67e22);"></div></div>
-                    <div style="text-align: center; font-size: 10px; color: var(--text-secondary); margin-top: 2px;">38% трафика</div>
-                </div>
-            </div>
-
-            <div class="ab-result">
-                <i class="fas fa-trophy" style="color: var(--warning);"></i>
-                <span>Вариант <strong>B</strong> лидирует по конверсии (+2.7%)</span>
-            </div>
-        </div>
-
-        <!-- Test 2 -->
-        <div class="test-card" style="margin-top: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div style="font-size: 13px; font-weight: 700;">Время постинга</div>
-                <span class="status-badge" style="background: rgba(46,204,113,0.15); color: var(--success);"><span class="live-dot"></span> Активен</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Утренний vs вечерний постинг в канале</div>
-
-            <div class="ab-compare">
-                <div class="ab-variant">
-                    <div class="ab-label">A — Утро (9:00)</div>
-                    <div class="ab-metric-row">
-                        <span>Просмотры</span>
-                        <strong style="color: var(--primary);">4,521</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>ER</span>
-                        <strong style="color: var(--success);">8.2%</strong>
-                    </div>
-                </div>
-                <div class="ab-vs">VS</div>
-                <div class="ab-variant">
-                    <div class="ab-label" style="color: var(--warning);">B — Вечер (20:00)</div>
-                    <div class="ab-metric-row">
-                        <span>Просмотры</span>
-                        <strong style="color: var(--warning);">5,890</strong>
-                    </div>
-                    <div class="ab-metric-row">
-                        <span>ER</span>
-                        <strong style="color: var(--success);">11.4%</strong>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ab-result">
-                <i class="fas fa-trophy" style="color: var(--warning);"></i>
-                <span>Вариант <strong>B</strong> — вечерние посты эффективнее на 39%</span>
-            </div>
+        <div id="active-tests">
+            <div class="empty-state"><i class="fas fa-flask"></i><h4>Нет активных тестов</h4><p>Создайте A/B тест для оптимизации кампаний</p></div>
         </div>
     </div>
 
     <!-- Completed Tests -->
     <div class="card animate-in" style="animation-delay: 0.1s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-check-circle" style="color: var(--text-secondary);"></i> Завершённые</h4>
-        <div class="completed-test">
-            <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600;">Стратегия чаттинга</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Эксперт vs Networking — 14 дней</div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 11px; font-weight: 600; color: var(--success);">Networking +18%</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Применён</div>
-            </div>
-        </div>
-        <div class="completed-test" style="border-bottom: none;">
-            <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600;">Эмодзи реакции</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">AI подбор vs Случайные — 7 дней</div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 11px; font-weight: 600; color: var(--success);">AI подбор +42%</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Применён</div>
-            </div>
+        <div id="completed-tests">
+            <div class="empty-state"><i class="fas fa-check-circle"></i><h4>Нет завершённых тестов</h4><p>Результаты тестов появятся после завершения</p></div>
         </div>
     </div>
 
@@ -173,11 +67,22 @@
             try {
                 const data = await api.get('/abtests');
                 if (data && data.active && data.active.length) {
-                    const container = document.querySelector('.test-card');
-                    if (container) container.outerHTML = data.active.map((t, i) => '<div class="test-card" style="margin-top:' + (i > 0 ? '12' : '0') + 'px"><div style="font-size:13px;font-weight:700;">' + (t.name || 'Test') + '</div><div style="font-size:11px;color:var(--text-secondary);">' + (t.description || '') + '</div></div>').join('');
+                    document.getElementById('active-tests').innerHTML = data.active.map(function(t, i) {
+                        return '<div class="test-card" style="margin-top:' + (i > 0 ? '12' : '0') + 'px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="font-size:13px;font-weight:700;">' + escapeHtml(t.name || 'Test') + '</div><span class="status-badge" style="background:rgba(46,204,113,0.15);color:var(--success);"><span class="live-dot"></span> Активен</span></div><div style="font-size:11px;color:var(--text-secondary);margin-bottom:12px;">' + escapeHtml(t.description || '') + '</div></div>';
+                    }).join('');
+                }
+                if (data && data.completed && data.completed.length) {
+                    document.getElementById('completed-tests').innerHTML = data.completed.map(function(t) {
+                        return '<div class="completed-test"><div style="flex:1;"><div style="font-size:12px;font-weight:600;">' + escapeHtml(t.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + escapeHtml(t.description || '') + '</div></div><div style="text-align:right;"><div style="font-size:11px;font-weight:600;color:var(--success);">' + escapeHtml(t.result || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">Применён</div></div></div>';
+                    }).join('');
                 }
             } catch (e) { console.warn('AB test API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>

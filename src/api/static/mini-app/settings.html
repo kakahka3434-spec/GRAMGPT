@@ -23,7 +23,7 @@
                 <option>GPT-4o-mini</option>
             </select>
         </div>
-        <div class="setting-item"><span class="text-sm">Мульти-аккаунты</span><span style="color: var(--primary);">12 / 20</span></div>
+        <div class="setting-item"><span class="text-sm">Мульти-аккаунты</span><span style="color: var(--primary);" id="account-count">0</span></div>
         <div class="setting-item"><span class="text-sm">Human Emulation</span><span class="status-badge badge-green">Активен</span></div>
         <div class="setting-item"><span class="text-sm">Anti-Ban Shield</span><span class="status-badge badge-green">Активен</span></div>
     </div>
@@ -54,7 +54,9 @@
         function getReferralLink() { toast('success', 'Ссылка скопирована', 'Отправьте друзьям: gramgpt.io/ref/your_id'); }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const status = await api.get('/status');
+                const [status, accounts] = await Promise.all([api.get('/status'), api.get('/accounts').catch(() => ({}))]);
+                var totalAcc = (accounts && accounts.total) || (accounts && accounts.accounts && accounts.accounts.length) || 0;
+                document.getElementById('account-count').textContent = totalAcc + ' / 20';
                 if (status) {
                     const items = document.querySelectorAll('.setting-item');
                     if (items[0]) items[0].querySelector('select') && (items[0].querySelector('select').value = status.ai_model || 'GPT-4o');

@@ -37,7 +37,7 @@
     <div class="card animate-in" style="animation-delay: 0.1s">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
             <h4 style="margin: 0;"><i class="fas fa-eye" style="color: var(--primary);"></i> Превью: Месячный отчёт</h4>
-            <span style="font-size: 10px; color: var(--text-secondary);">Апрель 2026</span>
+            <span style="font-size: 10px; color: var(--text-secondary);" id="report-period">--</span>
         </div>
 
         <div class="report-section">
@@ -121,29 +121,8 @@
     <!-- Saved Reports -->
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h4 style="margin-bottom: 12px;"><i class="fas fa-folder" style="color: var(--primary);"></i> Сохранённые отчёты</h4>
-        <div class="saved-report" onclick="downloadReport('march')">
-            <div class="sr-icon"><i class="fas fa-file-pdf" style="color: #e74c3c;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600;">Отчёт март 2026</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">PDF — 2.4 MB</div>
-            </div>
-            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
-        </div>
-        <div class="saved-report" onclick="downloadReport('feb')">
-            <div class="sr-icon"><i class="fas fa-file-excel" style="color: #2ecc71;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600;">Отчёт февраль 2026</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Excel — 1.8 MB</div>
-            </div>
-            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
-        </div>
-        <div class="saved-report" style="border-bottom: none;" onclick="downloadReport('jan')">
-            <div class="sr-icon"><i class="fas fa-file-pdf" style="color: #e74c3c;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600;">Отчёт январь 2026</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">PDF — 3.1 MB</div>
-            </div>
-            <i class="fas fa-download" style="color: var(--text-secondary); font-size: 12px;"></i>
+        <div id="saved-reports">
+            <div class="empty-state"><i class="fas fa-folder"></i><h4>Нет сохранённых отчётов</h4><p>Сгенерируйте отчёт — он появится здесь</p></div>
         </div>
     </div>
 
@@ -190,14 +169,21 @@
             } catch (e) { toast('error', 'Ошибка', e.message); }
         }
         function downloadReport(month) { toast('info', 'Скачивание', 'Отчёт за ' + month); }
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
         document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const data = await api.get('/dashboard');
-                if (data && data.metrics) {
-                    document.getElementById('rpt-leads').textContent = (data.metrics.leads || 0).toLocaleString();
-                    document.getElementById('rpt-revenue').textContent = '$' + ((data.revenue && data.revenue.total) || 0).toLocaleString();
-                    document.getElementById('rpt-conv').textContent = (data.metrics.conversion || 0) + '%';
-                }
+                try {
+                    const saved = await api.get('/reports/saved');
+                    if (saved && saved.reports && saved.reports.length) {
+                        var list = document.getElementById('saved-reports');
+                        list.innerHTML = saved.reports.map(function(r) {
+                            return '<div class="saved-report" onclick="downloadReport(\'' + r.id + '\')"><div class="sr-icon"><i class="fas fa-file-' + (r.format || 'pdf') + '" style="color: ' + (r.format === 'excel' ? '#2ecc71' : '#e74c3c') + ';"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:600;">' + escapeHtml(r.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (r.format || 'PDF').toUpperCase() + ' — ' + (r.size || '') + '</div></div><i class="fas fa-download" style="color:var(--text-secondary);font-size:12px;"></i></div>';
+                        }).join('');
+                    }
+                } catch (_) {}
                 if (data && data.modules) {
                     const mods = { parsing: 'mod-parsing', commenting: 'mod-commenting', chatting: 'mod-chatting', dialogs: 'mod-dialogs', reactions: 'mod-reactions' };
                     Object.entries(data.modules).forEach(([k, v]) => {
@@ -210,6 +196,9 @@
                     document.getElementById('sec-flood').textContent = data.security.flood_waits || 0;
                     document.getElementById('sec-human').textContent = (data.security.human_like || 0) + '%';
                 }
+                var now = new Date();
+                var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+                document.getElementById('report-period').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
             } catch (e) { console.warn('Reports API error:', e); }
         });
     </script>

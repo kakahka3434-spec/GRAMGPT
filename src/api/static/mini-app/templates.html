@@ -26,112 +26,15 @@
     </div>
 
     <!-- Featured -->
-    <div class="glass-card animate-in" style="animation-delay: 0.1s">
-        <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 8px;">
-            <i class="fas fa-star" style="color: var(--warning); font-size: 12px;"></i>
-            <span style="font-size: 11px; font-weight: 600; color: var(--warning);">POPULAR</span>
-        </div>
-        <div style="display: flex; gap: 14px;">
-            <div class="tmpl-icon-lg"><i class="fab fa-bitcoin"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 15px; font-weight: 700;">Crypto Investor Funnel</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin: 4px 0 8px;">Полная воронка для крипто-проектов: парсинг → комментинг → чаттинг → ЛС → конверсия</div>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <span class="tmpl-tag">5 этапов</span>
-                    <span class="tmpl-tag">340% ROI</span>
-                    <span class="tmpl-tag">1.2K установок</span>
-                </div>
-            </div>
-        </div>
-        <div style="display: flex; gap: 8px; margin-top: 14px;">
-            <button class="btn" style="flex: 2; font-size: 12px; padding: 10px;" onclick="useTemplate('crypto')"><i class="fas fa-download"></i> Установить</button>
-            <button class="btn btn-secondary" style="flex: 1; font-size: 12px; padding: 10px;" onclick="previewTemplate('crypto')"><i class="fas fa-eye"></i> Обзор</button>
-        </div>
+    <div class="glass-card animate-in" style="animation-delay: 0.1s" id="featured-template">
+        <div class="empty-state"><i class="fas fa-store"></i><h4>Нет шаблонов</h4><p>Шаблоны появятся в маркетплейсе</p></div>
     </div>
 
     <!-- Template Grid -->
     <div class="section-title animate-in" style="animation-delay: 0.13s">Все шаблоны</div>
 
-    <div class="tmpl-list">
-        <div class="tmpl-card animate-in" style="animation-delay: 0.15s" onclick="useTemplate('ecom')">
-            <div class="tmpl-icon" style="background: rgba(231,76,60,0.1);"><i class="fas fa-shopping-cart" style="color: #e74c3c;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">E-commerce Outreach</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Воронка для интернет-магазинов</div>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                    <span class="tmpl-tag">3 этапа</span>
-                    <span class="tmpl-tag">280% ROI</span>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--primary);">Free</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">890 уст.</div>
-            </div>
-        </div>
-
-        <div class="tmpl-card animate-in" style="animation-delay: 0.17s" onclick="useTemplate('saas')">
-            <div class="tmpl-icon" style="background: rgba(155,89,182,0.1);"><i class="fas fa-laptop-code" style="color: #9b59b6;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">SaaS B2B Drip</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Капельный маркетинг для B2B</div>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                    <span class="tmpl-tag">7 этапов</span>
-                    <span class="tmpl-tag">420% ROI</span>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--warning);">5 TON</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">456 уст.</div>
-            </div>
-        </div>
-
-        <div class="tmpl-card animate-in" style="animation-delay: 0.19s" onclick="useTemplate('edu')">
-            <div class="tmpl-icon" style="background: rgba(46,204,113,0.1);"><i class="fas fa-graduation-cap" style="color: #2ecc71;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Онлайн-курсы</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Набор студентов через Telegram</div>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                    <span class="tmpl-tag">4 этапа</span>
-                    <span class="tmpl-tag">310% ROI</span>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--primary);">Free</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">678 уст.</div>
-            </div>
-        </div>
-
-        <div class="tmpl-card animate-in" style="animation-delay: 0.21s" onclick="useTemplate('agency')">
-            <div class="tmpl-icon" style="background: rgba(243,156,18,0.1);"><i class="fas fa-briefcase" style="color: #f39c12;"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">Agency Multi-Client</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Управление клиентами агентства</div>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                    <span class="tmpl-tag">10 этапов</span>
-                    <span class="tmpl-tag">550% ROI</span>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--warning);">10 TON</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">234 уст.</div>
-            </div>
-        </div>
-
-        <div class="tmpl-card animate-in" style="animation-delay: 0.23s" onclick="useTemplate('nft')">
-            <div class="tmpl-icon" style="background: rgba(0,136,204,0.1);"><i class="fas fa-palette" style="color: var(--primary);"></i></div>
-            <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">NFT Community Builder</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">Построение комьюнити NFT проекта</div>
-                <div style="display: flex; gap: 4px; margin-top: 4px;">
-                    <span class="tmpl-tag">6 этапов</span>
-                    <span class="tmpl-tag">380% ROI</span>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 12px; font-weight: 700; color: var(--warning);">3 TON</div>
-                <div style="font-size: 10px; color: var(--text-secondary);">567 уст.</div>
-            </div>
-        </div>
+    <div class="tmpl-list" id="templates-list">
+        <div class="empty-state"><i class="fas fa-store"></i><h4>Нет шаблонов</h4><p>Проверьте подключение к маркетплейсу</p></div>
     </div>
 
     <div class="nav-bar animate-in" style="animation-delay: 0.3s">
@@ -165,12 +68,24 @@
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/templates');
-                if (data && data.templates && data.templates.length) {
-                    const grid = document.querySelector('.tmpl-list');
-                    if (grid) grid.innerHTML = data.templates.map(t => '<div class="tmpl-card" onclick="useTemplate(\'' + t.id + '\')"><div class="tmpl-icon" style="background:rgba(0,136,204,0.1);"><i class="fas fa-file"></i></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;">' + (t.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (t.description || '') + '</div></div></div>').join('');
+                var templates = data && data.templates ? data.templates : [];
+                if (templates.length > 0) {
+                    var feat = templates[0];
+                    document.getElementById('featured-template').innerHTML = '<div style="display:flex;align-items:center;gap:4px;margin-bottom:8px;"><i class="fas fa-star" style="color:var(--warning);font-size:12px;"></i><span style="font-size:11px;font-weight:600;color:var(--warning);">POPULAR</span></div><div style="display:flex;gap:14px;"><div class="tmpl-icon-lg"><i class="fas fa-file"></i></div><div style="flex:1;"><div style="font-size:15px;font-weight:700;">' + escapeHtml(feat.name || '') + '</div><div style="font-size:11px;color:var(--text-secondary);margin:4px 0 8px;">' + escapeHtml(feat.description || '') + '</div><div style="display:flex;gap:6px;flex-wrap:wrap;"><span class="tmpl-tag">' + (feat.steps || '?') + ' этапов</span><span class="tmpl-tag">' + (feat.price || 'Free') + '</span></div></div></div><div style="display:flex;gap:8px;margin-top:14px;"><button class="btn" style="flex:2;font-size:12px;padding:10px;" onclick="useTemplate(\'' + feat.id + '\')"><i class="fas fa-download"></i> Установить</button><button class="btn btn-secondary" style="flex:1;font-size:12px;padding:10px;" onclick="previewTemplate(\'' + feat.id + '\')"><i class="fas fa-eye"></i> Обзор</button></div>';
+                    var listHtml = '';
+                    for (var i = 1; i < templates.length; i++) {
+                        var t = templates[i];
+                        listHtml += '<div class="tmpl-card" onclick="useTemplate(\'' + t.id + '\')"><div class="tmpl-icon" style="background:rgba(0,136,204,0.1);"><i class="fas fa-file"></i></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;">' + escapeHtml(t.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + escapeHtml(t.description || '') + '</div></div><div style="text-align:right;"><div style="font-size:12px;font-weight:700;color:var(--primary);">' + (t.price || 'Free') + '</div></div></div>';
+                    }
+                    document.getElementById('templates-list').innerHTML = listHtml;
                 }
             } catch (e) { console.warn('Templates API error:', e); }
         });
+        function escapeHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
     </script>
 </body>
 </html>
