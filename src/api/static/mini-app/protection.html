@@ -45,7 +45,7 @@
             <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)" id="sh-risk">--</div><div class="metric-label">Risk Score</div><div class="text-xs" style="color:var(--success);margin-top:2px" id="sh-risk-label">--</div></div>
             <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)" id="sh-human">--</div><div class="metric-label">Human-Like</div><div class="text-xs" style="color:var(--success);margin-top:2px" id="sh-human-label">--</div></div>
             <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--success)" id="sh-bans">--</div><div class="metric-label">Банов</div><div class="text-xs text-secondary" style="margin-top:2px">За 30 дней</div></div>
-            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--primary)" id="sh-days">--</div><div class="metric-label">Дней без бана</div><div class="text-xs" style="color:var(--primary);margin-top:2px">--</div></div>
+            <div class="metric-card"><div style="font-size:22px;font-weight:800;color:var(--primary)" id="sh-days">--</div><div class="metric-label">Дней без бана</div><div class="text-xs" style="color:var(--primary);margin-top:2px" id="sh-days-sub">--</div></div>
         </div>
     </div>
 
@@ -119,11 +119,18 @@
                 var sec = dash && dash.security ? dash.security : {};
                 document.getElementById('sh-risk').textContent = sec.risk_score || '0';
                 document.getElementById('sh-risk-label').textContent = (sec.risk_score || 0) < 30 ? 'Низкий' : (sec.risk_score || 0) < 70 ? 'Средний' : 'Высокий';
-                document.getElementById('sh-human').textContent = (sec.human_like || '--') + '%';
-                document.getElementById('sh-human-label').textContent = (sec.human_like || 0) > 90 ? 'Отлично' : (sec.human_like || 0) > 70 ? 'Хорошо' : 'Требует прогрева';
+                var hl = sec.human_like;
+                if (hl !== undefined && hl !== null) {
+                    document.getElementById('sh-human').textContent = hl + '%';
+                    document.getElementById('sh-human-label').textContent = hl > 90 ? 'Отлично' : hl > 70 ? 'Хорошо' : 'Требует прогрева';
+                } else {
+                    document.getElementById('sh-human').textContent = '—';
+                    document.getElementById('sh-human-label').textContent = 'Нет данных';
+                }
                 document.getElementById('sh-bans').textContent = sec.bans || '0';
                 var risk = health && health.accounts ? health.accounts.at_risk || 0 : 0;
                 document.getElementById('sh-days').textContent = risk > 0 ? '0' : '7+';
+                document.getElementById('sh-days-sub').textContent = risk > 0 ? 'Есть риски' : 'Стабильно';
             } catch (e) { console.warn('Protection API error:', e); }
         });
     </script>

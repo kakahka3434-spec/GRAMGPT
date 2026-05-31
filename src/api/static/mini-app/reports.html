@@ -175,26 +175,43 @@
             return d.innerHTML;
         }
         document.addEventListener('DOMContentLoaded', async () => {
-                try {
-                    const saved = await api.get('/reports/saved');
-                    if (saved && saved.reports && saved.reports.length) {
-                        var list = document.getElementById('saved-reports');
-                        list.innerHTML = saved.reports.map(function(r) {
-                            return '<div class="saved-report" onclick="downloadReport(\'' + r.id + '\')"><div class="sr-icon"><i class="fas fa-file-' + (r.format || 'pdf') + '" style="color: ' + (r.format === 'excel' ? '#2ecc71' : '#e74c3c') + ';"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:600;">' + escapeHtml(r.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (r.format || 'PDF').toUpperCase() + ' — ' + (r.size || '') + '</div></div><i class="fas fa-download" style="color:var(--text-secondary);font-size:12px;"></i></div>';
-                        }).join('');
-                    }
-                } catch (_) {}
-                if (data && data.modules) {
-                    const mods = { parsing: 'mod-parsing', commenting: 'mod-commenting', chatting: 'mod-chatting', dialogs: 'mod-dialogs', reactions: 'mod-reactions' };
-                    Object.entries(data.modules).forEach(([k, v]) => {
-                        const el = document.getElementById(mods[k]);
-                        if (el) el.textContent = (v || 0).toLocaleString();
-                    });
+            try {
+                const [saved, dash] = await Promise.all([
+                    api.get('/reports/saved').catch(() => null),
+                    api.get('/dashboard').catch(() => null)
+                ]);
+                if (saved && saved.reports && saved.reports.length) {
+                    var list = document.getElementById('saved-reports');
+                    list.innerHTML = saved.reports.map(function(r) {
+                        return '<div class="saved-report" onclick="downloadReport(\'' + r.id + '\')"><div class="sr-icon"><i class="fas fa-file-' + (r.format || 'pdf') + '" style="color: ' + (r.format === 'excel' ? '#2ecc71' : '#e74c3c') + ';"></i></div><div style="flex:1"><div style="font-size:12px;font-weight:600;">' + escapeHtml(r.name || '') + '</div><div style="font-size:10px;color:var(--text-secondary);">' + (r.format || 'PDF').toUpperCase() + ' — ' + (r.size || '') + '</div></div><i class="fas fa-download" style="color:var(--text-secondary);font-size:12px;"></i></div>';
+                    }).join('');
                 }
-                if (data && data.security) {
-                    document.getElementById('sec-bans').textContent = data.security.bans || 0;
-                    document.getElementById('sec-flood').textContent = data.security.flood_waits || 0;
-                    document.getElementById('sec-human').textContent = (data.security.human_like || 0) + '%';
+                if (dash) {
+                    var m = dash.metrics || {};
+                    document.getElementById('rpt-leads').textContent = (m.leads || 0).toLocaleString();
+                    document.getElementById('rpt-revenue').textContent = '$' + (m.revenue || 0).toLocaleString();
+                    document.getElementById('rpt-conv').textContent = (m.conversion || 0) + '%';
+                    var trends = dash.trends || {};
+                    function setChg(id, val) {
+                        var el = document.getElementById(id);
+                        if (!el) return;
+                        if (val === undefined || val === null) { el.style.display = 'none'; return; }
+                        el.className = 'rpt-change ' + (val >= 0 ? 'up' : 'down');
+                        el.textContent = (val >= 0 ? '+' : '') + val + '%';
+                    }
+                    setChg('rpt-leads-chg', trends.leads);
+                    setChg('rpt-revenue-chg', trends.revenue);
+                    setChg('rpt-conv-chg', trends.conversion);
+                    var modules = dash.modules || {};
+                    var mods = { parsing: 'mod-parsing', commenting: 'mod-commenting', chatting: 'mod-chatting', dialogs: 'mod-dialogs', reactions: 'mod-reactions' };
+                    Object.keys(mods).forEach(function(k) {
+                        var el = document.getElementById(mods[k]);
+                        if (el) el.textContent = (modules[k] || 0).toLocaleString();
+                    });
+                    var sec = dash.security || {};
+                    document.getElementById('sec-bans').textContent = sec.bans || 0;
+                    document.getElementById('sec-flood').textContent = sec.flood_waits || 0;
+                    document.getElementById('sec-human').textContent = (sec.human_like || 0) + '%';
                 }
                 var now = new Date();
                 var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];

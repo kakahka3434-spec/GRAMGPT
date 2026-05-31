@@ -127,6 +127,19 @@
                 document.getElementById('mc-conv').textContent = (m.conversion || 0) + '%';
                 document.getElementById('mc-roi').textContent = (m.roi || 0) + '%';
                 document.getElementById('mc-acc').textContent = m.accounts || '0';
+                var trends = data.trends || {};
+                function setTrend(id, val) {
+                    var el = document.getElementById(id);
+                    if (!el) return;
+                    if (val === undefined || val === null) { el.style.display = 'none'; return; }
+                    var isUp = val >= 0;
+                    el.className = 'metric-trend ' + (isUp ? 'up' : 'down');
+                    el.innerHTML = '<i class="fas fa-arrow-' + (isUp ? 'up' : 'down') + '"></i> ' + Math.abs(val) + '%';
+                }
+                setTrend('mc-leads-trend', trends.leads);
+                setTrend('mc-conv-trend', trends.conversion);
+                setTrend('mc-roi-trend', trends.roi);
+                setTrend('mc-acc-trend', trends.accounts);
                 var r = data.revenue || {};
                 var chart = r.chart || [];
                 if (chart.length > 0 && chart.some(function(v) { return v > 0; })) {
@@ -151,7 +164,9 @@
                 }
                 var sec = data.security || {};
                 document.getElementById('sec-risk').textContent = sec.risk_score || '0';
-                document.getElementById('sec-human').textContent = (sec.human_like || '--') + '%';
+                var humanEl = document.getElementById('sec-human');
+                if (sec.human_like !== undefined && sec.human_like !== null) { humanEl.textContent = sec.human_like + '%'; }
+                else { humanEl.textContent = '—'; }
                 document.getElementById('sec-bans').textContent = sec.bans || '0';
             } catch (e) {
                 console.warn('Dashboard API error:', e);

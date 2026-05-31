@@ -168,6 +168,22 @@
     }
 
     // ============================================================
+    // Empty State Generator
+    // ============================================================
+    function emptyState(icon, title, text, action) {
+        var html = '<div class="empty-state"><div class="empty-state-icon"><i class="fas fa-' + icon + '"></i></div><div class="empty-state-title">' + title + '</div>';
+        if (text) html += '<div class="empty-state-text">' + text + '</div>';
+        if (action) html += '<button class="btn btn-sm btn-primary" onclick="' + action + '">' + (typeof action === 'string' && action.startsWith('toast') ? action : 'Настроить') + '</button>';
+        html += '</div>';
+        return html;
+    }
+
+    function showEmptyState(containerId, icon, title, text) {
+        var el = typeof containerId === 'string' ? document.getElementById(containerId) : containerId;
+        if (el) el.innerHTML = emptyState(icon || 'inbox', title || 'Нет данных', text || 'Данные появятся после начала работы модуля');
+    }
+
+    // ============================================================
     // Navigation — set active nav item
     // ============================================================
     function setActiveNav(page) {
@@ -185,6 +201,8 @@
     window.haptic = haptic;
     window.tg = tg;
     window.setActiveNav = setActiveNav;
+    window.showEmptyState = showEmptyState;
+    window.emptyState = emptyState;
 
     // ============================================================
     // Auto-init
