@@ -67,19 +67,8 @@
                 <button class="period-btn" onclick="setPeriod(this)">24ч</button>
             </div>
         </div>
-        <div class="chart-container" style="height:100px;">
-            <div class="chart-bar-item" style="height:35%"></div>
-            <div class="chart-bar-item" style="height:45%"></div>
-            <div class="chart-bar-item" style="height:30%"></div>
-            <div class="chart-bar-item" style="height:55%"></div>
-            <div class="chart-bar-item" style="height:70%"></div>
-            <div class="chart-bar-item" style="height:60%"></div>
-            <div class="chart-bar-item" style="height:85%"></div>
-            <div class="chart-bar-item" style="height:95%;opacity:1;box-shadow:0 0 6px rgba(0,229,255,0.2)"></div>
-        </div>
-        <div class="flex" style="justify-content: space-between; margin-top: 10px; font-size: 10px;">
-            <span class="text-muted">Всего: <strong style="color: var(--primary)" id="revenue-total">$--</strong></span>
-            <span style="color: var(--success);" id="revenue-change"><i class="fas fa-arrow-up"></i> --</span>
+        <div class="chart-container" style="height:100px;" id="revenue-chart">
+            <div class="empty-state" style="padding:20px;font-size:11px;"><i class="fas fa-chart-bar"></i><p>Нет данных о доходах</p></div>
         </div>
     </div>
 
@@ -87,11 +76,7 @@
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h4 class="mb-12"><i class="fas fa-filter" style="color: var(--primary);"></i> Воронка продаж</h4>
         <div class="funnel-viz" id="funnel-viz">
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:100%"><span class="funnel-icon-v"><i class="fas fa-crosshairs"></i></span><span>Парсинг</span><span class="funnel-num">--</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:85%;background:linear-gradient(90deg,rgba(0,136,204,0.3),rgba(0,210,255,0.2))"><span class="funnel-icon-v"><i class="fas fa-comments"></i></span><span>Комментинг</span><span class="funnel-num">--</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:65%;background:linear-gradient(90deg,rgba(243,156,18,0.3),rgba(230,126,34,0.2))"><span class="funnel-icon-v"><i class="fas fa-message"></i></span><span>Чаттинг</span><span class="funnel-num">--</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:40%;background:linear-gradient(90deg,rgba(155,89,182,0.3),rgba(142,68,173,0.2))"><span class="funnel-icon-v"><i class="fas fa-robot"></i></span><span>Диалоги</span><span class="funnel-num">--</span></div></div>
-            <div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:20%;background:linear-gradient(90deg,rgba(46,204,113,0.3),rgba(39,174,96,0.2))"><span class="funnel-icon-v"><i class="fas fa-check-circle"></i></span><span>Лиды</span><span class="funnel-num">--</span></div></div>
+            <div class="empty-state" style="padding:16px;"><i class="fas fa-filter"></i><p>Запустите модули, чтобы увидеть воронку</p></div>
         </div>
     </div>
 
@@ -137,39 +122,37 @@
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/dashboard');
-                if (data.metrics) {
-                    document.getElementById('mc-leads').textContent = data.metrics.leads?.toLocaleString() || '0';
-                    document.getElementById('mc-leads-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.leads_trend || '--');
-                    document.getElementById('mc-conv').textContent = (data.metrics.conversion || 0) + '%';
-                    document.getElementById('mc-conv-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.conv_trend || '--');
-                    document.getElementById('mc-roi').textContent = (data.metrics.roi || 0) + '%';
-                    document.getElementById('mc-roi-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.roi_trend || '--');
-                    document.getElementById('mc-acc').textContent = data.metrics.accounts || '0';
-                    document.getElementById('mc-acc-trend').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.metrics.acc_trend || '--');
+                var m = data.metrics || {};
+                document.getElementById('mc-leads').textContent = (m.leads || 0).toLocaleString();
+                document.getElementById('mc-conv').textContent = (m.conversion || 0) + '%';
+                document.getElementById('mc-roi').textContent = (m.roi || 0) + '%';
+                document.getElementById('mc-acc').textContent = m.accounts || '0';
+                var r = data.revenue || {};
+                var chart = r.chart || [];
+                if (chart.length > 0 && chart.some(function(v) { return v > 0; })) {
+                    var maxVal = Math.max.apply(null, chart) || 1;
+                    var html = '';
+                    for (var i = 0; i < chart.length; i++) {
+                        var h = (chart[i] / maxVal) * 95;
+                        html += '<div class="chart-bar-item" style="height:' + h + '%"></div>';
+                    }
+                    document.getElementById('revenue-chart').innerHTML = html;
                 }
-                if (data.revenue) {
-                    const bars = document.querySelectorAll('.chart-bar-item');
-                    const chart = data.revenue.chart || [];
-                    bars.forEach((bar, i) => {
-                        const val = chart[i] || 0;
-                        bar.style.height = Math.min(val, 95) + '%';
-                    });
-                    document.getElementById('revenue-total').textContent = '$' + (data.revenue.total || 0).toLocaleString();
-                    document.getElementById('revenue-change').innerHTML = '<i class="fas fa-arrow-up"></i> ' + (data.revenue.change || '--');
+                var funnel = data.funnel || [];
+                if (funnel.length > 0 && funnel.some(function(f) { return f.count > 0; })) {
+                    var maxFunnel = Math.max.apply(null, funnel.map(function(f) { return f.count; })) || 1;
+                    var colors = ['rgba(0,229,255,0.25)', 'rgba(0,136,204,0.25)', 'rgba(243,156,18,0.25)', 'rgba(155,89,182,0.25)', 'rgba(46,204,113,0.25)'];
+                    var html2 = '';
+                    for (var j = 0; j < funnel.length; j++) {
+                        var w = (funnel[j].count / maxFunnel) * 100;
+                        html2 += '<div class="funnel-step-viz"><div class="funnel-bar-viz" style="width:' + Math.max(w, 10) + '%;background:linear-gradient(90deg,' + colors[j % colors.length] + ',transparent)"><span class="funnel-icon-v"><i class="fas fa-' + (['crosshairs','comments','message','robot','check-circle'][j] || 'circle') + '"></i></span><span>' + escapeHtml(funnel[j].stage || '') + '</span><span class="funnel-num">' + (funnel[j].count || 0).toLocaleString() + '</span></div></div>';
+                    }
+                    document.getElementById('funnel-viz').innerHTML = html2;
                 }
-                if (data.funnel && data.funnel.length === 5) {
-                    const bars = document.querySelectorAll('.funnel-step-viz .funnel-num');
-                    data.funnel.forEach((f, i) => { if (bars[i]) bars[i].textContent = (f.count || 0).toLocaleString(); });
-                }
-                if (data.security) {
-                    document.getElementById('sec-risk').textContent = data.security.risk_score || 0;
-                    document.getElementById('sec-human').textContent = (data.security.human_like || 0) + '%';
-                    document.getElementById('sec-bans').textContent = data.security.bans || 0;
-                }
-                if (data.activity && data.activity.length) {
-                    const feed = document.getElementById('activity-feed');
-                    feed.innerHTML = data.activity.map(a => '<div class="activity-item"><div class="activity-icon" style="background:' + (a.icon_bg || 'rgba(0,136,204,0.1)') + '"><i class="fas ' + (a.icon || 'fa-circle') + '" style="color:' + (a.icon_color || 'var(--primary)') + '"></i></div><div class="flex-1"><div class="text-sm"><strong>' + (a.title || '') + '</strong> — ' + (a.subtitle || '') + '</div><div class="text-xs text-secondary">' + (a.source || '') + '</div></div><span class="text-xs text-secondary">' + (a.time || '') + '</span></div>').join('');
-                }
+                var sec = data.security || {};
+                document.getElementById('sec-risk').textContent = sec.risk_score || '0';
+                document.getElementById('sec-human').textContent = (sec.human_like || '--') + '%';
+                document.getElementById('sec-bans').textContent = sec.bans || '0';
             } catch (e) {
                 console.warn('Dashboard API error:', e);
             }
