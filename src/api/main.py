@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
@@ -16,12 +16,14 @@ from src.api.routers.admin import router as admin_router
 from src.api.routers.health import router as health_router
 from src.api.routers.proxy import router as proxy_router
 from src.core.auth_service import auth_service
-from typing import Optional
+from typing import Optional, List
 import os
 import hashlib
 import hmac
 import json
 import logging
+import asyncio
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +78,67 @@ async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] 
         return payload
     except Exception:
         return None
+
+# ============ WEB SOCKET LIVE FEED ============
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: dict):
+        dead = []
+        for conn in self.active_connections:
+            try:
+                await conn.send_json(message)
+            except Exception:
+                dead.append(conn)
+        for d in dead:
+            self.active_connections.remove(d)
+
+
+manager = ConnectionManager()
+
+
+@app.websocket("/ws/live")
+async def websocket_live(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        # Send initial ping
+        await websocket.send_json({"type": "connected", "message": "Live feed active"})
+        # Keep connection alive with periodic pings
+        while True:
+            try:
+                data = await asyncio.wait_for(websocket.receive_text(), timeout=30)
+                # Client can send pings back
+                if data == "ping":
+                    await websocket.send_json({"type": "pong"})
+            except asyncio.TimeoutError:
+                # Send keepalive ping
+                try:
+                    await websocket.send_json({"type": "keepalive"})
+                except Exception:
+                    break
+    except (WebSocketDisconnect, Exception):
+        manager.disconnect(websocket)
+
+
+# Helper for services to push live events
+async def push_live_event(event_type: str, title: str, message: str, module: str = "system"):
+    await manager.broadcast({
+        "type": event_type,
+        "title": title,
+        "message": message,
+        "module": module,
+        "timestamp": datetime.now().isoformat(),
+    })
+
 
 # Include routers (auth is optional - no token = limited data, token = full access)
 app.include_router(web3_router)

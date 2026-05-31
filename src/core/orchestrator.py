@@ -1,7 +1,6 @@
 from typing import Dict, Any, List
 import json
 import logging
-import random
 from src.core.ai_client import ai_client
 from src.db.database import db
 
@@ -29,24 +28,46 @@ class AIOrchestrator:
             start = response.find("{")
             end = response.rfind("}") + 1
             strategy = json.loads(response[start:end])
-        except Exception:
-            strategy = {
-                "name": campaign_name,
-                "predicted_roi": f"{random.randint(150, 400)}%",
-                "steps": [
-                    {"day": "1-3", "action": "Scraping & Warmup"},
-                    {"day": "4-7", "action": "Commenting & Reaction Funnel"},
-                    {"day": "8-14", "action": "Chatting & DM Close"},
-                ],
-                "channels": ["Telegram", "WhatsApp"],
-                "optimization_metrics": ["Conversion Rate", "Ban Risk Score"],
-            }
+        except Exception as e:
+            logger.warning(f"AI strategy generation failed, using DB-driven defaults: {e}")
+            strategy = self._default_strategy(campaign_name, goal)
 
         try:
             db.create_campaign(campaign_name, goal, strategy)
         except Exception as e:
             logger.warning(f"Could not persist campaign: {e}")
         return strategy
+
+    def _default_strategy(self, campaign_name: str, goal: str) -> Dict[str, Any]:
+        roi_estimates = {
+            "leads": "250-400%", "traffic": "150-300%",
+            "engagement": "100-200%", "sales": "300-600%",
+        }
+        steps_by_goal = {
+            "leads": [
+                {"day": "1-3", "action": "Парсинг целевых каналов"},
+                {"day": "4-7", "action": "Прогрев + нейрокомментинг"},
+                {"day": "8-12", "action": "Chatting + закрытие в ЛС"},
+                {"day": "13-14", "action": "Анализ и оптимизация"},
+            ],
+            "traffic": [
+                {"day": "1-2", "action": "Парсинг каналов по теме"},
+                {"day": "3-7", "action": "Массовый комментинг"},
+                {"day": "8-14", "action": "Retargeting и реакции"},
+            ],
+            "sales": [
+                {"day": "1-3", "action": "Сбор тёплой аудитории"},
+                {"day": "4-8", "action": "НейроДиалоги + автоворонка"},
+                {"day": "9-14", "action": "Закрытие сделок через CRM"},
+            ],
+        }
+        return {
+            "name": campaign_name,
+            "predicted_roi": roi_estimates.get(goal, "150-300%"),
+            "steps": steps_by_goal.get(goal, steps_by_goal["leads"]),
+            "channels": ["Telegram"],
+            "optimization_metrics": ["Conversion Rate", "Ban Risk Score", "CPL"],
+        }
 
     async def auto_optimization_loop(self, campaign_id: int) -> Dict:
         logger.info(f"Auto-optimizing campaign #{campaign_id}...")
@@ -55,14 +76,20 @@ class AIOrchestrator:
         except Exception:
             campaign = None
 
-        metrics = {
-            "conversion": campaign.get("conversion_rate", 0.05) if campaign else 0.05,
-            "replies": campaign.get("total_replies", 12) if campaign else 12,
-            "bans": campaign.get("ban_count", 0) if campaign else 0,
-        }
+        if campaign:
+            metrics = {
+                "conversion": campaign.get("conversion_rate", 0.05),
+                "replies": campaign.get("total_replies", 0),
+                "bans": campaign.get("ban_count", 0),
+            }
+        else:
+            conn = db._get_connection()
+            row = conn.execute("SELECT id, status FROM campaigns WHERE id = ?", [campaign_id]).fetchone()
+            metrics = {"conversion": 0.0, "replies": 0, "bans": 0, "campaign_found": row is not None}
+            conn.close()
 
         prompt = (
-            f"Analyze campaign campaign #{campaign_id} metrics: {json.dumps(metrics)}.\n"
+            f"Analyze campaign #{campaign_id} metrics: {json.dumps(metrics)}.\n"
             "Suggest 3 specific improvements to increase conversion and reduce ban risk. "
             "Return JSON with: adjustments (array of strings), risk_level (low/medium/high), "
             "recommended_delay_change (int minutes)."
@@ -72,15 +99,31 @@ class AIOrchestrator:
             start = response.find("{")
             end = response.rfind("}") + 1
             result = json.loads(response[start:end])
-        except Exception:
-            result = {
-                "adjustments": ["Shift activity to evening hours", "Reduce comment frequency", "Add emoji variety"],
-                "risk_level": "medium",
-                "recommended_delay_change": 30,
-            }
+        except Exception as e:
+            logger.warning(f"AI optimization failed, using metric-driven defaults: {e}")
+            result = self._default_optimization(metrics.get("bans", 0), metrics.get("conversion", 0))
 
         logger.info(f"Optimization result for #{campaign_id}: {result.get('adjustments', [])}")
         return {"status": "optimized", "campaign_id": campaign_id, **result}
+
+    def _default_optimization(self, ban_count: int, conversion: float) -> Dict:
+        adjustments = []
+        if ban_count > 2:
+            adjustments.append("Increase comment delay by 60s — high ban rate detected")
+            adjustments.append("Reduce daily comment volume by 30%")
+        elif conversion < 0.02:
+            adjustments.append("Refine target channels — low conversion rate")
+            adjustments.append("Test different comment styles (expert vs supportive)")
+        else:
+            adjustments.append("Current performance is stable — monitor conversion funnel")
+            adjustments.append("Consider A/B testing prompt templates")
+
+        risk_level = "high" if ban_count > 5 else "medium" if ban_count > 2 else "low"
+        return {
+            "adjustments": adjustments,
+            "risk_level": risk_level,
+            "recommended_delay_change": 60 if ban_count > 2 else 15,
+        }
 
 
 orchestrator = AIOrchestrator()

@@ -112,10 +112,9 @@
             </div>
         </div>
         <div class="chart-container" style="height:100px;" id="revenue-chart">
-            <div class="demo-chart-placeholder" id="demo-chart">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div>
+            <div class="empty-state" style="padding:20px;font-size:11px;" id="chart-empty">
+                <i class="fas fa-chart-bar"></i>
+                <p id="chart-empty-text">Запустите кампанию, чтобы увидеть график доходов</p>
             </div>
         </div>
     </div>
@@ -178,49 +177,35 @@
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
-        function showDemoState() {
-            document.getElementById('cpl-card').querySelector('.cpl-value').textContent = '0.00$';
-            document.getElementById('cpl-card').querySelector('.cpl-trend').innerHTML = '<span class="text-muted">Нет данных — запустите кампанию</span>';
-        }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/dashboard');
                 var m = data.metrics || {};
-                var hasData = m.leads > 0 || m.conversion > 0 || m.roi > 0;
+                var hasData = m.leads > 0 || (m.roi && m.roi > 0);
                 if (hasData) {
-                    document.getElementById('mc-cpl').textContent = (m.cpl !== undefined ? '$' + m.cpl.toFixed(2) : '0.00$');
+                    document.getElementById('mc-cpl').textContent = '$' + (m.cpl || 0).toFixed(2);
+                    document.getElementById('mc-cpl-trend').innerHTML = '<span class="text-muted">Рассчитан за всё время</span>';
                     document.getElementById('mc-leads').textContent = (m.leads || 0).toLocaleString();
                     document.getElementById('mc-conv').textContent = (m.conversion || 0) + '%';
                     document.getElementById('mc-roi').textContent = (m.roi || 0) + '%';
-                    document.getElementById('mc-acc').textContent = m.accounts || '0';
+                    document.getElementById('mc-acc').textContent = 'Активных: ' + (m.active || 0) + ' / ' + (m.accounts || 0);
+                    document.getElementById('mc-acc').className = 'metric-value';
+                    document.getElementById('mc-acc').style.fontSize = '16px';
+                    document.getElementById('mc-acc').style.background = 'none';
+                    document.getElementById('mc-acc').style.color = 'var(--text)';
+                    document.getElementById('mc-acc').style.webkitTextFillColor = 'var(--text)';
                 } else {
-                    document.getElementById('mc-cpl').textContent = '0.42$';
-                    document.getElementById('mc-leads').textContent = '1,247';
-                    document.getElementById('mc-conv').textContent = '12.4%';
-                    document.getElementById('mc-roi').textContent = '340%';
-                    document.getElementById('mc-acc').textContent = '18';
-                    document.getElementById('mc-cpl-trend').innerHTML = '<span style="color:var(--success)"><i class="fas fa-arrow-down"></i> 23% к прошлому периоду</span>';
-                }
-                var trends = data.trends || {};
-                function setTrend(id, val) {
-                    var el = document.getElementById(id);
-                    if (!el) return;
-                    if (val === undefined || val === null) { if (!hasData) { el.style.display = 'none'; } return; }
-                    var isUp = val >= 0;
-                    el.className = 'metric-trend ' + (isUp ? 'up' : 'down');
-                    el.innerHTML = '<i class="fas fa-arrow-' + (isUp ? 'up' : 'down') + '"></i> ' + Math.abs(val) + '%';
-                }
-                setTrend('mc-leads-trend', hasData ? trends.leads : null);
-                setTrend('mc-conv-trend', hasData ? trends.conversion : null);
-                setTrend('mc-roi-trend', hasData ? trends.roi : null);
-                setTrend('mc-acc-trend', hasData ? trends.accounts : null);
-                if (!hasData) {
-                    document.getElementById('demo-chart').style.display = 'flex';
+                    document.getElementById('mc-cpl').textContent = '—';
+                    document.getElementById('mc-cpl-trend').innerHTML = '<span class="text-muted">Нет данных — запустите кампанию</span>';
+                    document.getElementById('mc-leads').textContent = '0';
+                    document.getElementById('mc-conv').textContent = '0%';
+                    document.getElementById('mc-roi').textContent = '0%';
+                    document.getElementById('mc-acc').textContent = '0';
                 }
                 var r = data.revenue || {};
                 var chart = r.chart || [];
                 if (chart.length > 0 && chart.some(function(v) { return v > 0; })) {
-                    document.getElementById('demo-chart').style.display = 'none';
+                    document.getElementById('chart-empty').style.display = 'none';
                     var maxVal = Math.max.apply(null, chart) || 1;
                     var html = '';
                     for (var i = 0; i < chart.length; i++) {
@@ -228,6 +213,8 @@
                         html += '<div class="chart-bar-item" style="height:' + h + '%"></div>';
                     }
                     document.getElementById('revenue-chart').innerHTML = html;
+                    var change = r.change || '+0%';
+                    document.getElementById('chart-empty-text').textContent = 'Изменение: ' + change;
                 }
                 var funnel = data.funnel || [];
                 if (funnel.length > 0 && funnel.some(function(f) { return f.count > 0; })) {
@@ -243,16 +230,16 @@
                 var sec = data.security || {};
                 document.getElementById('sec-risk').textContent = sec.risk_score || '0';
                 var humanEl = document.getElementById('sec-human');
-                if (sec.human_like !== undefined && sec.human_like !== null) { humanEl.textContent = sec.human_like + '%'; }
-                else { humanEl.textContent = '—'; }
+                if (sec.human_like !== undefined && sec.human_like !== null) {
+                    humanEl.textContent = sec.human_like + '%';
+                    humanEl.style.color = sec.human_like > 80 ? 'var(--success)' : sec.human_like > 50 ? 'var(--warning)' : 'var(--danger)';
+                } else { humanEl.textContent = '—'; }
                 document.getElementById('sec-bans').textContent = sec.bans || '0';
             } catch (e) {
                 console.warn('Dashboard API error:', e);
-                document.getElementById('mc-cpl').textContent = '0.42$';
-                document.getElementById('mc-leads').textContent = '1,247';
-                document.getElementById('mc-conv').textContent = '12.4%';
-                document.getElementById('mc-roi').textContent = '340%';
-                document.getElementById('mc-acc').textContent = '18';
+                document.getElementById('mc-cpl').textContent = '—';
+                document.getElementById('mc-cpl-trend').innerHTML = '<span class="text-muted">Ошибка загрузки</span>';
+                document.getElementById('chart-empty-text').textContent = 'Не удалось загрузить данные';
             }
         });
     </script>

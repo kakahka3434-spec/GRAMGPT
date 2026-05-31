@@ -171,7 +171,10 @@ async function load() {
             const statusLabels = { active: 'Активен', warming: 'Прогрев', cooldown: 'Ожидание', banned: 'Забанен', error: 'Ошибка' };
             const sc = statusColors[a.status] || 'grey';
             const sl = statusLabels[a.status] || a.status;
-            const trust = Math.max(0, 100 - (a.error_count || 0) * 10);
+            const totalActions = (a.success_count || 0) + (a.error_count || 0);
+            const trust = totalActions > 0
+                ? Math.max(0, Math.min(100, Math.round((a.success_count / totalActions) * 100)))
+                : 50; // neutral trust for new accounts with no history
             const proxyLabel = a.proxy_active === false ? ' (offline)' : a.proxy_ping ? ` (${a.proxy_ping}ms)` : '';
 
             const row = document.createElement('div');

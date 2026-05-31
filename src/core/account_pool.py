@@ -280,6 +280,8 @@ class AccountPool:
                 account.success_count += 1
                 account.last_error = None
                 self._save_pool()
+                self._log_activity("commenting", "comment_sent", f"Account {phone} successful action", phone)
+                self._broadcast_event("success", f"✅ @{phone} — действие выполнено", "commenting")
                 break
     
     def record_error(self, phone: str, error: str, cooldown_minutes: int = 0) -> None:
@@ -370,6 +372,42 @@ class AccountPool:
 """
         return text
     
+    @staticmethod
+    def _compute_trust(success_count: int, error_count: int) -> int:
+        total = success_count + error_count
+        if total == 0:
+            return 50  # neutral for new accounts
+        return max(0, min(100, round((success_count / total) * 100)))
+
+    @staticmethod
+    def _log_activity(module: str, action: str, details: str = "", account_id: str = ""):
+        try:
+            conn = sqlite3.connect("gramgpt.db")
+            conn.execute(
+                "INSERT INTO activity_log (module, action, details, account_id) VALUES (?, ?, ?, ?)",
+                (module, action, details, account_id),
+            )
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass
+
+    @staticmethod
+    def _broadcast_event(event_type: str, title: str, module: str = "system"):
+        try:
+            import asyncio
+            from src.api.main import manager, push_live_event
+            import platform
+            if platform.system() != "Windows" or hasattr(asyncio, "get_running_loop"):
+                try:
+                    loop = asyncio.get_running_loop()
+                    if loop and loop.is_running():
+                        asyncio.ensure_future(push_live_event(event_type, title, "", module))
+                except RuntimeError:
+                    pass
+        except Exception:
+            pass
+
     def get_available_proxies(self) -> List[Dict]:
         """Fetch proxies from SQLite pool for dropdown selection."""
         try:
@@ -409,6 +447,7 @@ class AccountPool:
         result = []
         for acc in self.accounts:
             d = asdict(acc)
+            d["trust_score"] = self._compute_trust(acc.success_count, acc.error_count)
             # Enrich with proxy info from proxy_id
             if acc.proxy_id:
                 import sqlite3
