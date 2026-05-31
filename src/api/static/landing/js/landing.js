@@ -108,68 +108,7 @@ document.querySelectorAll('.reveal').forEach(el => {
     revealObserver.observe(el);
 });
 
-// ===== SCROLL STORYTELLING =====
-const storyBlocks = document.querySelectorAll('.story-block');
-const storyNavItems = document.querySelectorAll('.story-nav-item');
 
-if (storyBlocks.length && storyNavItems.length) {
-    const storyObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                const idx = Array.from(storyBlocks).indexOf(entry.target);
-                storyNavItems.forEach((item, i) => {
-                    item.classList.toggle('active', i === idx);
-                });
-            }
-        });
-    }, { threshold: 0.4 });
-
-    storyBlocks.forEach(block => storyObserver.observe(block));
-
-    // Click nav items to scroll to block
-    storyNavItems.forEach((item, idx) => {
-        item.addEventListener('click', () => {
-            storyBlocks[idx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    });
-}
-
-// ===== TERMINAL TYPEWRITER =====
-function typeTerminal(containerId, lines, delay = 150) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-    lines.forEach((line, i) => {
-        setTimeout(() => {
-            const div = document.createElement('div');
-            div.className = 'terminal-line';
-            div.innerHTML = line;
-            container.appendChild(div);
-        }, delay * i);
-    });
-}
-
-// Fire terminal animation when visible
-const terminalObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const container = entry.target;
-            const linesRaw = container.dataset.lines;
-            if (linesRaw) {
-                try {
-                    const lines = JSON.parse(linesRaw);
-                    typeTerminal(container.id, lines);
-                } catch(e) {}
-            }
-            terminalObserver.unobserve(container);
-        }
-    });
-}, { threshold: 0.3 });
-
-document.querySelectorAll('.terminal-container[data-lines]').forEach(el => {
-    terminalObserver.observe(el);
-});
 
 // ===== PRICING TOGGLE =====
 (function() {
@@ -277,22 +216,6 @@ function toggleFaq(btn) {
     }
 })();
 
-// ===== HEATMAP ANIMATION =====
-(function() {
-    const heatmaps = document.querySelectorAll('.heatmap-grid');
-    heatmaps.forEach(grid => {
-        const cells = grid.querySelectorAll('.heatmap-cell');
-        cells.forEach((cell, i) => {
-            setTimeout(() => {
-                const rand = Math.random();
-                if (rand < 0.6) cell.classList.add('active');
-                else if (rand < 0.8) cell.classList.add('warning');
-                else if (rand < 0.9) cell.classList.add('danger');
-            }, i * 100);
-        });
-    });
-})();
-
 // ===== MAGNETIC BUTTONS =====
 document.querySelectorAll('.btn-magnetic').forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
@@ -362,5 +285,95 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+
+// ===== AI SIMULATOR =====
+(function() {
+    var generateBtn = document.getElementById('simGenerateBtn');
+    var resultContent = document.getElementById('simResultContent');
+    var typingLine = document.getElementById('simTypingLine');
+    var speedValue = document.getElementById('simSpeedValue');
+    var styleBtns = document.querySelectorAll('.sim-style');
+    var postText = document.getElementById('simPostText');
+    var currentStyle = 'expert';
+
+    styleBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            styleBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            currentStyle = btn.dataset.style;
+        });
+    });
+
+    var comments = {
+        expert: [
+            'С точки зрения ончейн-аналитики, пробой $100k — это психологический уровень, а не технический. Коррекция на 15-20% после таких пробоев — стандарт. Входить лучше после ретеста зоны $85-90k. Если смотрите на долгосрок — DCA на каждом проседании.',
+            'Институционалы фиксят прибыль на круглых цифрах. Смотрим на Open Interest и Funding Rate. Если OI падает — рынок перегрет. Мой прогноз: консолидация $90-105k в ближайшие 2 недели.',
+            'Не торопитесь. $100k — это психологическая отметка, но фундаментально ничего не изменилось. Ждите подтверждения объёмами выше $105k, иначе сольётесь на коррекции.'
+        ],
+        toxic: [
+            'Очередной нуб, который хочет купить на хае 🤡 Продавай свои альты, пока они не ушли в ноль. Зашёл бы ты в крипту в 2017 — был бы уже на Бали, а не спрашивал совета в телеге.',
+            'Ты серьёзно? Когда биток бил ATH, ты сидел в стейблах? 😂 Твой поезд ушёл, чувак. Теперь только дождаться ликвидаций лонгистов и зайти на просадке. Без паники.',
+            'Входить после х100? Гениально. С таким подходом ты будешь вечно покупать на хаях и сливать на лоях. Научись сначала читать график.'
+        ],
+        humor: [
+            'Биток за $100k, а я всё ещё считаю, что 2 пиццы за 10k BTC — лучшая сделка в истории 🤝 Если серьёзно — иду в лонг, но стоп на 88к. Худшее, что может случиться — придётся майнить сатохи ногами 🏃‍♂️',
+            'Памп уже случился, а моя бабушка только скачала Binance 👵📱 Заходить или нет? Если ты веришь в крипту — да. Если нет — ты всё ещё читаешь этот канал, так что веришь 😉',
+            '$100k — это когда ты продал год назад на $30k и теперь смотришь на график как мем с собакой в горящей комнате 🔥 Входить можно, но только если готов к американским горкам. Пристегнитесь, дамы и господа 🎢'
+        ]
+    };
+
+    generateBtn.addEventListener('click', function() {
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Генерация...';
+        resultContent.classList.remove('active');
+        document.querySelector('.sim-result-empty').style.display = 'none';
+        typingLine.textContent = '';
+        resultContent.classList.add('active');
+
+        var options = comments[currentStyle];
+        var response = options[Math.floor(Math.random() * options.length)];
+        var totalChars = response.length;
+        var startTime = performance.now();
+        var revealed = 0;
+
+        // Simulate Cerebras-speed streaming (fast — ~200 tokens/s ≈ ~600+ chars/s)
+        function typeNext() {
+            if (revealed >= totalChars) {
+                var elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+                var charsPerSec = Math.round(totalChars / parseFloat(elapsed));
+                speedValue.textContent = charsPerSec;
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Сгенерировать ещё';
+                return;
+            }
+            var chunkSize = Math.max(1, Math.floor(8 + Math.random() * 18));
+            revealed = Math.min(revealed + chunkSize, totalChars);
+            typingLine.textContent = response.substring(0, revealed);
+            var charsPerSec = revealed / ((performance.now() - startTime) / 1000);
+            speedValue.textContent = Math.round(charsPerSec);
+            requestAnimationFrame(function() {
+                setTimeout(typeNext, 8 + Math.random() * 12);
+            });
+        }
+        typeNext();
+    });
+})();
+
+// ===== LIVE ACTION COUNTER =====
+(function() {
+    var countEl = document.getElementById('liveActionCount');
+    if (!countEl) return;
+    var base = 142492;
+    var shown = base;
+
+    function updateCounter() {
+        var increment = Math.floor(Math.random() * 7) + 1;
+        shown += increment;
+        countEl.textContent = shown.toLocaleString();
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 4000 + Math.random() * 3000);
+})();
 
 console.log('GRAMGPT — Landing initialized');

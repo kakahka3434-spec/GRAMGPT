@@ -60,7 +60,7 @@
             <a href="#faq">FAQ</a>
             <a href="/blog">Блог</a>
         </div>
-        <a href="https://t.me/gramgpt_bot?start=landing" class="btn btn-primary btn-sm" target="_blank" data-track="header_cta">Запустить</a>
+            <a href="https://t.me/gramgpt_bot?start=landing" class="btn btn-primary btn-sm" target="_blank" data-track="header_cta">Запустить ИИ-Комбайн</a>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Меню">
             <span class="hamburger-line"></span>
             <span class="hamburger-line"></span>
@@ -114,6 +114,10 @@
             <a href="#how-it-works" class="btn btn-outline btn-lg btn-magnetic" data-track="hero_video">
                 <i class="fas fa-play"></i> Как работает
             </a>
+        </div>
+        <div class="hero-counter animate-fade-in" style="animation-delay:0.35s">
+            <span class="live-dot-hero"></span>
+            <span class="hero-counter-text">Системы активны · Сгенерировано за сегодня: <strong id="liveActionCount">0</strong> ИИ-действий</span>
         </div>
         <div class="hero-stats animate-fade-in" style="animation-delay: 0.4s">
             <div class="hero-stat">
@@ -221,63 +225,126 @@
     </div>
 </section>
 
-<!-- ===== SCROLL STORYTELLING ===== -->
-<section class="section story-section section-dark" id="features">
-    <div class="container story-container">
-        <div class="story-nav">
-            <div class="story-nav-item active">
-                <span class="nav-index">01</span> Автоматизация 24/7
-            </div>
-            <div class="story-nav-item">
-                <span class="nav-index">02</span> Защита от банов
-            </div>
-            <div class="story-nav-item">
-                <span class="nav-index">03</span> Аналитика и ROI
-            </div>
+<!-- ===== AI SIMULATOR ===== -->
+<section class="section simulator-section" id="ai-simulator">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">⚡ Попробуй прямо сейчас</div>
+            <h2>Скорость <span class="gradient-text">Cerebras</span> в действии</h2>
+            <p>Наш ИИ генерирует осмысленные комментарии за доли секунды. Убедись сам.</p>
         </div>
-        <div class="story-content">
-            <!-- Block 1 -->
-            <div class="story-block visible" id="story-1">
-                <div class="story-block-icon"><i class="fas fa-robot"></i></div>
-                <h3>Автоматизация 24/7</h3>
-                <p>Нейросеть работает без выходных. Умная очередь с приоритизацией и AI-оркестрацией всех модулей.</p>
-                <div class="story-terminal terminal-container" id="terminal1" data-lines='["<span class=time>[12:47:01]</span> <span class=channel>@channel_42</span> — comment posted <span class=status>| delay: 3.2s | trust: 97%</span>", "<span class=time>[12:47:03]</span> <span class=channel>@crypto_talk</span> — reaction added <span class=status>| delay: 1.8s | trust: 99%</span>", "<span class=time>[12:47:06]</span> <span class=channel>@invest_grp</span> — chat response <span class=status>| delay: 4.1s | trust: 94%</span>", "<span class=time>[12:47:10]</span> <span class=channel>@tech_news</span> — comment posted <span class=status>| delay: 2.5s | trust: 96%</span>"]'>
-                    <div class="terminal-line"><span class="time">[12:47:01]</span> <span class="channel">@channel_42</span> — comment posted <span class="status">| delay: 3.2s | trust: 97%</span></div>
-                </div>
-            </div>
-            <!-- Block 2 -->
-            <div class="story-block" id="story-2">
-                <div class="story-block-icon"><i class="fas fa-shield-halved"></i></div>
-                <h3>Защита от банов</h3>
-                <p>Предиктивный Anti-Ban Shield анализирует риски в реальном времени. AI Crisis Manager нейтрализует угрозы автоматически.</p>
-                <div class="story-visual">
-                    <div class="heatmap-grid" id="heatmap1">
-                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
-                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
-                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
-                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
-                        <div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div><div class="heatmap-cell"></div>
+        <div class="simulator reveal reveal-delay-1">
+            <div class="sim-post">
+                <div class="sim-post-header">
+                    <div class="sim-post-avatar">К</div>
+                    <div>
+                        <div class="sim-post-name">Крипто-Канал</div>
+                        <div class="sim-post-meta">2 340 просмотров · только что</div>
                     </div>
                 </div>
+                <div class="sim-post-text" id="simPostText">Биткоин пробил $100k! Что думаете, заходить сейчас или ждать отката?</div>
             </div>
-            <!-- Block 3 -->
-            <div class="story-block" id="story-3">
-                <div class="story-block-icon"><i class="fas fa-chart-line"></i></div>
-                <h3>Аналитика и ROI</h3>
-                <p>AI Orchestrator создаёт стратегии с предиктивным ROI на основе 10,000+ кейсов. Автоматическая оптимизация кампаний.</p>
-                <div class="story-visual" style="height:140px; background: rgba(0,229,255,0.04); border-radius:10px; display:flex; align-items:flex-end; gap:6px; padding:16px;">
-                    <div style="flex:1; height:30%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:55%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:25%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:70%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:45%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:80%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:60%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:90%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:50%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
-                    <div style="flex:1; height:75%; background:linear-gradient(to top, var(--primary), transparent); border-radius:3px;"></div>
+            <div class="sim-controls">
+                <span class="sim-label">Стиль ответа:</span>
+                <div class="sim-styles" id="simStyles">
+                    <button class="sim-style active" data-style="expert">Эксперт</button>
+                    <button class="sim-style" data-style="toxic">Токсичный</button>
+                    <button class="sim-style" data-style="humor">Харизматичный юмор</button>
                 </div>
             </div>
+            <button class="btn btn-primary btn-lg btn-glow sim-generate-btn" id="simGenerateBtn">
+                <i class="fas fa-bolt"></i> Сгенерировать ИИ-комментарий
+            </button>
+            <div class="sim-result" id="simResult">
+                <div class="sim-result-empty">Нажми «Сгенерировать» — и увидишь скорость Cerebras 🔥</div>
+                <div class="sim-result-content" id="simResultContent">
+                    <div class="sim-typing-line" id="simTypingLine"></div>
+                </div>
+            </div>
+            <div class="sim-speed-badge">
+                <i class="fas fa-gauge-high"></i> Cerebras Inference: <span id="simSpeedValue">—</span> токенов/с
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== BENTO GRID: 6 UNIQUE AI MODULES ===== -->
+<section class="section section-dark bento-section" id="features">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-badge">Технологическое превосходство</div>
+            <h2>16 ИИ-модулей.<br>Один <span class="gradient-text">кибер-организм</span></h2>
+            <p>Под капотом — нейросети, которых нет ни у одного конкурента. Каждый модуль — отдельная боевая единица.</p>
+        </div>
+        <div class="bento-grid">
+            <!-- 1 -->
+            <div class="bento-card bento-tall reveal reveal-delay-1">
+                <div class="bento-glow"></div>
+                <div class="bento-icon"><i class="fas fa-comments"></i></div>
+                <h3>Нейрокомментинг <span class="bento-sub">Thread Hijacking</span></h3>
+                <p>Перехват внимания в топовых каналах за счёт моментальных ИИ-ответов через <strong>Cerebras API</strong> — сотни токенов в секунду. Эмоциональный резонанс, Question Baiting, автоподбор тона.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">Cerebras</span>
+                    <span class="bento-tag">Thread Hijacking</span>
+                    <span class="bento-tag">200+ токенов/с</span>
+                </div>
+            </div>
+            <!-- 2 -->
+            <div class="bento-card reveal reveal-delay-2">
+                <div class="bento-icon"><i class="fas fa-robot"></i></div>
+                <h3>НейроДиалоги <span class="bento-sub">AI-Воронки</span></h3>
+                <p>ИИ сам ведёт лида в ЛС, отрабатывает возражения по 500+ сценариям и закрывает сделки. Полный цикл без ручного участия.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">500+ сценариев</span>
+                    <span class="bento-tag">Авто-воронки</span>
+                </div>
+            </div>
+            <!-- 3 -->
+            <div class="bento-card reveal reveal-delay-3">
+                <div class="bento-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Anti-Ban Shield <span class="bento-sub">Human Emulation</span></h3>
+                <p>Эмуляция движения мыши/тапов, рандомизация задержек по Гауссу, уникальные цифровые отпечатки для каждого аккаунта. Predictive Ban Shield + AI Crisis Manager.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">Gaussian Delays</span>
+                    <span class="bento-tag">Device Fingerprint</span>
+                    <span class="bento-tag">0% банов</span>
+                </div>
+            </div>
+            <!-- 4 -->
+            <div class="bento-card reveal reveal-delay-1">
+                <div class="bento-icon"><i class="fas fa-address-book"></i></div>
+                <h3>ИИ-CRM <span class="bento-sub">Управление лидами</span></h3>
+                <p>Встроенная CRM прямо внутри панели. Авто-сегментация, история переписок, прогресс-трекинг каждой сделки. Без сторонних сервисов.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">Авто-сегментация</span>
+                    <span class="bento-tag">Трекинг сделок</span>
+                </div>
+            </div>
+            <!-- 5 -->
+            <div class="bento-card reveal reveal-delay-2">
+                <div class="bento-icon"><i class="fas fa-heart"></i></div>
+                <h3>Масс-реакции <span class="bento-sub">Reaction Funnel</span></h3>
+                <p>Привлечение внимания к профилям через автоматические лайки и реакции в постах целевой аудитории. Эмоциональный маппинг и автоподбор эмодзи под контекст.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">Reaction Funnel</span>
+                    <span class="bento-tag">Эмоц. маппинг</span>
+                </div>
+            </div>
+            <!-- 6 -->
+            <div class="bento-card reveal reveal-delay-3">
+                <div class="bento-icon"><i class="fas fa-crosshairs"></i></div>
+                <h3>Умный парсинг <span class="bento-sub">Cross-Platform</span></h3>
+                <p>Сканирование каналов, групп, сообщений. Поведенческий AI-анализ и Cross-Platform маппинг пользователей для точного попадания в ЦА.</p>
+                <div class="bento-tag-row">
+                    <span class="bento-tag">Поведенческий AI</span>
+                    <span class="bento-tag">Cross-Platform</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:44px">
+            <a href="/functions" class="btn btn-outline btn-lg">
+                <i class="fas fa-grid-2"></i> Смотреть все 16 модулей
+            </a>
         </div>
     </div>
 </section>
@@ -612,7 +679,7 @@
                 <div class="pricing-desc">Для знакомства с платформой</div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> 1 аккаунт</li>
-                    <li><i class="fas fa-check"></i> 100 действий/день</li>
+                    <li><i class="fas fa-check"></i> ~100 ИИ-комментариев или ответов в сутки</li>
                     <li><i class="fas fa-check"></i> Базовый парсинг</li>
                     <li><i class="fas fa-check"></i> GPT-4o-mini</li>
                     <li class="disabled"><i class="fas fa-times"></i> Нейрочаттинг</li>
@@ -629,6 +696,7 @@
                     <li><i class="fas fa-check"></i> 10 аккаунтов</li>
                     <li><i class="fas fa-check"></i> Безлимит действий</li>
                     <li><i class="fas fa-check"></i> Все парсеры</li>
+                    <li><i class="fas fa-check"></i> Поддержка любых IPv4/SOCKS5 прокси</li>
                     <li><i class="fas fa-check"></i> GPT-4o</li>
                     <li><i class="fas fa-check"></i> Нейрокомментинг</li>
                     <li><i class="fas fa-check"></i> Нейрочаттинг</li>
@@ -649,7 +717,7 @@
                     <li><i class="fas fa-check"></i> CRM-интеграция</li>
                     <li><i class="fas fa-check"></i> White-label</li>
                     <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
-                    <li><i class="fas fa-check"></i> API доступ</li>
+                    <li><i class="fas fa-check"></i> <strong>Доступ к API + Индивидуальные промпты</strong> под вашу нишу</li>
                 </ul>
                 <a href="https://t.me/gramgpt_bot?start=agency" class="btn btn-outline btn-full" target="_blank" data-track="pricing_agency">Связаться</a>
             </div>
@@ -670,12 +738,12 @@
                     <div class="review-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="review-text">Раньше тратил по 500-1000$ в неделю на рекламу в Telegram. После перехода на GRAMGPT собираю базу, фильтрую ЦА, запускаю — лиды в разы дешевле. За две недели вышел в плюс.</p>
+                    <p class="review-text">Держу сетку из 150 аккаунтов под гемблинг. Раньше ручной прогрев и спам-софт выжигали бюджет — баны прилетали пачками. Перешли на терминал GRAMGPT: благодаря ротации прокси и умным тайпингам за месяц в бан ушло всего 2 аккаунта. ROI вырос на 240%.</p>
                     <div class="review-author">
                         <div class="review-avatar">ДС</div>
                         <div>
                             <div class="review-name">Дмитрий С.</div>
-                            <div class="review-role">Арбитраж трафика</div>
+                            <div class="review-role">Арбитраж трафика (гемблинг)</div>
                         </div>
                     </div>
                 </div>
@@ -683,7 +751,7 @@
                     <div class="review-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="review-text">Нейрокомментинг и нейрочаттинг — это мощь. Комбайн сам комментирует в целевых группах, пишет от лица аккаунтов, отвечает в чатах, и всё выглядит живо. Ни один аналог рядом не стоял.</p>
+                    <p class="review-text">Веду 32 проекта в Telegram-маркетинге. Пробовала всё — от дешёвых программок до дорогих «комбайнов». GRAMGPT — первый, где нейрокомментинг реально неотличим от живого человека. Cerebras выдаёт ответ за 0.3 сек. Конверсия в ЛС выросла в 7 раз.</p>
                     <div class="review-author">
                         <div class="review-avatar" style="background:linear-gradient(135deg,#EF4444,#DC2626);">ЛВ</div>
                         <div>
@@ -696,12 +764,12 @@
                     <div class="review-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="review-text">Управляю 30+ клиентскими аккаунтами из одной панели. Anti-Ban Shield реально работает — за 4 месяца ни одного бана. ROI клиентов вырос на 200%+.</p>
+                    <p class="review-text">Агентство на 8 человек, ведём 50+ клиентских аккаунтов — от крипты до инфобизнеса. Раньше держали отдельного сотрудника только на прогрев. GRAMGPT делает это за него + Anti-Ban Shield отсекает риски. За полгода — ноль банов, даже на «серых» аккаунтах.</p>
                     <div class="review-author">
                         <div class="review-avatar" style="background:linear-gradient(135deg,#B44AFF,#7C3AED);">АМ</div>
                         <div>
                             <div class="review-name">Алексей М.</div>
-                            <div class="review-role">Маркетинговое агентство</div>
+                            <div class="review-role">CEO маркетингового агентства</div>
                         </div>
                     </div>
                 </div>
