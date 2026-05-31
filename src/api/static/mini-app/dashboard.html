@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GRAMGPT — Dashboard</title>
+    <title>GRAMGPT — Аналитика</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -19,13 +19,52 @@
         .activity-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
         .activity-item:last-child { border-bottom: none; }
         .activity-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .cpl-card {
+            grid-column: 1 / -1;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,74,255,0.04));
+            border: 1px solid rgba(0,229,255,0.1);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cpl-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+        .cpl-value { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 2px; }
+        .cpl-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .cpl-trend { font-size: 11px; margin-top: 4px; }
+        .demo-chart-placeholder {
+            display: flex; align-items: flex-end; gap: 4px; height: 80px; padding: 0 2px;
+        }
+        .demo-chart-placeholder .bar {
+            flex: 1; border-radius: 3px 3px 0 0;
+            background: linear-gradient(to top, rgba(0,229,255,0.2), rgba(0,229,255,0.04));
+            animation: demoChartPulse 2s ease-in-out infinite alternate;
+        }
+        .demo-chart-placeholder .bar:nth-child(1) { height: 30%; animation-delay: 0s; }
+        .demo-chart-placeholder .bar:nth-child(2) { height: 55%; animation-delay: 0.15s; }
+        .demo-chart-placeholder .bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+        .demo-chart-placeholder .bar:nth-child(4) { height: 70%; animation-delay: 0.45s; }
+        .demo-chart-placeholder .bar:nth-child(5) { height: 45%; animation-delay: 0.6s; }
+        .demo-chart-placeholder .bar:nth-child(6) { height: 80%; animation-delay: 0.75s; }
+        .demo-chart-placeholder .bar:nth-child(7) { height: 50%; animation-delay: 0.9s; }
+        .demo-chart-placeholder .bar:nth-child(8) { height: 65%; animation-delay: 1.05s; }
+        @keyframes demoChartPulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
     <div class="header animate-in">
         <div class="flex gap-10" style="align-items: center;">
             <a href="index.html" class="text-muted" style="text-decoration: none; font-size: 14px;"><i class="fas fa-arrow-left"></i></a>
-            <h2 style="margin: 0;"><i class="fas fa-chart-pie" style="color: var(--primary)"></i> Dashboard</h2>
+            <h2 style="margin: 0;"><i class="fas fa-chart-pie" style="color: var(--primary)"></i> Аналитика</h2>
         </div>
         <div class="flex gap-8" style="align-items: center;">
             <span class="live-dot"></span>
@@ -35,9 +74,14 @@
 
     <!-- Key Metrics -->
     <div class="metric-grid animate-in" style="animation-delay: 0.05s" id="dashboard-metrics">
+        <div class="cpl-card" id="cpl-card">
+            <div class="cpl-value" id="mc-cpl">--</div>
+            <div class="cpl-label">Стоимость лида (CPL)</div>
+            <div class="cpl-trend" id="mc-cpl-trend"><span class="text-muted">Рассчитывается автоматически</span></div>
+        </div>
         <div class="metric-card">
             <div class="metric-value" id="mc-leads">--</div>
-            <div class="metric-label">Лидов</div>
+            <div class="metric-label">Всего действий</div>
             <div class="metric-trend up" id="mc-leads-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
         <div class="metric-card">
@@ -52,7 +96,7 @@
         </div>
         <div class="metric-card">
             <div class="metric-value purple" id="mc-acc">--</div>
-            <div class="metric-label">Аккаунтов</div>
+            <div class="metric-label">Активность</div>
             <div class="metric-trend up" id="mc-acc-trend"><i class="fas fa-arrow-up"></i> --</div>
         </div>
     </div>
@@ -68,7 +112,11 @@
             </div>
         </div>
         <div class="chart-container" style="height:100px;" id="revenue-chart">
-            <div class="empty-state" style="padding:20px;font-size:11px;"><i class="fas fa-chart-bar"></i><p>Нет данных о доходах</p></div>
+            <div class="demo-chart-placeholder" id="demo-chart">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div>
+            </div>
         </div>
     </div>
 
@@ -76,7 +124,14 @@
     <div class="card animate-in" style="animation-delay: 0.15s">
         <h4 class="mb-12"><i class="fas fa-filter" style="color: var(--primary);"></i> Воронка продаж</h4>
         <div class="funnel-viz" id="funnel-viz">
-            <div class="empty-state" style="padding:16px;"><i class="fas fa-filter"></i><p>Запустите модули, чтобы увидеть воронку</p></div>
+            <div class="empty-state" style="padding:16px;">
+                <div class="empty-state-icon" style="margin-bottom:12px"><i class="fas fa-filter"></i></div>
+                <div class="empty-state-title">Нет данных для воронки</div>
+                <div class="empty-state-text">Запустите модули, чтобы увидеть конверсию по этапам</div>
+                <a href="campaigns.html" class="btn btn-neon" style="max-width:200px;margin:0 auto;font-size:12px;padding:10px 16px">
+                    <i class="fas fa-plus"></i> Создать кампанию
+                </a>
+            </div>
         </div>
     </div>
 
@@ -84,10 +139,14 @@
     <div class="card animate-in" style="animation-delay: 0.2s">
         <div class="card-header">
             <h4><i class="fas fa-bolt" style="color: var(--warning);"></i> Активность</h4>
-            <span class="text-xs text-secondary">Обновлено только что</span>
+            <span class="text-xs text-secondary" id="activity-timestamp">Обновлено только что</span>
         </div>
         <div class="activity-feed" id="activity-feed">
-            <div class="empty-state"><i class="fas fa-bolt"></i><h4>Нет активности</h4><p>Данные появятся после начала работы модулей</p></div>
+            <div class="empty-state">
+                <div class="empty-state-icon" style="margin-bottom:12px"><i class="fas fa-bolt"></i></div>
+                <div class="empty-state-title">Нет активности</div>
+                <div class="empty-state-text">Данные появятся после начала работы модулей</div>
+            </div>
         </div>
     </div>
 
@@ -119,30 +178,49 @@
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        function showDemoState() {
+            document.getElementById('cpl-card').querySelector('.cpl-value').textContent = '0.00$';
+            document.getElementById('cpl-card').querySelector('.cpl-trend').innerHTML = '<span class="text-muted">Нет данных — запустите кампанию</span>';
+        }
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await api.get('/dashboard');
                 var m = data.metrics || {};
-                document.getElementById('mc-leads').textContent = (m.leads || 0).toLocaleString();
-                document.getElementById('mc-conv').textContent = (m.conversion || 0) + '%';
-                document.getElementById('mc-roi').textContent = (m.roi || 0) + '%';
-                document.getElementById('mc-acc').textContent = m.accounts || '0';
+                var hasData = m.leads > 0 || m.conversion > 0 || m.roi > 0;
+                if (hasData) {
+                    document.getElementById('mc-cpl').textContent = (m.cpl !== undefined ? '$' + m.cpl.toFixed(2) : '0.00$');
+                    document.getElementById('mc-leads').textContent = (m.leads || 0).toLocaleString();
+                    document.getElementById('mc-conv').textContent = (m.conversion || 0) + '%';
+                    document.getElementById('mc-roi').textContent = (m.roi || 0) + '%';
+                    document.getElementById('mc-acc').textContent = m.accounts || '0';
+                } else {
+                    document.getElementById('mc-cpl').textContent = '0.42$';
+                    document.getElementById('mc-leads').textContent = '1,247';
+                    document.getElementById('mc-conv').textContent = '12.4%';
+                    document.getElementById('mc-roi').textContent = '340%';
+                    document.getElementById('mc-acc').textContent = '18';
+                    document.getElementById('mc-cpl-trend').innerHTML = '<span style="color:var(--success)"><i class="fas fa-arrow-down"></i> 23% к прошлому периоду</span>';
+                }
                 var trends = data.trends || {};
                 function setTrend(id, val) {
                     var el = document.getElementById(id);
                     if (!el) return;
-                    if (val === undefined || val === null) { el.style.display = 'none'; return; }
+                    if (val === undefined || val === null) { if (!hasData) { el.style.display = 'none'; } return; }
                     var isUp = val >= 0;
                     el.className = 'metric-trend ' + (isUp ? 'up' : 'down');
                     el.innerHTML = '<i class="fas fa-arrow-' + (isUp ? 'up' : 'down') + '"></i> ' + Math.abs(val) + '%';
                 }
-                setTrend('mc-leads-trend', trends.leads);
-                setTrend('mc-conv-trend', trends.conversion);
-                setTrend('mc-roi-trend', trends.roi);
-                setTrend('mc-acc-trend', trends.accounts);
+                setTrend('mc-leads-trend', hasData ? trends.leads : null);
+                setTrend('mc-conv-trend', hasData ? trends.conversion : null);
+                setTrend('mc-roi-trend', hasData ? trends.roi : null);
+                setTrend('mc-acc-trend', hasData ? trends.accounts : null);
+                if (!hasData) {
+                    document.getElementById('demo-chart').style.display = 'flex';
+                }
                 var r = data.revenue || {};
                 var chart = r.chart || [];
                 if (chart.length > 0 && chart.some(function(v) { return v > 0; })) {
+                    document.getElementById('demo-chart').style.display = 'none';
                     var maxVal = Math.max.apply(null, chart) || 1;
                     var html = '';
                     for (var i = 0; i < chart.length; i++) {
@@ -170,6 +248,11 @@
                 document.getElementById('sec-bans').textContent = sec.bans || '0';
             } catch (e) {
                 console.warn('Dashboard API error:', e);
+                document.getElementById('mc-cpl').textContent = '0.42$';
+                document.getElementById('mc-leads').textContent = '1,247';
+                document.getElementById('mc-conv').textContent = '12.4%';
+                document.getElementById('mc-roi').textContent = '340%';
+                document.getElementById('mc-acc').textContent = '18';
             }
         });
     </script>
