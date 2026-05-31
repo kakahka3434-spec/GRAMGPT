@@ -15,7 +15,7 @@ class CommentingConfig(BaseModel):
 
 
 class ChattingConfig(BaseModel):
-    groups: List[str]
+    groups: List[str] = []
     strategy: str = "expert"
     max_per_hour: int = 10
     delay: str = "2-5min"
@@ -96,6 +96,32 @@ async def get_commenting_logs():
                 "time": p.get("timestamp", ""),
             }
             for p in posts
+        ]
+    except Exception:
+        return []
+
+
+@router.get("/chatting/stats")
+async def get_chatting_stats():
+    try:
+        from src.db.comment_memory import CommentMemory
+        mem = CommentMemory()
+        posts = mem.get_all_recent(hours=72)
+        messages = sum(p.get("success_count", 1) for p in posts)
+        return {"messages": messages, "groups": len(posts), "replies": 0}
+    except Exception:
+        return {"messages": 0, "groups": 0, "replies": 0}
+
+
+@router.get("/chatting/groups")
+async def get_chatting_groups():
+    try:
+        from src.core.account_pool import AccountPool
+        pool = AccountPool()
+        accounts = pool.list_accounts()
+        return [
+            {"name": a.get("phone", f"+{a.get('id', 0)}"), "members": 0, "msgs_per_hour": 0, "status": a.get("status", "idle")}
+            for a in accounts
         ]
     except Exception:
         return []
