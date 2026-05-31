@@ -1,4 +1,5 @@
 :root {
+    /* GRAMGPT brand colors - used when Telegram theme unavailable */
     --bg: #05050A;
     --bg-card: rgba(12, 15, 35, 0.55);
     --border: rgba(0, 229, 255, 0.06);
@@ -19,6 +20,15 @@
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     --glow: 0 0 24px rgba(0, 229, 255, 0.04);
 }
+
+/* Telegram theme variables (set by JS using Telegram.WebApp.themeParams) */
+.tg-theme { --bg: var(--tg-theme-bg-color, #05050A); }
+.tg-theme { --text: var(--tg-theme-text-color, #EEF2F8); }
+.tg-theme { --text-secondary: var(--tg-theme-hint-color, #8892A8); }
+.tg-theme { --bg-card: var(--tg-theme-secondary-bg-color, rgba(12, 15, 35, 0.55)); }
+.tg-theme { --border: var(--tg-theme-section-separator-color, rgba(0, 229, 255, 0.06)); }
+.tg-theme { --primary: var(--tg-theme-button-color, #00E5FF); }
+.tg-theme { --primary-dim: var(--tg-theme-button-text-color, rgba(0, 229, 255, 0.08)); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 

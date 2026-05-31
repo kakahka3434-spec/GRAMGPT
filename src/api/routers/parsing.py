@@ -53,9 +53,6 @@ async def start_parsing(req: ParseRequest):
     task_id = f"parse_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
     _create_task(task_id, req.parser_type, req.model_dump())
 
-    dispatched = False
-
-    # Try Celery path (only if Redis is available)
     redis_available = False
     try:
         import socket
@@ -65,36 +62,21 @@ async def start_parsing(req: ParseRequest):
     except Exception:
         pass
 
-    if redis_available:
-        try:
-            celery_app.send_task(
-                "run_parsing_task",
-                args=[req.parser_type, req.target, req.keywords, req.limit],
-                task_id=task_id,
-            )
-            dispatched = True
-        except Exception:
-            pass
+    if not redis_available:
+        raise HTTPException(status_code=503, detail="Redis unavailable. Celery required for parsing tasks.")
 
-    # Fallback: run inline in background
-    if not dispatched:
-        import asyncio
-        from src.services.parser_service import run_parsing
-
-        asyncio.create_task(run_parsing(
-            task_id=task_id,
-            parser_type=req.parser_type,
-            target=req.target,
-            keywords=req.keywords,
-            limit=req.limit,
-        ))
+    celery_app.send_task(
+        "run_parsing_task",
+        args=[req.parser_type, req.target, req.keywords, req.limit],
+        task_id=task_id,
+    )
 
     return {
         "status": "processing",
         "task_id": task_id,
         "parser_type": req.parser_type,
         "target": req.target,
-        "mode": "celery" if dispatched else "inline",
+        "mode": "celery",
     }
 
 

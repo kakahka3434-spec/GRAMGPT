@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from src.api.web3 import router as web3_router
 from src.api.routers.parsing import router as parsing_router
 from src.api.routers.commenting import router as commenting_router
@@ -15,11 +18,18 @@ from src.api.routers.proxy import router as proxy_router
 from src.core.auth_service import auth_service
 from typing import Optional
 import os
+import hashlib
+import hmac
+import json
 import logging
 
 logger = logging.getLogger(__name__)
 
+# ============ RATE LIMITING ============
+limiter = Limiter(key_func=get_remote_address, default_limits=["60/minute"])
 app = FastAPI(title="GRAMGPT API")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # ============ CORS CONFIGURATION ============
 ALLOWED_ORIGINS = [
@@ -36,6 +46,24 @@ app.add_middleware(
     expose_headers=["Content-Length", "X-Total-Count"],
     allow_headers=["Authorization", "Content-Type"],
 )
+
+# ============ TELEGRAM INIT DATA VALIDATION ============
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+
+def verify_telegram_init_data(init_data: str) -> Optional[dict]:
+    if not BOT_TOKEN:
+        return None
+    try:
+        parsed = dict(param.split("=", 1) for param in init_data.split("&"))
+        hash_check = parsed.pop("hash", "")
+        data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed.items()))
+        secret_key = hashlib.sha256(BOT_TOKEN.encode()).digest()
+        computed_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
+        if computed_hash == hash_check:
+            return json.loads(parsed.get("user", "{}"))
+    except Exception:
+        pass
+    return None
 
 # ============ OPTIONAL JWT AUTH ============
 security = HTTPBearer(auto_error=False)

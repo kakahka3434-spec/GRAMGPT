@@ -1,14 +1,17 @@
 """
 Telegram User Client - Telethon wrapper for GRAMGPT.
 Handles user API connection, session management, and message parsing.
+Sessions stored in SQLite DB to survive container restarts.
 """
 
 import logging
 import os
+import sqlite3
+import json
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 
-from telethon import TelegramClient
+from telethon import TelegramClient, sessions
 from telethon.errors import (
     FloodWaitError,
     PhoneNumberInvalidError,
@@ -19,6 +22,47 @@ from telethon.tl.types import PeerChannel
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
+
+class DBSessionStorage:
+    """Stores Telethon session strings in SQLite to survive container redeploys."""
+
+    def __init__(self, session_path: str = "data/sessions"):
+        self.db_path = os.path.join(os.path.dirname(session_path), "sessions.db")
+        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+        self._init_db()
+        self._session_str: Optional[str] = None
+        self._phone: Optional[str] = None
+
+    def _init_db(self):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("CREATE TABLE IF NOT EXISTS sessions (phone TEXT PRIMARY KEY, session_data TEXT, updated_at TEXT)")
+            conn.commit()
+
+    def save(self, phone: str, session_data: str):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO sessions (phone, session_data, updated_at) VALUES (?, ?, ?)",
+                (phone, session_data, datetime.now().isoformat()),
+            )
+            conn.commit()
+
+    def load(self, phone: str) -> Optional[str]:
+        with sqlite3.connect(self.db_path) as conn:
+            row = conn.execute("SELECT session_data FROM sessions WHERE phone = ?", (phone,)).fetchone()
+            if row:
+                return row[0]
+        return None
+
+    def delete(self, phone: str):
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("DELETE FROM sessions WHERE phone = ?", (phone,))
+            conn.commit()
+
+    def list_phones(self) -> List[str]:
+        with sqlite3.connect(self.db_path) as conn:
+            rows = conn.execute("SELECT phone FROM sessions").fetchall()
+            return [r[0] for r in rows]
 
 
 class TelegramUserClient:
@@ -72,20 +116,28 @@ class TelegramUserClient:
     async def connect(self) -> bool:
         """
         Connect to Telegram and authorize if needed.
-        
-        On first run: prompts for verification code via console.
-        On subsequent runs: uses saved session.
+        Session is stored in SQLite (DBSessionStorage) to survive container restarts.
         
         Returns:
             bool: True if connected and authorized successfully
         """
         try:
             if self._client is None:
-                self._client = TelegramClient(
-                    self.session_path,
-                    self.api_id,
-                    self.api_hash
-                )
+                # Try DB-backed session first
+                db_storage = DBSessionStorage(self.session_path)
+                saved_session = db_storage.load(self.phone)
+                if saved_session:
+                    self._client = TelegramClient(
+                        sessions.StringSession(saved_session),
+                        self.api_id,
+                        self.api_hash
+                    )
+                else:
+                    self._client = TelegramClient(
+                        sessions.StringSession(),
+                        self.api_id,
+                        self.api_hash
+                    )
             
             logger.info("Connecting to Telegram...")
             await self._client.connect()
@@ -96,16 +148,21 @@ class TelegramUserClient:
                 
                 await self._client.send_code_request(self.phone)
                 
-                # Get code from console input
                 code = input(f"Enter the verification code sent to {self.phone}: ")
                 
                 try:
                     await self._client.sign_in(self.phone, code)
-                    logger.info("Successfully authorized!")
+                    # Save session string to DB
+                    session_str = self._client.session.save()
+                    DBSessionStorage(self.session_path).save(self.phone, session_str)
+                    logger.info("Successfully authorized! Session saved to DB.")
                 except Exception as e:
                     logger.error(f"Failed to sign in: {e}")
                     return False
             else:
+                # Session is valid — ensure it's saved to DB
+                session_str = self._client.session.save()
+                DBSessionStorage(self.session_path).save(self.phone, session_str)
                 logger.info("Using existing session, already authorized")
             
             self._is_connected = True
@@ -120,11 +177,8 @@ class TelegramUserClient:
             return False
         except AuthKeyUnregisteredError:
             logger.error("Session expired or invalid, will need re-authorization")
-            # Remove session file to force re-auth
-            session_file = f"{self.session_path}.session"
-            if os.path.exists(session_file):
-                os.remove(session_file)
-                logger.info(f"Removed invalid session file: {session_file}")
+            DBSessionStorage(self.session_path).delete(self.phone)
+            logger.info("Removed invalid session from DB")
             return False
         except ConnectionError as e:
             logger.error(f"Connection error: {e}")

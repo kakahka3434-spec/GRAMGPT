@@ -8,9 +8,21 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
     tg.ready();
-    // Adapt to Telegram theme
-    const theme = tg.colorScheme || 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
+
+    // Apply Telegram theme colors to CSS vars
+    const tp = tg.themeParams || {};
+    if (tp.bg_color) document.documentElement.style.setProperty('--tg-theme-bg-color', tp.bg_color);
+    if (tp.text_color) document.documentElement.style.setProperty('--tg-theme-text-color', tp.text_color);
+    if (tp.hint_color) document.documentElement.style.setProperty('--tg-theme-hint-color', tp.hint_color);
+    if (tp.link_color) document.documentElement.style.setProperty('--tg-theme-link-color', tp.link_color);
+    if (tp.button_color) document.documentElement.style.setProperty('--tg-theme-button-color', tp.button_color);
+    if (tp.button_text_color) document.documentElement.style.setProperty('--tg-theme-button-text-color', tp.button_text_color);
+    if (tp.secondary_bg_color) document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', tp.secondary_bg_color);
+    if (tp.section_separator_color) document.documentElement.style.setProperty('--tg-theme-section-separator-color', tp.section_separator_color);
+    document.documentElement.classList.add('tg-theme');
+
+    // Show back button support
+    Telegram.WebApp.BackButton.onClick(() => window.history.back());
 
     const user = tg.initDataUnsafe?.user;
     if (user) {

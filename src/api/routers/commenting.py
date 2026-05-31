@@ -41,44 +41,17 @@ def _redis_available():
 
 @router.post("/commenting/start")
 async def start_commenting(config: CommentingConfig):
-    if _redis_available():
-        celery_app.send_task("run_commenting_task", args=[config.channels, config.tone, config.model])
-    else:
-        asyncio.create_task(_run_commenting_inline(config.channels, config.tone, config.model))
-
+    if not _redis_available():
+        raise HTTPException(status_code=503, detail="Redis unavailable. Start a Celery worker or add REDIS_PASSWORD.")
+    celery_app.send_task("run_commenting_task", args=[config.channels, config.tone, config.model])
     return {
         "session_id": f"celery_{config.channels[0] if config.channels else 'unknown'}",
         "status": "queued",
         "channels": config.channels,
         "tone": config.tone,
         "model": config.model,
-        "mode": "celery" if _redis_available() else "inline",
+        "mode": "celery",
     }
-
-
-async def _run_commenting_inline(channels: list, tone: str, model: str):
-    from src.services.telegram_user_client import TelegramUserClient
-    from src.services.comment_sender import CommentSender
-    from src.config import settings
-
-    telegram = TelegramUserClient(
-        api_id=settings.telegram_api_id,
-        api_hash=settings.telegram_api_hash,
-        phone=settings.telegram_phone,
-        session_path="data/sessions/gramgpt_user",
-    )
-    try:
-        connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
-        if not connected:
-            return
-        sender = CommentSender(telegram)
-        for ch in channels[:5]:
-            posts = await telegram.parse_last_messages(ch, limit=3)
-            if not posts:
-                continue
-            await sender.batch_comment(channel=ch, posts=posts, style=tone, max_comments=2)
-    finally:
-        await telegram.disconnect()
 
 
 @router.get("/commenting/logs")
@@ -129,27 +102,10 @@ async def get_chatting_groups():
 
 @router.post("/chatting/start")
 async def start_chatting(config: ChattingConfig):
-    if _redis_available():
-        celery_app.send_task("run_chatting_task", args=[config.groups, config.strategy, config.max_per_hour])
-    else:
-        asyncio.create_task(_run_chatting_inline(config.groups, config.strategy))
-    return {"status": "queued", "groups": config.groups, "strategy": config.strategy, "mode": "celery" if _redis_available() else "inline"}
-
-
-async def _run_chatting_inline(groups: list, strategy: str):
-    from src.services.telegram_user_client import TelegramUserClient
-    from src.config import settings
-    telegram = TelegramUserClient(api_id=settings.telegram_api_id, api_hash=settings.telegram_api_hash, phone=settings.telegram_phone, session_path="data/sessions/gramgpt_user")
-    connected = await asyncio.wait_for(telegram.connect(), timeout=30.0)
-    if not connected:
-        return
-    try:
-        results = []
-        for group in groups[:5]:
-            sent = await telegram.send_comment(group, f"Chatting in {group} (strategy: {strategy})")
-            results.append({"group": group, "sent": bool(sent)})
-    finally:
-        await telegram.disconnect()
+    if not _redis_available():
+        raise HTTPException(status_code=503, detail="Redis unavailable. Start a Celery worker or add REDIS_PASSWORD.")
+    celery_app.send_task("run_chatting_task", args=[config.groups, config.strategy, config.max_per_hour])
+    return {"status": "queued", "groups": config.groups, "strategy": config.strategy, "mode": "celery"}
 
 
 @router.get("/dialogs/active")
@@ -177,16 +133,18 @@ async def get_active_dialogs():
 
 @router.post("/dialogs/start")
 async def start_dialogs():
-    if _redis_available():
-        celery_app.send_task("run_dialogs_task")
-    return {"status": "queued", "ai_mode": "auto", "funnel_steps": 4, "mode": "celery" if _redis_available() else "inline"}
+    if not _redis_available():
+        raise HTTPException(status_code=503, detail="Redis unavailable.")
+    celery_app.send_task("run_dialogs_task")
+    return {"status": "queued", "ai_mode": "auto", "funnel_steps": 4, "mode": "celery"}
 
 
 @router.post("/reactions/start")
 async def start_reactions(config: ReactionsConfig):
-    if _redis_available():
-        celery_app.send_task("run_reactions_task", args=[config.channels, config.emojis])
-    return {"status": "queued", "channels": config.channels, "emojis": config.emojis, "mode": "celery" if _redis_available() else "inline"}
+    if not _redis_available():
+        raise HTTPException(status_code=503, detail="Redis unavailable.")
+    celery_app.send_task("run_reactions_task", args=[config.channels, config.emojis])
+    return {"status": "queued", "channels": config.channels, "emojis": config.emojis, "mode": "celery"}
 
 
 @router.get("/reactions/stats")
@@ -222,6 +180,7 @@ async def get_warmup_accounts():
 
 @router.post("/warmup/start")
 async def start_warmup():
-    if _redis_available():
-        celery_app.send_task("run_account_check_task")
-    return {"status": "queued", "anti_ban": True, "human_emulation": True, "mode": "celery" if _redis_available() else "inline"}
+    if not _redis_available():
+        raise HTTPException(status_code=503, detail="Redis unavailable.")
+    celery_app.send_task("run_account_check_task")
+    return {"status": "queued", "anti_ban": True, "human_emulation": True, "mode": "celery"}
