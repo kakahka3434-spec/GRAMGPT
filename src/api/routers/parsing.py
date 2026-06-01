@@ -42,6 +42,27 @@ def _create_task(task_id: str, parser_type: str, params: dict):
         conn.commit()
 
 
+@router.get("/parsing/stats")
+async def get_parsing_stats():
+    _init_tasks_db()
+    total = 0
+    completed = 0
+    failed = 0
+    processing = 0
+    try:
+        with sqlite3.connect("data/tasks.db") as conn:
+            row = conn.execute("SELECT COUNT(*) FROM tasks").fetchone()
+            total = row[0] if row else 0
+            row = conn.execute("SELECT COUNT(*) FROM tasks WHERE status = 'completed'").fetchone()
+            completed = row[0] if row else 0
+            row = conn.execute("SELECT COUNT(*) FROM tasks WHERE status = 'failed'").fetchone()
+            failed = row[0] if row else 0
+            row = conn.execute("SELECT COUNT(*) FROM tasks WHERE status = 'processing'").fetchone()
+            processing = row[0] if row else 0
+    except Exception:
+        pass
+    return {"total_tasks": total, "completed": completed, "failed": failed, "processing": processing}
+
 @router.post("/parsing/start")
 async def start_parsing(req: ParseRequest):
     if not all([settings.telegram_api_id, settings.telegram_api_hash, settings.telegram_phone]):
@@ -101,3 +122,4 @@ async def get_parsing_results(task_id: str):
 
         results = json.loads(results_json) if results_json else []
         return {"task_id": task_id, "status": status, "total_found": len(results), "results": results[:100]}
+
